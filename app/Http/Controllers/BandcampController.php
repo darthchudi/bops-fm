@@ -14,10 +14,9 @@ class BandcampController extends Controller
 	}
 
     public function getLinks(Request $request){
-    	$downloadLinks = $this->bandcamp->getLinks($request->url);
-    	$tracklist = $this->bandcamp->getDetails($request->url);
-
-    	$this->bandcamp->downloadSong($downloadLinks[3]);
+    	$url = $request->url;
+    	$links = $this->bandcamp->getLinks($url);
+    	return response()->json($links);
     }
 
     public function determineLink($songUrl){
@@ -55,6 +54,13 @@ class BandcampController extends Controller
     	$url = $request->url;
     	$details = $this->bandcamp->getAlbumDetails($url);
     	return response()->json($details);
+    }
+
+
+    public function test(Request $request){
+    	$url = $request->url;
+    	$details = $this->bandcamp->getAlbumDetails($url);
+    	dd($details);
     }
 
 }

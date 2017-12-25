@@ -28,29 +28,60 @@
                 //Set variables to be used in AJAX request
                 var _token = $("input[name='_token']").val();
                 var url = $("input[name='url']").val();
+
+               
                 
-                //Async function to fetch MetaData
-                async function doAjax(){
-                    let result;
-                    result = await $.ajax({
+                //Async function to fetch MetaData and Download Links
+                async function fetchMetaData(){
+                    let tracklist, metadata, links;
+                    tracklist = new Array();
+
+                    metadata = await $.ajax({
                         type: 'POST',
                         url: "getTracklist",
                         data: {url: url, _token: _token},
                     });
-                    return result; 
+
+                    links = await $.ajax({
+                        type: 'POST',
+                        url: 'getLinks',
+                        data: {url: url, _token:_token}
+                    });
+
+                    tracklist[0] = {
+                        'artiste': metadata.artiste,
+                        'album': metadata.album_name,
+                        'cover_art': metadata.cover_art
+                    };
+
+                    for(var i =1; i<=links.length; i++){
+                        tracklist[i] = {
+                            'song': metadata.tracklist[i-1],
+                            'download_link': links[i-1],
+                            'track_number': i
+                        };
+                    }
+
+                    return tracklist; 
                 }
 
                 //Call the async function 
-                doAjax()
+                fetchMetaData()
                     .then( (data) => {
                         $(".details").empty();
-                        $(".details").append("<h3> Artiste: "+data.artiste + " </h3>");
-                        $(".details").append("<h3> Album: "+data.album_name + " </h3>");
+                        $(".details").append("<img src='"+data[0].cover_art+"' style='height: 350px; width: 350px'>");
+                        $(".details").append("<h3> Artiste: "+data[0].artiste + " </h3>");
+                        $(".details").append("<h3> Album: "+data[0].album + " </h3>");
                         $(".details").append("<ol class='tracklist'> </ol>");
-                        data.tracklist.forEach(function(song, key){
-                            var track_number = key+1;
-                            $(".details ol").append("<li class='tracks'>" +song+"</li>" );
-                        });
+
+                        for(var i=1; i<=data.length -1; i++){
+                            var song = data[i].song;
+                            var link = data[i].download_link;
+                            var track_number = data[i].track_number;
+
+                            $(".details ol")
+                                .append("<li class='tracks'>" +song+"&nbsp;&nbsp;&nbsp; <a href='"+link+"'> Download </a>" + "</li>" );
+                        }
                         console.log(data);
                     })
                     .catch((error) => {
@@ -58,29 +89,6 @@
                         $(".details").append("<p> Sorry No results found </p>");
                         console.error(error);
                     });
-
-
-
-
-
-                // $.ajax({
-                //     type: 'POST',
-                //     url: "getTracklist",
-                //     data: {url: url, _token: _token},
-                //     success: function(data){
-                //        $(".details").empty();
-                //        $(".details").append("<h3> Artiste: "+data.artiste + " </h3>");
-                //        $(".details").append("<h3> Album: "+data.album_name + " </h3>");
-                //        $(".details").append("<ol class='tracklist'> </ol>");
-                //        data.tracklist.forEach(function(song, key){
-                //             var track_number = key+1;
-                //             $(".details ol").append("<li class='tracks'>" +song+"</li>" );
-                //        });
-                //        console.log(data);
-                //        tracklist = data.tracklist;
-                //     }
-                // });
-                
             });
         });
 

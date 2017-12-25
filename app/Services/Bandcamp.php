@@ -34,6 +34,8 @@ class Bandcamp{
     	$details['tracklist'] = $crawler->filterXpath('//span[@itemprop="name"]')->each(function(Crawler $node, $i){
     		return $node->text();
     	});
+
+    	$details['cover_art']= $crawler->filterXpath('//div[@id="tralbumArt"]//a/@href')->text();
     	
     	return $details;
     }
@@ -62,12 +64,12 @@ class Bandcamp{
         $this->id3('../downloads/eba.mp3');
 
 	  	$downloadPath = __DIR__."/../../downloads/".$name.".mp3";
-        // $download = file_put_contents($downloadPath, $song);
-        // if(!$download){
-        // 	return false;
-        // }
-        // else
-        // 	return true;
+        $download = file_put_contents($downloadPath, $song);
+        if(!$download){
+        	return false;
+        }
+        else
+        	return true;
     }
 
     public function id3($path){
