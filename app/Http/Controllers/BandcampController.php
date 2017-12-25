@@ -13,8 +13,14 @@ class BandcampController extends Controller
 		$this->bandcamp = new Bandcamp();
 	}
 
-    public function getPage(Request $request){
-    	// $this->bandcamp->getPage($request->url);
+    public function getLinks(Request $request){
+    	$downloadLinks = $this->bandcamp->getLinks($request->url);
+    	$tracklist = $this->bandcamp->getDetails($request->url);
+
+    	$this->bandcamp->downloadSong($downloadLinks[3]);
+    }
+
+    public function determineLink($songUrl){
     	if($this->bandcamp->isAlbum($request->url)){
     		echo 'Issa Album';
     	}
@@ -24,17 +30,21 @@ class BandcampController extends Controller
     	}
     }
 
-    public function isSong($songUrl){
-    	
-    }
 
+    public function download(Request $request){
+    	$url = $request->url;
 
-    public function test(){
-    	$html = $this->bandcamp->getPage('https://miloraps.bandcamp.com/album/who-told-you-to-think');
-    	
-    	$song = $this->bandcamp->downloadSong($html[0]);
+    	if($this->bandcamp->isSong($url)){
+    		// $links = $this->bandcamp->getLinks($url);
+    		$details = $this->bandcamp->getSongDetails($url);
+    		dd($details);
+    	}
 
-    	$this->bandcamp->id('../downloads/eba.mp3');
+    	if($this->bandcamp->isAlbum($url)){
+    		$details = $this->bandcamp->getAlbumDetails($url);
+    		dd($details);
+    	}
+
 
 
 

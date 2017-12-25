@@ -15,7 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::post('/download', 'BandcampController@getPage');
+Route::post('/download', 'BandcampController@download');
 
 Route::get('/test', 'BandcampController@test');
 
