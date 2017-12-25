@@ -30,9 +30,7 @@ class Bandcamp{
     	$crawler = new Crawler($html);
     	$title = $crawler->filterXpath('//title')->text();
     	list($details['album_name']) = explode('|', $title);
-
     	$details['artiste'] = $crawler->filterXpath('//span[@itemprop="byArtist"]//a')->text();
-
     	$details['tracklist'] = $crawler->filterXpath('//span[@itemprop="name"]')->each(function(Crawler $node, $i){
     		return $node->text();
     	});
@@ -48,26 +46,28 @@ class Bandcamp{
     	$title = $crawler->filterXpath('//title')->text();
     	list($details['song_name']) = explode('|', $title);
     	$details['artiste'] = $crawler->filterXpath('//span[@itemprop="byArtist"]//a')->text();
-
     	$details['album'] = $crawler->filterXpath('//a//span[@itemprop="name"]')->text();
     	return $details;
     }
 
-	public function downloadSong($songUrl){
+	public function downloadSong($songUrl, $details){
     	$ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $songUrl);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $song = curl_exec($ch);
         curl_close ($ch);
 
-        $name = 'rize';
+        $name = $details['artiste'].' - '.$details['song_name'];
+        
+        $this->id3('../downloads/eba.mp3');
+
 	  	$downloadPath = __DIR__."/../../downloads/".$name.".mp3";
-        $download = file_put_contents($downloadPath, $song);
-        if(!$download){
-        	return false;
-        }
-        else
-        	return $song;
+        // $download = file_put_contents($downloadPath, $song);
+        // if(!$download){
+        // 	return false;
+        // }
+        // else
+        // 	return true;
     }
 
     public function id3($path){

@@ -35,18 +35,26 @@ class BandcampController extends Controller
     	$url = $request->url;
 
     	if($this->bandcamp->isSong($url)){
-    		// $links = $this->bandcamp->getLinks($url);
+    		list($link) = $this->bandcamp->getLinks($url);
     		$details = $this->bandcamp->getSongDetails($url);
-    		dd($details);
+    		$download = $this->bandcamp->downloadSong($link, $details);
+    		if($download){
+    			echo 'Succesfully downloaded '.$details['song_name'];
+    		}
+    		else
+    			echo 'heh';
     	}
 
     	if($this->bandcamp->isAlbum($url)){
     		$details = $this->bandcamp->getAlbumDetails($url);
     		dd($details);
     	}
-
-
-
-
     }
+
+    public function getTracklist(Request $request){
+    	$url = $request->url;
+    	$details = $this->bandcamp->getAlbumDetails($url);
+    	return response()->json($details);
+    }
+
 }

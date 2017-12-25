@@ -17,5 +17,7 @@ Route::get('/', function () {
 
 Route::post('/download', 'BandcampController@download');
 
+Route::post('/getTracklist', 'BandcampController@getTracklist');
+
 Route::get('/test', 'BandcampController@test');
 
