@@ -49,6 +49,7 @@ class Bandcamp{
     	list($details['song_name']) = explode('|', $title);
     	$details['artiste'] = $crawler->filterXpath('//span[@itemprop="byArtist"]//a')->text();
     	$details['album'] = $crawler->filterXpath('//a//span[@itemprop="name"]')->text();
+    	$details['cover_art']= $crawler->filterXpath('//div[@id="tralbumArt"]//a/@href')->text();
     	return $details;
     }
 
@@ -71,6 +72,23 @@ class Bandcamp{
         else
         	return true;
     }
+
+    public function downloadToServer($songUrl, $details){
+    	$ch = curl_init();
+    	curl_setopt($ch, CURLOPT_URL, $songUrl);
+    	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    	$song = curl_exec($ch);
+    	curl_close($ch);
+    	$name = $details['artiste'].' - '.$details['song_name'];
+    	$path = '/../../storage/tmp/'.$name.'.mp3';
+    	$downloadPath = __DIR__.$path;
+    	$download = file_put_contents($downloadPath, $song);
+    	if($download){
+    		return $name;
+    	}
+    	else
+    		return false;
+    }	
 
     public function id3($path){
     	include_once('../vendor/getid3/getid3.php');

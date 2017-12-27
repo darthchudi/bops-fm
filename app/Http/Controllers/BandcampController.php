@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\Bandcamp as Bandcamp;
 use Symfony\Component\DomCrawler\Crawler as Crawler;
+use \File;
 class BandcampController extends Controller
 {
 	protected $bandcamp;
@@ -56,11 +57,28 @@ class BandcampController extends Controller
     	return response()->json($details);
     }
 
-
-    public function test(Request $request){
+    public function getSongDetails(Request $request){
     	$url = $request->url;
-    	$details = $this->bandcamp->getAlbumDetails($url);
-    	dd($details);
+    	$details = $this->bandcamp->getSongDetails($url);
+    	$details['link']= $this->bandcamp->getLinks($url);
+    	// $details['path'] = $this->downloadToServer($details['link'], $details);
+    	return response()->json($details);
+    }
+
+
+    public function downloadToServer(Request $request){
+    	$url = $request->url;
+    	$details = $request->details;
+    	$path = $this->bandcamp->downloadToServer($url[0], $details); 	
+    	return $path;
+    }
+
+    public function fetchFile($filename){
+    	$path = storage_path().'/tmp/'.$filename.'.mp3';
+    	$type = File::mimeType($path);
+    	$headers = ['Content-Type'=> $type, 'Content-Disposition'=> 'attachment; filename="'.$path.'"'];
+    	return response()->download($path, $filename, $headers);
+    	
     }
 
 }
