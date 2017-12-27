@@ -28,8 +28,17 @@
                 //Set variables to be used in AJAX request
                 var _token = $("input[name='_token']").val();
                 var url = $("input[name='url']").val();
+                let type;
 
-               
+                //Async function to determine if link is an album or song
+                async function linkType(){
+                    type = await $.ajax({
+                        type: 'POST',
+                        url: '/determineLink',
+                        data: {url: url, _token: _token}
+                    });
+                    return type;
+                }               
                 
                 //Async function to fetch MetaData and Download Links
                 async function fetchMetaData(){
@@ -61,33 +70,51 @@
                             'track_number': i
                         };
                     }
-
                     return tracklist; 
                 }
 
-                //Call the async function 
-                fetchMetaData()
-                    .then( (data) => {
-                        $(".details").empty();
-                        $(".details").append("<img src='"+data[0].cover_art+"' style='height: 350px; width: 350px'>");
-                        $(".details").append("<h3> Artiste: "+data[0].artiste + " </h3>");
-                        $(".details").append("<h3> Album: "+data[0].album + " </h3>");
-                        $(".details").append("<ol class='tracklist'> </ol>");
+                //Call the async function to determine the link type
+                linkType()
+                    .then((type)=>{
+                        //Call async function for handling albums
+                        if(type.type=='album'){
+                            fetchMetaData()
+                                .then( (data) => {
+                                    $(".details").empty();
+                                    $(".details").append("<img src='"+data[0].cover_art+"' style='height: 350px; width: 350px'>");
+                                    $(".details").append("<h3> Artiste: "+data[0].artiste + " </h3>");
+                                    $(".details").append("<h3> Album: "+data[0].album + " </h3>");
+                                    $(".details").append("<ol class='tracklist'> </ol>");
 
-                        for(var i=1; i<=data.length -1; i++){
-                            var song = data[i].song;
-                            var link = data[i].download_link;
-                            var track_number = data[i].track_number;
+                                    for(var i=1; i<=data.length -1; i++){
+                                        var song = data[i].song;
+                                        var link = data[i].download_link;
+                                        var track_number = data[i].track_number;
 
-                            $(".details ol")
-                                .append("<li class='tracks'>" +song+"&nbsp;&nbsp;&nbsp; <a href='"+link+"'> Download </a>" + "</li>" );
+                                        $(".details ol")
+                                            .append("<li class='tracks'>" +song+"&nbsp;&nbsp;&nbsp; <a href='"+link+"'> Download </a>" + "</li>" );
+                                    }
+                                    console.log(data);
+                                })
+                                .catch((error) => {
+                                    $(".details").empty();
+                                    $(".details").append("<p> Sorry No results found </p>");
+                                    console.error(error);
+                                });
                         }
-                        console.log(data);
+
+                        if(type.type=='song'){
+                            //Carry Out routine for songs
+                            console.log(type);
+                            $(".details").empty();
+                            $(".details").append("<p> Support for songs coming soon! </p>");
+                        }
                     })
-                    .catch((error) => {
+
+                    .catch( (e) =>{
                         $(".details").empty();
-                        $(".details").append("<p> Sorry No results found </p>");
-                        console.error(error);
+                        $(".details").append("<p> Not a valid link! </p>");
+                        console.error(e);
                     });
             });
         });

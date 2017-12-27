@@ -23,3 +23,5 @@ Route::post('/getLinks', 'BandcampController@getLinks');
 
 Route::post('/test', 'BandcampController@test');
 
+Route::post('/determineLink', 'BandcampController@determineLink');
+

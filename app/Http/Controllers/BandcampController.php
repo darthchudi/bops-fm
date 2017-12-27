@@ -19,13 +19,13 @@ class BandcampController extends Controller
     	return response()->json($links);
     }
 
-    public function determineLink($songUrl){
+    public function determineLink(Request $request){
     	if($this->bandcamp->isAlbum($request->url)){
-    		echo 'Issa Album';
+    		return response()->json(['type'=>'album']);
     	}
 
     	if($this->bandcamp->isSong($request->url)){
-    		echo 'Issa Song';
+    		return response()->json(['type'=>'song']);
     	}
     }
 
