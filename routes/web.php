@@ -27,7 +27,7 @@ Route::post('/test', 'BandcampController@test');
 
 Route::post('/determineLink', 'BandcampController@determineLink');
 
-Route::post('/downloadToServer', 'BandcampController@downloadToServer');
+Route::get('/downloadToServer', 'BandcampController@downloadToServer');
 
-Route::get('/music/{filename}', 'BandcampController@fetchFile');
+Route::get('/fetchFile', 'BandcampController@fetchFile');
 

@@ -73,13 +73,12 @@ class Bandcamp{
         	return true;
     }
 
-    public function downloadToServer($songUrl, $details){
+    public function downloadToServer($songUrl, $name){
     	$ch = curl_init();
     	curl_setopt($ch, CURLOPT_URL, $songUrl);
     	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     	$song = curl_exec($ch);
     	curl_close($ch);
-    	$name = $details['artiste'].' - '.$details['song_name'];
     	$path = '/../../storage/tmp/'.$name.'.mp3';
     	$downloadPath = __DIR__.$path;
     	$download = file_put_contents($downloadPath, $song);

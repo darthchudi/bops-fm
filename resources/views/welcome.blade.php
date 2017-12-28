@@ -84,16 +84,6 @@
                     return songDetails;
                 }
 
-                //Async function to download the song to our server from Bandcamp
-                async function downloadToServer(downloadLink, details){
-                    let path = await $.ajax({
-                        type: 'POST',
-                        url: '/downloadToServer',
-                        data: {url: downloadLink, details: details, _token:_token}
-                    });
-                    return path;
-                }
-
                 //Call the async function to determine the link type
                 linkType()
                     .then((type)=>{
@@ -111,9 +101,10 @@
                                         var song = data[i].song;
                                         var link = data[i].download_link;
                                         var track_number = data[i].track_number;
+                                        var title = data[0].artiste +' - '+data[i].song;
 
                                         $(".details ol")
-                                            .append("<li class='tracks'>" +song+"&nbsp;&nbsp;&nbsp; <a href='"+link+"'> Download </a>" + "</li>" );
+                                            .append('<li class="tracks">'+song+'&nbsp;&nbsp;&nbsp; <a href="'+link +'" class="download" id="'+title+'"> Download </a></li>');
                                     }
                                     console.log(data);
                                 })
@@ -129,25 +120,15 @@
                         if(type.type=='song'){                            
                             getSongDetails()
                                 .then( (data)=>{
-                                    //Call the function to download the file to our tmp folder and fetch the path
-                                    downloadToServer(data.link, data)
-                                        .then((location)=>{
-                                            console.log(location);
-
-                                            //Begin working on displaying results    
-                                            $(".details").empty();
-                                            console.log(data);
-                                            $(".details").append("<img src='"+data.cover_art+"' style='height: 350px; width: 350px'>");
-                                            $(".details").append("<h3> Song Name: "+data.song_name +"</h3>");
-                                            $(".details").append('<a href="music/'+location +'"class="download" download> Download </a>')
-                                            $(".details").append("<h3> Artiste: "+data.artiste + " </h3>");
-                                            $(".details").append("<h3> Album: "+data.album + " </h3>");
-                                        })
-                                        .catch((e)=>{
-                                            console.log("Na wa");
-                                            console.log(e);
-                                        });
-                
+                                    //Begin working on displaying results    
+                                    $(".details").empty();
+                                    console.log(data);
+                                    var title = data.artiste + ' - '+data.song_name;
+                                    $(".details").append("<img src='"+data.cover_art+"' style='height: 350px; width: 350px'>");
+                                    $(".details").append("<h3> Song Name: "+data.song_name +"</h3>");
+                                    $(".details").append('<a href="'+data.link +'"class="download" id="'+title+'"> Download </a>')
+                                    $(".details").append("<h3> Artiste: "+data.artiste + " </h3>");
+                                    $(".details").append("<h3> Album: "+data.album + " </h3>");       
                                 })
                                 .catch( (e)=>{
                                     //Handle Errors when fetching song details
@@ -174,10 +155,59 @@
                     });
             });
 
-            //Async function to download song
+            //If user left clicks on download button the call the function to download the file to the server and render it to the user for download
             $(document).on('click', '.download', function(e){
-                // e.preventDefault();
+                e.preventDefault();
+
+                //Async function to download the song to our server from Bandcamp
+                async function downloadToServer(url, title){
+                    let path = await $.ajax({
+                        type: 'GET',
+                        url: '/downloadToServer',
+                        data: {url: url, title: title}
+                    });
+                    return path;
+                }
+
+                //Async function to retrieve the specific file from the server
+                async function fetchFile(fileName){
+                    let file = await $.ajax({
+                        type: 'GET',
+                        url: '/fetchFile',
+                        data: {fileName: fileName}
+                    });
+                    return file;
+                }
+
+                var title = $("a.download").attr('id');
+                var url = $("a.download").attr('href');
+                console.log(title);
+                console.log(url);
+
+                //Call async function to download the .mp3 file to our server
+                downloadToServer(url, title)
+                    .then((path)=>{
+                        console.log(path);
+                        //Call asyn function to fetch downloaded file from our server
+                        fetchFile(path)
+                            .then((success)=>{
+                                console.log("Downloaded!");
+                            })
+                            .catch((e)=>{
+                                //Handle Error if we can't downlod the file
+                                 $(".details").empty();
+                                $(".details").append("<p> Oops! Couldn't fetch file from server</p>");
+                                console.error(e);
+                            });
+                    })  
+                    .catch((e)=>{
+                        //Handle error if we can't download file
+                        $(".details").empty();
+                        $(".details").append("<p> Oops! Couldn't download to server </p>");
+                        console.error(e);
+                    });
             });
+
         });
     </script>
     

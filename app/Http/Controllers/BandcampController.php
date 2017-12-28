@@ -68,17 +68,17 @@ class BandcampController extends Controller
 
     public function downloadToServer(Request $request){
     	$url = $request->url;
-    	$details = $request->details;
-    	$path = $this->bandcamp->downloadToServer($url[0], $details); 	
+    	$title = $request->title;
+    	$path = $this->bandcamp->downloadToServer($url, $title); 	
     	return $path;
     }
 
-    public function fetchFile($filename){
+    public function fetchFile(Request $request){
+    	$filename = $request->fileName;
     	$path = storage_path().'/tmp/'.$filename.'.mp3';
     	$type = File::mimeType($path);
     	$headers = ['Content-Type'=> $type, 'Content-Disposition'=> 'attachment; filename="'.$path.'"'];
     	return response()->download($path, $filename, $headers);
-    	
     }
 
 }
