@@ -89,12 +89,52 @@ class Bandcamp{
     		return false;
     }	
 
-    public function id3($path){
+    public function checkID3($path){
     	include_once('../vendor/getid3/getid3.php');
     	$getID3 = new \getID3;
     	$info = $getID3->analyze($path);
-    	dd($info);
+    	return $info;
     }
 
+    public function setID3($path){
+    	include_once('../vendor/getid3/getid3.php');
+    	$getID3 = new \getID3;
+    	$TextEncoding = 'UTF-8';
+    	$getID3->setOption(array('encoding'=>$TextEncoding));
+		require_once('../vendor/getid3/write.php');
+		// Initialize getID3 tag-writing module
+		$tagwriter = new \getid3_writetags;
+		$tagwriter->filename = $path;
+		$tagwriter->tagformats = array('id3v2.3');
 
+		// set various options (optional)
+		$tagwriter->overwrite_tags    = true;  // if true will erase existing tag data and write only passed data; if false will merge passed data with existing tag data (experimental)
+		$tagwriter->remove_other_tags = false; // if true removes other tag formats (e.g. ID3v1, ID3v2, APE, Lyrics3, etc) that may be present in the file and only write the specified tag format(s). If false leaves any unspecified tag formats as-is.
+		$tagwriter->tag_encoding      = $TextEncoding;
+		$tagwriter->remove_other_tags = true;
+
+		// populate data array
+		$TagData = array(
+			'title'                  => array('Healing'),
+			'artist'                 => array('Sampa The Great'),
+			'album'                  => array('Greatest Hits'),
+			'year'                   => array('2004'),
+			'genre'                  => array('Rock'),
+			'comment'                => array('excellent!')
+		);
+		$tagwriter->tag_data = $TagData;
+
+		//Write Tags
+		if ($tagwriter->WriteTags()) {
+			return true;
+		} 
+		else {
+			return false;
+		}
+
+
+
+
+
+    }
 }

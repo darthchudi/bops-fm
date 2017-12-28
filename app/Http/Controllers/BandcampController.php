@@ -69,8 +69,8 @@ class BandcampController extends Controller
     public function downloadToServer(Request $request){
     	$url = $request->url;
     	$title = $request->title;
-    	$path = $this->bandcamp->downloadToServer($url, $title); 	
-    	return $path;
+    	$filename = $this->bandcamp->downloadToServer($url, $title); 	
+    	return $filename;
     }
 
     public function fetchFile(Request $request){
@@ -80,5 +80,19 @@ class BandcampController extends Controller
     	$headers = ['Content-Type'=> $type, 'Content-Disposition'=> 'attachment; filename="'.$path.'"'];
     	return response()->download($path, $filename, $headers);
     }
+
+    public function test(){
+    	$path = storage_path().'/tmp/Sampa The Great - Healing.mp3';
+    	$id3 = $this->bandcamp->checkID3($path);
+    	if(array_key_exists('tags', $id3)){
+    		dd($id3);
+    	}
+    	else {
+    		//Retrieve code to fetch details
+    		$response = $this->bandcamp->setID3($path);
+    		dd($response);
+    	}
+    }
+
 
 }

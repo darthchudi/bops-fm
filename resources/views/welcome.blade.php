@@ -88,7 +88,7 @@
                 linkType()
                     .then((type)=>{
                         //Call async function for handling albums
-                        if(type.type=='album'){
+                        if(type.type=='album'){ 
                             fetchMetaData()
                                 .then( (data) => {
                                     $(".details").empty();
@@ -179,10 +179,13 @@
                     return file;
                 }
 
+                //Get the file title, download url and page url to attach metadata to mp3
                 var title = $("a.download").attr('id');
                 var url = $("a.download").attr('href');
+                var pageUrl = $("input[name='url']").val();
                 console.log(title);
                 console.log(url);
+                console.log(pageUrl);
 
                 //Call async function to download the .mp3 file to our server
                 downloadToServer(url, title)

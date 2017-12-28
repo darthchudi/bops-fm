@@ -23,7 +23,7 @@ Route::post('/getSongDetails', 'BandcampController@getSongDetails');
 
 Route::post('/getLinks', 'BandcampController@getLinks');
 
-Route::post('/test', 'BandcampController@test');
+Route::get('/test', 'BandcampController@test');
 
 Route::post('/determineLink', 'BandcampController@determineLink');
 
