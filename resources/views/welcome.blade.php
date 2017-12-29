@@ -160,11 +160,11 @@
                 e.preventDefault();
 
                 //Async function to download the song to our server from Bandcamp
-                async function downloadToServer(url, title){
+                async function downloadToServer(url, title, pageUrl){
                     let path = await $.ajax({
                         type: 'GET',
                         url: '/downloadToServer',
-                        data: {url: url, title: title}
+                        data: {url: url, title: title, pageUrl: pageUrl}
                     });
                     return path;
                 }
@@ -179,6 +179,16 @@
                     return file;
                 }
 
+                //Async function to check and set the ID3 tag of the song
+                async function checkID3(filePath, pageUrl){
+                    let id3 = await $.ajax({
+                        type: 'GET',
+                        url: '/checkid3',
+                        data: {filePath: filePath, pageUrl: pageUrl}
+                    });
+                    return id3;
+                }
+
                 //Get the file title, download url and page url to attach metadata to mp3
                 var title = $("a.download").attr('id');
                 var url = $("a.download").attr('href');
@@ -188,18 +198,29 @@
                 console.log(pageUrl);
 
                 //Call async function to download the .mp3 file to our server
-                downloadToServer(url, title)
+                downloadToServer(url, title, pageUrl)
                     .then((path)=>{
                         console.log(path);
-                        //Call asyn function to fetch downloaded file from our server
-                        fetchFile(path)
-                            .then((success)=>{
-                                console.log("Downloaded!");
+                        //After downloading the file, evaluate the id3 of the file
+                        checkID3(path, pageUrl)
+                            .then((id3)=>{
+                                console.log(id3);
+                                //Call asyn function to fetch downloaded file from our server
+                                fetchFile(path)
+                                    .then((success)=>{
+                                        console.log("Downloaded!");
+                                    })
+                                    .catch((e)=>{
+                                        //Handle Error if we can't downlod the file
+                                        $(".details").empty();
+                                        $(".details").append("<p> Oops! Couldn't fetch file from server</p>");
+                                        console.error(e);
+                                    });
                             })
                             .catch((e)=>{
-                                //Handle Error if we can't downlod the file
-                                 $(".details").empty();
-                                $(".details").append("<p> Oops! Couldn't fetch file from server</p>");
+                                //Handle errors that might occur while checking id3
+                                $(".details").empty();
+                                $(".details").append("<p> Oops! Couldn't evaluate metadata</p>");
                                 console.error(e);
                             });
                     })  

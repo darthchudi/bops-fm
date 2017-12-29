@@ -69,29 +69,38 @@ class BandcampController extends Controller
     public function downloadToServer(Request $request){
     	$url = $request->url;
     	$title = $request->title;
-    	$filename = $this->bandcamp->downloadToServer($url, $title); 	
-    	return $filename;
+    	$filePath = $this->bandcamp->downloadToServer($url, $title); 	
+    	return $title;
     }
 
     public function fetchFile(Request $request){
     	$filename = $request->fileName;
     	$path = storage_path().'/tmp/'.$filename.'.mp3';
     	$type = File::mimeType($path);
-    	$headers = ['Content-Type'=> $type, 'Content-Disposition'=> 'attachment; filename="'.$path.'"'];
+    	$headers = ['Content-Type'=> 'audio/mpeg', 'Content-Disposition'=> 'attachment; filename="'.$path.'"'];
     	return response()->download($path, $filename, $headers);
     }
 
+    public function checkid3(Request $request){
+    	$pageUrl = $request->pageUrl;
+    	$filePath = storage_path().'/tmp/'.$request->filePath.'.mp3';
+    	$pageDetails = $this->bandcamp->getSongDetails($pageUrl);
+   
+		$id3 = $this->bandcamp->checkID3($filePath);
+   		if($id3=='set'){
+   			return 'Nothing to do here';
+   		}
+   		else{
+   			$this->bandcamp->setID3($filePath, $pageDetails);
+   			return 'Set ID3 tags!'; 
+   		}
+    }
+
     public function test(){
-    	$path = storage_path().'/tmp/Sampa The Great - Healing.mp3';
+    	$path = storage_path().'/tmp/Garvie - peridot.mp3';
+    	$type = File::mimeType($path);
     	$id3 = $this->bandcamp->checkID3($path);
-    	if(array_key_exists('tags', $id3)){
-    		dd($id3);
-    	}
-    	else {
-    		//Retrieve code to fetch details
-    		$response = $this->bandcamp->setID3($path);
-    		dd($response);
-    	}
+    	dd($type);
     }
 
 

@@ -31,3 +31,5 @@ Route::get('/downloadToServer', 'BandcampController@downloadToServer');
 
 Route::get('/fetchFile', 'BandcampController@fetchFile');
 
+Route::get('/checkid3', 'BandcampController@checkid3');
+

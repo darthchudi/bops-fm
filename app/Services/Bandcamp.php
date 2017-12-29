@@ -79,11 +79,10 @@ class Bandcamp{
     	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     	$song = curl_exec($ch);
     	curl_close($ch);
-    	$path = '/../../storage/tmp/'.$name.'.mp3';
-    	$downloadPath = __DIR__.$path;
+    	$downloadPath = storage_path().'/tmp/'.$name.'.mp3';
     	$download = file_put_contents($downloadPath, $song);
     	if($download){
-    		return $name;
+    		return $downloadPath;
     	}
     	else
     		return false;
@@ -93,10 +92,13 @@ class Bandcamp{
     	include_once('../vendor/getid3/getid3.php');
     	$getID3 = new \getID3;
     	$info = $getID3->analyze($path);
+    	if(array_key_exists('tags', $info)){
+    		return 'set';
+    	}
     	return $info;
     }
 
-    public function setID3($path){
+    public function setID3($path, $details){
     	include_once('../vendor/getid3/getid3.php');
     	$getID3 = new \getID3;
     	$TextEncoding = 'UTF-8';
@@ -109,18 +111,15 @@ class Bandcamp{
 
 		// set various options (optional)
 		$tagwriter->overwrite_tags    = true;  // if true will erase existing tag data and write only passed data; if false will merge passed data with existing tag data (experimental)
-		$tagwriter->remove_other_tags = false; // if true removes other tag formats (e.g. ID3v1, ID3v2, APE, Lyrics3, etc) that may be present in the file and only write the specified tag format(s). If false leaves any unspecified tag formats as-is.
-		$tagwriter->tag_encoding      = $TextEncoding;
+		$tagwriter->remove_other_tags = false;
+		$tagwriter->tag_encoding = $TextEncoding;
 		$tagwriter->remove_other_tags = true;
 
 		// populate data array
 		$TagData = array(
-			'title'                  => array('Healing'),
-			'artist'                 => array('Sampa The Great'),
-			'album'                  => array('Greatest Hits'),
-			'year'                   => array('2004'),
-			'genre'                  => array('Rock'),
-			'comment'                => array('excellent!')
+			'title'                  => array($details['song_name']),
+			'artist'                 => array($details['artiste']),
+			'album'                  => array($details['album'])
 		);
 		$tagwriter->tag_data = $TagData;
 
@@ -131,10 +130,5 @@ class Bandcamp{
 		else {
 			return false;
 		}
-
-
-
-
-
     }
 }
