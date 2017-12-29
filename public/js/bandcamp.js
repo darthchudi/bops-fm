@@ -79,11 +79,10 @@ $(document).ready(function(){
                             $(".details").empty();
                             $(".zip").empty();
                             $(".load").hide();
-                            $(".details").append("<img src='"+data[0].cover_art+"' style='height: 350px; width: 350px'>");
-                            $(".details").append("<h3> Artiste: "+data[0].artiste + " </h3>");
-                            $(".details").append("<h3> Album: "+data[0].album + " </h3>");
+                               $(".details").append("<h3><strong>"+data[0].album + "</strong><span style='font-size: 29px;'>by</span> <strong>"+data[0].artiste+" </strong></h3>");
+                            $(".details").append("<img src='"+data[0].cover_art+"'>");
+                            $(".details").append("<h3 class='tracklist'><strong>TRACKLIST</strong></h3>");
                             $(".details").append("<ol class='tracklist'> </ol>");
-
                             for(var i=1; i<=data.length -1; i++){
                                 var song = data[i].song;
                                 var link = data[i].download_link;
@@ -92,6 +91,16 @@ $(document).ready(function(){
 
                                 $(".details ol")
                                     .append('<li class="tracks">'+song+'&nbsp;&nbsp;&nbsp; <a href="'+link +'" class="'+track_number+'" id="'+title+'"> Download </a></li>');
+                            }
+
+                            //Adjust Wrapper height in case tracklist is too long
+                            var wrapperHeight = $(".wrapper").height();
+                            var detailsHeight = $(".details").height();
+                            console.log('for width, wrapper first');
+                            if(detailsHeight >= wrapperHeight){
+                                var newHeight = detailsHeight + 140;
+                                console.log("the new height is: "+newHeight);
+                                $(".wrapper").height(newHeight);
                             }
 
                             $(".zip").append("<br/><h3> To download the entire project as a zip file <a href='/makeZip'>Click me! </a></h3>");

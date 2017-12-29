@@ -23,12 +23,15 @@
           <div class="rect4"></div>
           <div class="rect5"></div>
         </div>
-        <p class="load">fetching links...</p>
+        <p class="load">please wait while we fetch download links...</p>
 
     </div>
 
-    <div class="details">
+    <div class="wrapper">
+        <div class="details">
         
+        </div>
+
     </div>
 
 

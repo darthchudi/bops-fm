@@ -4,6 +4,14 @@
 	margin: 0px;
 }
 
+body{
+	background: #DE6262;  /* fallback for old browsers */
+	background: -webkit-linear-gradient(to right, #FFB88C, #DE6262);  /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to right, #FFB88C, #DE6262); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+	overflow-x: hidden;
+
+}
+
 .jumbo{
 	background-image: url('/css/concert2.jpeg');
 	background-size: cover;
@@ -11,7 +19,7 @@
 	background: contain;
 	height: 750px;
 	position: relative;
-	top: -260px;
+	top: -280px;
 }
 
 input[type=text], input[type=submit]{
@@ -54,6 +62,86 @@ input[type=submit]:hover{
 	transition: 0.4s ease-in-out;
 }
 
+
+/*Styling for details card*/
+.wrapper{
+	position: relative;
+	top: -280px;
+	left: 21%;
+	width: 790px;
+	background-color: white;
+	text-align: center;
+	height: 800px;
+}
+
+h3{
+	font-family: HelveticaNeue;
+	font-size: 40px;
+	position: relative;
+	top: 40px;
+}
+
+img{
+	position: relative;
+	top: 60px;
+	height: 350px; 
+	width: 350px
+}
+
+h3 strong{
+	border-bottom: 8px solid #DE6262;
+	cursor: pointer;
+}
+
+h3 strong:hover{
+	border-bottom: 8px solid #FFB88C;
+	transition: 0.5s ease-in-out;
+}
+
+h3.tracklist{
+	position: relative;
+	top: 50px;
+}
+
+ol{
+	position: relative;
+	top: 80px;
+	text-align: left;
+	left: 40px;
+	width: 700px;
+}
+
+li{
+	font-size: 17px;
+	position: relative;
+	margin: 6px 10px;
+	padding: 10px;
+	border-bottom: 2px solid #dda6a6;
+	cursor: pointer;
+}
+
+li a{
+	float: right;
+	position: relative;
+	left: -20px;
+	font-size: 15px;
+	background: #FFB88C;
+	color: white;
+	padding: 4px;
+	border-radius: 5px;
+	width: 110px;
+	text-align: center;
+	text-decoration: none;
+}
+
+li a:hover{
+	background: #DE6262;
+	color: white;
+	text-decoration: none;
+	transition: 0.6s ease-in-out;
+}
+
+
 /* Styling for loader */
 .spinner {
   margin: 100px auto;
@@ -63,7 +151,7 @@ input[type=submit]:hover{
   font-size: 10px;
   position: relative;
   top: 160px;
-  left: 20px;
+  left: 15px;
 }
 
 .spinner > div {
@@ -110,12 +198,11 @@ input[type=submit]:hover{
   }
 }
 
-
 .jumbo p{
 	color: white;
 	position: relative;
 	top: 120px;
-	left: 590px;
+	left: 520px;
 	font-family: Helvetica;
-	font-size: 15px;
+	font-size: 16px;
 }
