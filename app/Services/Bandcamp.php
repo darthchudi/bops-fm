@@ -93,7 +93,7 @@ class Bandcamp{
     	$getID3 = new \getID3;
     	$info = $getID3->analyze($path);
     	if(array_key_exists('tags', $info)){
-    		return 'set';
+    		return 'set'	;
     	}
     	return $info;
     }
@@ -117,9 +117,10 @@ class Bandcamp{
 
 		// populate data array
 		$TagData = array(
-			'title'                  => array($details['song_name']),
-			'artist'                 => array($details['artiste']),
-			'album'                  => array($details['album'])
+			'title'  => array($details['song_name']),
+			'artist' => array($details['artiste']),
+			'album'  => array($details['album']),
+			'track_number' => array($details['track_number'])
 		);
 		$tagwriter->tag_data = $TagData;
 

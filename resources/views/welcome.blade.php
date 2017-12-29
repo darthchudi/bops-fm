@@ -100,11 +100,11 @@
                                     for(var i=1; i<=data.length -1; i++){
                                         var song = data[i].song;
                                         var link = data[i].download_link;
-                                        var track_number = data[i].track_number;
+                                        var track_number = data[i].track_number+'/Album';
                                         var title = data[0].artiste +' - '+data[i].song;
 
                                         $(".details ol")
-                                            .append('<li class="tracks">'+song+'&nbsp;&nbsp;&nbsp; <a href="'+link +'" class="download" id="'+title+'"> Download </a></li>');
+                                            .append('<li class="tracks">'+song+'&nbsp;&nbsp;&nbsp; <a href="'+link +'" class="'+track_number+'" id="'+title+'"> Download </a></li>');
                                     }
                                     console.log(data);
                                 })
@@ -124,9 +124,10 @@
                                     $(".details").empty();
                                     console.log(data);
                                     var title = data.artiste + ' - '+data.song_name;
+                                    var track_number = '1/Song';
                                     $(".details").append("<img src='"+data.cover_art+"' style='height: 350px; width: 350px'>");
                                     $(".details").append("<h3> Song Name: "+data.song_name +"</h3>");
-                                    $(".details").append('<a href="'+data.link +'"class="download" id="'+title+'"> Download </a>')
+                                    $(".details").append('<a href="'+data.link +'"class="' + track_number +'" id="'+title+'"> Download </a>')
                                     $(".details").append("<h3> Artiste: "+data.artiste + " </h3>");
                                     $(".details").append("<h3> Album: "+data.album + " </h3>");       
                                 })
@@ -156,7 +157,7 @@
             });
 
             //If user left clicks on download button the call the function to download the file to the server and render it to the user for download
-            $(document).on('click', '.download', function(e){
+            $(document).on('click', 'a', function(e){
                 e.preventDefault();
 
                 //Async function to download the song to our server from Bandcamp
@@ -180,29 +181,34 @@
                 }
 
                 //Async function to check and set the ID3 tag of the song
-                async function checkID3(filePath, pageUrl){
+                async function checkID3(filePath, pageUrl, track_number, type){
                     let id3 = await $.ajax({
                         type: 'GET',
                         url: '/checkid3',
-                        data: {filePath: filePath, pageUrl: pageUrl}
+                        data: {filePath: filePath, pageUrl: pageUrl, track_number: track_number, type:type}
                     });
                     return id3;
                 }
 
                 //Get the file title, download url and page url to attach metadata to mp3
-                var title = $("a.download").attr('id');
-                var url = $("a.download").attr('href');
+                var title = $(this).attr('id');
+                var url = $(this).attr('href');
                 var pageUrl = $("input[name='url']").val();
+                var classDetails = $(this).attr('class').split('/');
+                var track_number = classDetails[0];
+                var type = classDetails[1];
                 console.log(title);
                 console.log(url);
                 console.log(pageUrl);
+                console.log(track_number);
+                console.log(type);
 
                 //Call async function to download the .mp3 file to our server
                 downloadToServer(url, title, pageUrl)
                     .then((path)=>{
                         console.log(path);
                         //After downloading the file, evaluate the id3 of the file
-                        checkID3(path, pageUrl)
+                        checkID3(path, pageUrl, track_number, type)
                             .then((id3)=>{
                                 console.log(id3);
                                 //Call asyn function to fetch downloaded file from our server

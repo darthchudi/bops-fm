@@ -84,7 +84,20 @@ class BandcampController extends Controller
     public function checkid3(Request $request){
     	$pageUrl = $request->pageUrl;
     	$filePath = storage_path().'/tmp/'.$request->filePath.'.mp3';
-    	$pageDetails = $this->bandcamp->getSongDetails($pageUrl);
+    	$type = $request->type;
+    	$track_number = $request->track_number;
+    	
+    	if($type=='Album'){
+    		$pageDetails = $this->bandcamp->getAlbumDetails($pageUrl);
+    		$pageDetails['album'] = $pageDetails['album_name'];
+    		$pageDetails['song_name'] = $pageDetails['tracklist'][$track_number-1];
+    	}
+
+    	if($type=='Song'){
+    		$pageDetails = $this->bandcamp->getSongDetails($pageUrl);
+    	}
+    	
+    	$pageDetails['track_number'] = $track_number;
    
 		$id3 = $this->bandcamp->checkID3($filePath);
    		if($id3=='set'){
@@ -97,10 +110,10 @@ class BandcampController extends Controller
     }
 
     public function test(){
-    	$path = storage_path().'/tmp/Garvie - peridot.mp3';
+    	$path = storage_path().'/tmp/MIKE - ANU.mp3';
     	$type = File::mimeType($path);
     	$id3 = $this->bandcamp->checkID3($path);
-    	dd($type);
+    	dd($id3);
     }
 
 
