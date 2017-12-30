@@ -67,8 +67,8 @@ input[type=submit]:hover{
 .wrapper{
 	position: relative;
 	top: -280px;
-	left: 21%;
-	width: 790px;
+	left: 18%;
+	width: 840px;
 	background-color: white;
 	text-align: center;
 	height: 800px;
@@ -107,7 +107,7 @@ ol{
 	position: relative;
 	top: 80px;
 	text-align: left;
-	left: 40px;
+	left: 70px;
 	width: 700px;
 }
 
@@ -139,6 +139,11 @@ li a:hover{
 	color: white;
 	text-decoration: none;
 	transition: 0.6s ease-in-out;
+}
+
+li a:focus{
+	text-decoration: none;
+	color: white;
 }
 
 
