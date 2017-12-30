@@ -1,12 +1,10 @@
 $(document).ready(function(){
-    var exists;
-    $(".load").hide();
-    $(".wrapper").hide();  
+    $(".load").hide(); //Hide the css loader on page load
+    $(".wrapper").hide();  //Hide the details wrapper on page load
     $("#bandcamp").submit(function(e){
-        //Prevent Page from reloading/Submitting
-        e.preventDefault();  
-        $(".load").show(); 
-        $(".wrapper").hide();               
+        e.preventDefault();  //Prevent Page from reloading/Submitting
+        $(".load").show(); //Once the form gets submitted show the loader
+        $(".wrapper").hide(); //Hide the details wrapper until we recieve the details from the server
 
         //Set variables to be used in AJAX request
         var _token = $("input[name='_token']").val();
@@ -78,10 +76,10 @@ $(document).ready(function(){
                 if(type.type=='album'){ 
                     fetchMetaData()
                         .then( (data) => {
-                            $(".details").empty();
-                            $(".wrapper").show();
+                            $(".details").empty(); //Clear out all previous details within the details div
+                            $(".wrapper").show();  //Show the details wrapper
                             $(".zip").empty();
-                            $(".load").hide();
+                            $(".load").hide(); //Hide the CSS loader
                             $(".details").append("<h3><strong>"+data[0].album + "</strong><span style='font-size: 29px;'>by</span> <strong>"+data[0].artiste+" </strong></h3>");
                             $(".details").append("<img src='"+data[0].cover_art+"'>");
                             $(".details").append("<h3 class='tracklist'><strong>TRACKLIST</strong></h3>");
@@ -96,7 +94,7 @@ $(document).ready(function(){
                                     .append('<li class="tracks">'+song+'&nbsp;&nbsp;&nbsp; <a href="'+link +'" class="'+track_number+'" id="'+title+'"> Download </a></li>');
                             }
 
-                            //Adjust Wrapper height in case tracklist is too long
+                            //Adjust height of the details wrapper div dynamically
                             var wrapperHeight = $(".wrapper").height();
                             var detailsHeight = $(".details").height();
                             console.log(wrapperHeight);
@@ -106,7 +104,7 @@ $(document).ready(function(){
                             $(".wrapper").height(newHeight);
 
 
-                            $(".zip").append("<br/><h3> To download the entire project as a zip file <a href='/makeZip'>Click me! </a></h3>");
+                            // $(".zip").append("<br/><h3> To download the entire project as a zip file <a href='/makeZip'>Click me! </a></h3>");
 
                             console.log(data);
                         })
@@ -171,6 +169,12 @@ $(document).ready(function(){
     $(document).on('click', 'a', function(e){
         e.preventDefault();
 
+        //Trigger the CSS loader modal
+        $('body').loadingModal({
+            text: 'Fetching mp3 file from server...',
+            animation: 'foldingCube'
+        });
+       
         //Async function to download the song to our server from Bandcamp
         async function downloadToServer(url, title, pageUrl){
             let path = await $.ajax({
@@ -225,10 +229,12 @@ $(document).ready(function(){
                         //Call asyn function to fetch downloaded file from our server
                         fetchFile(path)
                             .then((success)=>{
-                                console.log("Downloaded!");
+                                $('body').loadingModal('hide');
+                                console.log(success);
                             })
                             .catch((e)=>{
-                                //Handle Error if we can't downlod the file
+                                //Handle Error if we can't fetch the file
+                                $('body').loadingModal('hide');
                                 $(".details").empty();
                                 $(".details").append("<p> Oops! Couldn't fetch file from server</p>");
                                 console.error(e);
@@ -236,6 +242,7 @@ $(document).ready(function(){
                     })
                     .catch((e)=>{
                         //Handle errors that might occur while checking id3
+                        $('body').loadingModal('hide');
                         $(".details").empty();
                         $(".details").append("<p> Oops! Couldn't evaluate metadata</p>");
                         console.error(e);
@@ -243,6 +250,7 @@ $(document).ready(function(){
             })  
             .catch((e)=>{
                 //Handle error if we can't download file
+                $('body').loadingModal('hide');
                 $(".details").empty();
                 $(".details").append("<p> Oops! Couldn't download to server </p>");
                 console.error(e);

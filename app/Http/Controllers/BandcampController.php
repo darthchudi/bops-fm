@@ -86,6 +86,11 @@ class BandcampController extends Controller
     	$filePath = storage_path().'/tmp/'.$request->filePath.'.mp3';
     	$type = $request->type;
     	$track_number = $request->track_number;
+
+        $id3 = $this->bandcamp->checkID3($filePath);
+        if($id3=='set'){
+            return 'Nothing to do here';
+        }
     	
     	if($type=='Album'){
     		$pageDetails = $this->bandcamp->getAlbumDetails($pageUrl);
@@ -98,15 +103,8 @@ class BandcampController extends Controller
     	}
     	
     	$pageDetails['track_number'] = $track_number;
-   
-		$id3 = $this->bandcamp->checkID3($filePath);
-   		if($id3=='set'){
-   			return 'Nothing to do here';
-   		}
-   		else{
-   			$this->bandcamp->setID3($filePath, $pageDetails);
-   			return 'Set ID3 tags!'; 
-   		}
+		$this->bandcamp->setID3($filePath, $pageDetails);
+		return 'Set ID3 tags!'; 
     }
 
     public function test(){

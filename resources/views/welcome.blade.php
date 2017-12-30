@@ -4,6 +4,7 @@
     <title>Bandcamp DL</title>
     <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/css/bandcamp.css">
+    <link rel="stylesheet" type="text/css" href="/css/jquery.loadingModal.css">
     <script type="text/javascript" src="/js/jquery-3.2.1.js"></script>
 </head>
 <body>
@@ -39,6 +40,7 @@
         
 
     </div>
+    <script type="text/javascript" src="/js/jquery.loadingModal.js"></script>
     <script type="text/javascript" src="/js/bandcamp.js"></script>
     
 </body>

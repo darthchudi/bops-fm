@@ -48,7 +48,14 @@ class Bandcamp{
     	$title = $crawler->filterXpath('//title')->text();
     	list($details['song_name']) = explode('|', $title);
     	$details['artiste'] = $crawler->filterXpath('//span[@itemprop="byArtist"]//a')->text();
-    	$details['album'] = $crawler->filterXpath('//a//span[@itemprop="name"]')->text();
+        //Fetch the song album
+        if($crawler->filterXpath('//a//span[@itemprop="name"]')->count()){
+            $details['album'] = $crawler->filterXpath('//a//span[@itemprop="name"]')->text();
+        }
+        else{
+            $details['album'] = $details['song_name'].'— Single ';
+        }
+    	
     	$details['cover_art']= $crawler->filterXpath('//div[@id="tralbumArt"]//a/@href')->text();
     	return $details;
     }
@@ -93,7 +100,7 @@ class Bandcamp{
     	$getID3 = new \getID3;
     	$info = $getID3->analyze($path);
     	if(array_key_exists('tags', $info)){
-    		return 'set'	;
+    		return 'set';
     	}
     	return $info;
     }
