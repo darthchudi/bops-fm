@@ -13,7 +13,7 @@ body{
 }
 
 .jumbo{
-	background-image: url('/css/concert2.jpeg');
+	background-image: url('/images/record2.png');
 	background-size: cover;
 	background-repeat: no-repeat;
 	background: contain;
@@ -22,59 +22,123 @@ body{
 	top: -280px;
 }
 
-input[type=text], input[type=submit]{
-	padding: 10px 10px;
-	background-color: white;
-	border: 1px solid white;
-	border-radius: 10px;
-	margin: 12px 0px;
-	padding: 17px;
-	color: black;
-	width: 480px;
+form{
 	position: relative;
-	top: 240px;
-	left: 33%;
+	top: 130px;
+	left: 30%;
 }
+
+.input{
+	font-family: Montserrat;
+	padding: 25px;
+	border: 0px solid white;
+	border-radius: 10px;
+	width: 530px;
+	font-size: 18px;
+	color: black;
+	background-color: white;
+	box-shadow: none;
+}
+
 
 input[type=text]:focus{
 	outline: none;
-	border-radius: 30px;
-	background-color: white;
+	outline-color: none;
+	border: 0px solid white;
+	width: 600px;
 	transition: 0.7s ease-in-out;
+	box-shadow: none;
 }
 
-input[type=submit]{
-	width: 560px;
+.fa{
+	font-size: 20px;
+	color: #747474;
 	position: relative;
-	left: 29%;
-	border-radius: 10px;
-	color: white;
-	border-color: #212121;
-	background-color: #212121;
+	top: 5px;
 }
 
-input[type=submit]:hover{
-	cursor: pointer;
-	background-color: black;
-	border-color: black;
+.fa-soundcloud{
+	color: orange;
+}
+
+.fa-bandcamp{
+	color: #639aa9;
+}
+
+.submit{
+	font-family: Montserrat;
+	font-size: 14px;
 	border-radius: 30px;
-	color: white;
-	transition: 0.4s ease-in-out;
+	text-align: center;
+	width: 700px;
+	position: relative;
+	left: -100px;
+	height: 53px;
+	top: 20px;
+}
+
+.logo{
+	position: relative;
+	top: 230px;
+	width: 250px;
+	height: 250px;
+	left: -30px;
+}
+
+ul{
+	list-style: none;
+	display: inline-block;
+	position: relative;
+	left: 720px;
+	top: 70px;
+	font-size: 17px;
 }
 
 
-/*Styling for details card*/
+li{
+	display: inline-block;
+	margin: 0px 30px;
+}
+
+li a{
+	color: black;
+}
+
+li a:hover{
+	color: black;
+	border-bottom: 3px solid black;
+	transition: 0.1s ease-in-out;
+}
+
+.link-is-active{
+	border-bottom: 4px solid black;
+}
+
+a.github{
+	color: black;
+	border-bottom: 5px solid pink;
+}
+
+a.github:hover{
+	border-bottom: 5px solid black;
+	transition: 0.4s ease-in-out
+}
+
+.footer-text{
+	font-size: 17px;
+}
+
 .wrapper{
 	position: relative;
-	top: -280px;
-	left: 18%;
-	width: 840px;
+	top: -250px;
+	left: 13%;
+	width: 980px;
 	background-color: white;
 	text-align: center;
 	height: 800px;
 }
 
-h3{
+/*h3{
 	font-family: HelveticaNeue;
 	font-size: 40px;
 	position: relative;
@@ -144,64 +208,7 @@ li a:hover{
 li a:focus{
 	text-decoration: none;
 	color: white;
-}
-
-
-/* Styling for loader */
-.spinner {
-  margin: 100px auto;
-  width: 50px;
-  height: 40px;
-  text-align: center;
-  font-size: 10px;
-  position: relative;
-  top: 160px;
-  left: 15px;
-}
-
-.spinner > div {
-  background-color: white;
-  height: 250%;
-  width: 6px;
-  display: inline-block;
-  -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
-  animation: sk-stretchdelay 1.2s infinite ease-in-out;
-}
-
-.spinner .rect2 {
-  -webkit-animation-delay: -1.1s;
-  animation-delay: -1.1s;
-}
-
-.spinner .rect3 {
-  -webkit-animation-delay: -1.0s;
-  animation-delay: -1.0s;
-}
-
-.spinner .rect4 {
-  -webkit-animation-delay: -0.9s;
-  animation-delay: -0.9s;
-}
-
-.spinner .rect5 {
-  -webkit-animation-delay: -0.8s;
-  animation-delay: -0.8s;
-}
-
-@-webkit-keyframes sk-stretchdelay {
-  0%, 40%, 100% { -webkit-transform: scaleY(0.4) }  
-  20% { -webkit-transform: scaleY(1.0) }
-}
-
-@keyframes sk-stretchdelay {
-  0%, 40%, 100% { 
-    transform: scaleY(0.4);
-    -webkit-transform: scaleY(0.4);
-  }  20% { 
-    transform: scaleY(1.0);
-    -webkit-transform: scaleY(1.0);
-  }
-}
+}*/
 
 .jumbo p{
 	color: white;

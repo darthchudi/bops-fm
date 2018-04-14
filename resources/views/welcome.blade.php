@@ -1,47 +1,62 @@
 <!DOCTYPE html>
 <html>
+<meta charset="utf-8">
+<meta name="csrf-token" content="{{csrf_token()}}">
 <head>
-    <title>Bandcamp DL</title>
-    <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css">
+    <title>bops.fm</title>
+    <link rel="stylesheet" type="text/css" href="/css/bulma-0.6.2/css/bulma.css">
+    <link rel="stylesheet" type="text/css" href="/css/font awesome/css/font-awesome.css">
     <link rel="stylesheet" type="text/css" href="/css/bandcamp.css">
-    <link rel="stylesheet" type="text/css" href="/css/jquery.loadingModal.css">
-    <script type="text/javascript" src="/js/jquery-3.2.1.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/wave-modal.css">
 </head>
 <body>
-    <div class="jumbotron jumbo">
-        <form id="bandcamp">
-            {{csrf_field()}}
-            <input type="text" name="url" placeholder="Enter a bandcamp song or album url...">
-            <br/>
-            <input type="submit" name="submit" value="Fetch links! ➔" class="submit">
+    <div class="jumbotron jumbo" id="root">
+        <img src="/images/bops.png" class="logo">
+        <ul>
+            <li> <a href="">About</a> </li>
+            <li> <a href="">Mixes</a> </li>
+            <li> <a href="">Discover</a> </li>
+        </ul>
+        <form @submit.prevent="submit">
+            <div class="field">
+                <div class="control has-icons-left">
+                    <input type="text" name="url" placeholder="Enter a bandcamp/soundcloud song or album url..." class="input" v-model="link">
+                    <span class="icon is-small is-left">
+                        <i class="fa " :class="linkDetails[1]"></i>
+                    </span>            
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="control">
+                    <input type="submit" name="submit" value="Download the bops" class="submit button is-success is-medium">
+                </div>
+            </div>
         </form>
 
-        {{-- Div class for loading Screen--}}
-        <div class="spinner load">
-          <div class="rect1"></div>
-          <div class="rect2"></div>
-          <div class="rect3"></div>
-          <div class="rect4"></div>
-          <div class="rect5"></div>
-        </div>
-        <p class="load">please wait while we fetch download links...</p>
-
+        <loading-modal :status="status" v-if="loading"> </loading-modal>
     </div>
 
-    <div class="wrapper">
-        <div class="details">
-        
-        </div>
-
-    </div>
+    
 
 
     <div class="zip">
         
 
     </div>
-    <script type="text/javascript" src="/js/jquery.loadingModal.js"></script>
-    <script type="text/javascript" src="/js/bandcamp.js"></script>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="content has-text-centered">
+              <p class="footer-text">
+                    Made with 💛 and ☕ by  <a href="https://github.com/darthchudi" class="github"> Chudi. </a>
+              </p>
+            </div>
+        </div>
+    </footer>
+
     
 </body>
 </html>
+
+<script type="text/javascript" src="/js/welcome.js"></script>
