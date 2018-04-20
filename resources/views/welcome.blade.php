@@ -3,11 +3,12 @@
 <meta charset="utf-8">
 <meta name="csrf-token" content="{{csrf_token()}}">
 <head>
-    <title>bops.fm</title>
+    <title>Bops FM</title>
     <link rel="stylesheet" type="text/css" href="/css/bulma-0.6.2/css/bulma.css">
     <link rel="stylesheet" type="text/css" href="/css/font awesome/css/font-awesome.css">
     <link rel="stylesheet" type="text/css" href="/css/bandcamp.css">
     <link rel="stylesheet" type="text/css" href="/css/wave-modal.css">
+    <link rel="shortcut icon" href="/images/favicon.ico">
 </head>
 <body>
     <div class="jumbotron jumbo" id="root">
@@ -36,14 +37,7 @@
 
         <loading-modal :status="status" v-if="loading"> </loading-modal>
     </div>
-
     
-
-
-    <div class="zip">
-        
-
-    </div>
 
     <footer class="footer">
         <div class="container">

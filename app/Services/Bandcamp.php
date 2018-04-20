@@ -3,13 +3,13 @@
 namespace App\Services;
 use JonnyW\PhantomJs\Client as Client;
 use Symfony\Component\DomCrawler\Crawler as Crawler;
-
+use Carbon\Carbon;
 
 class Bandcamp{
+    public $page;
 
 	public function isAlbum($url){
     	$isAlbum = preg_match('/(bandcamp.com\/album\/)/i', $url, $matches);
-    	// dd($matches);
     	return $isAlbum;
     }
 
@@ -19,8 +19,8 @@ class Bandcamp{
     }
 
 	public function getLinks($url){
-		$html = file_get_contents($url);
-	  	preg_match_all('/"mp3-128":"(.*?)"/', $html, $array);
+		$this->page = file_get_contents($url);
+	  	preg_match_all('/"mp3-128":"(.*?)"/', $this->page, $array);
 		return $array[1];
 	}
 
@@ -40,10 +40,9 @@ class Bandcamp{
     	return $details;
     }
 
-    public function getSongDetails($url){
+    public function getSongDetails(){
     	$details = array();
-    	$html = file_get_contents($url);
-    	$crawler = new Crawler($html);
+    	$crawler = new Crawler($this->page);
 
     	$title = $crawler->filterXpath('//title')->text();
     	list($details['song_name']) = explode('|', $title);
@@ -66,12 +65,27 @@ class Bandcamp{
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $song = curl_exec($ch);
         curl_close ($ch);
+        $dateFolder = storage_path().'/tmp/General/';
+        $presentDate = Carbon::now()->toFormattedDateString();
 
-        $name = $details['artiste'].' - '.$details['song_name'];
+        if(is_dir(storage_path().'/tmp/'.$presentDate)){
+            $dateFolder = storage_path()."/tmp/$presentDate";
+
+        } else{
+            $createdDirectory = mkdir(storage_path()."/tmp/$presentDate", 0700);
+            if($createdDirectory){
+                $dateFolder = storage_path()."/tmp/$presentDate";
+            }
+        }
+
+
+        $songFolder = $dateFolder.'/'.$details['artiste'].' - '.$details['album'];
+        mkdir($songFolder, 0700);
+        $name = $details['artiste'].' - '.$details['song_name'].'.mp3';
         
-        $this->id3('../downloads/eba.mp3');
+        // $this->id3('../downloads/eba.mp3');
 
-	  	$downloadPath = __DIR__."/../../downloads/".$name.".mp3";
+	  	$downloadPath = "$songFolder/$name";
         $download = file_put_contents($downloadPath, $song);
         if(!$download){
         	return false;

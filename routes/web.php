@@ -33,3 +33,4 @@ Route::get('/fetchFile', 'BandcampController@fetchFile');
 
 Route::get('/checkid3', 'BandcampController@checkid3');
 
+Route::get('date-test', 'BandcampController@timeTest');

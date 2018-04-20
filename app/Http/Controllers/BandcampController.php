@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Services\Bandcamp as Bandcamp;
 use Symfony\Component\DomCrawler\Crawler as Crawler;
 use \File;
+use Carbon\Carbon;
+
 class BandcampController extends Controller
 {
 	protected $bandcamp;
@@ -36,13 +38,13 @@ class BandcampController extends Controller
 
     	if($this->bandcamp->isSong($url)){
     		list($link) = $this->bandcamp->getLinks($url);
-    		$details = $this->bandcamp->getSongDetails($url);
+    		$details = $this->bandcamp->getSongDetails();
     		$download = $this->bandcamp->downloadSong($link, $details);
     		if($download){
-    			echo 'Succesfully downloaded '.$details['song_name'];
+                return response()->json("Successfully downloaded".$details['song_name']."by".$details['artiste'], 200);
     		}
     		else
-    			echo 'heh';
+    			return response()->json("Error", 500);
     	}
 
     	if($this->bandcamp->isAlbum($url)){
@@ -112,6 +114,10 @@ class BandcampController extends Controller
     	$type = File::mimeType($path);
     	$id3 = $this->bandcamp->checkID3($path);
     	dd($id3);
+    }
+
+    public function timeTest(){
+        return Carbon::now()->toFormattedDateString();
     }
 
 

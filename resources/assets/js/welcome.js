@@ -23,7 +23,18 @@ var app = new Vue({
 	},
 	methods: {
 		submit: function(){
+			self = this;
 			this.loading = true;
+			axios.post('/download', {
+				url: self.link
+			})
+			.then((data)=>{
+				self.loading = false;
+				console.log(data);
+			})
+			.catch((e)=>{
+				console.log(e);
+			})
 		},
 		evaluateLink: function(){
 			var soundcloud = 'soundcloud';
@@ -32,14 +43,12 @@ var app = new Vue({
 			if(this.link.match(soundcloud)){
 				this.linkDetails[0] = 'soundcloud';
 				this.linkDetails[1] = 'fa-soundcloud';
-				console.log(this.linkDetails[0]);
 				return;
 			}
 
 			if(this.link.match(bandcamp)){
 				this.linkDetails[0] = 'bandcamp';
-				this.linkDetails[1] = 'fa-bandcamp'
-				console.log(this.linkDetails[0]);
+				this.linkDetails[1] = 'fa-bandcamp';
 				return;
 			}
 
