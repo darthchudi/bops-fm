@@ -59,7 +59,7 @@ class Bandcamp{
     	return $details;
     }
 
-	public function downloadSong($songUrl, $details){
+	public function serverDownload($songUrl, $details){
     	$ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $songUrl);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -78,6 +78,9 @@ class Bandcamp{
             }
         }
 
+        if(strpos($details['album'], '<') || strpos($details['album'], '>')  || strpos($details['song_name'], '<') || $strpos($details['song_name'], '>')){
+            $details = $this->sanitize($details);     
+        }
 
         $songFolder = $dateFolder.'/'.$details['artiste'].' - '.$details['album'];
         mkdir($songFolder, 0700);
@@ -85,29 +88,36 @@ class Bandcamp{
         
         // $this->id3('../downloads/eba.mp3');
 
-	  	$downloadPath = "$songFolder/$name";
+        $downloadPath = "$songFolder/$name";
         $download = file_put_contents($downloadPath, $song);
         if(!$download){
-        	return false;
+            return false;
         }
         else
-        	return true;
+            return $downloadPath;
     }
 
-    public function downloadToServer($songUrl, $name){
-    	$ch = curl_init();
-    	curl_setopt($ch, CURLOPT_URL, $songUrl);
-    	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    	$song = curl_exec($ch);
-    	curl_close($ch);
-    	$downloadPath = storage_path().'/tmp/'.$name.'.mp3';
-    	$download = file_put_contents($downloadPath, $song);
-    	if($download){
-    		return $downloadPath;
-    	}
-    	else
-    		return false;
-    }	
+    public function sanitize($details){
+        $unwantedCharacters = ["<", ">", "/", "\\", "/"];
+        $details['album'] = str_replace($unwantedCharacters, '', $details['album']);
+        $details['song_name'] = str_replace($unwantedCharacters, '', $details['song_name']);
+        return $details;
+    }
+
+    // public function downloadToServer($songUrl, $name){
+    //  $ch = curl_init();
+    //  curl_setopt($ch, CURLOPT_URL, $songUrl);
+    //  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    //  $song = curl_exec($ch);
+    // 	curl_close($ch);
+    // 	$downloadPath = storage_path().'/tmp/'.$name.'.mp3';
+    // 	$download = file_put_contents($downloadPath, $song);
+    // 	if($download){
+    // 		return $downloadPath;
+    // 	}
+    // 	else
+    // 		return false;
+    // }	
 
     public function checkID3($path){
     	include_once('../vendor/getid3/getid3.php');

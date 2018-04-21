@@ -973,8 +973,14 @@ module.exports = __webpack_require__(10);
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_LoadingModal_vue__ = __webpack_require__(38);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_LoadingModal_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_LoadingModal_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_SuccessModal_vue__ = __webpack_require__(47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_SuccessModal_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_SuccessModal_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_ErrorModal_vue__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_ErrorModal_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_ErrorModal_vue__);
 __webpack_require__(11);
 window.Vue = __webpack_require__(35);
+
+
 
 window.Event = new Vue();
 
@@ -984,13 +990,28 @@ var app = new Vue({
 		status: "fetching bops...",
 		loading: false,
 		linkDetails: ['', 'fa-music'],
-		link: ''
+		link: '',
+		success: false,
+		successMessage: "Successfully Downloaded ANU By Mike",
+		error: false,
+		errorMessage: ""
 	},
 	created: function created() {
 		var _this = this;
 
 		Event.$on('modalClose', function () {
 			_this.loading = false;
+		});
+
+		Event.$on('successClose', function () {
+			_this.success = false;
+			_this.successMessage = '';
+			_this.error = '';
+		});
+
+		Event.$on('errorClose', function () {
+			_this.errorMessage = '';
+			_this.error = '';
 		});
 	},
 
@@ -1001,14 +1022,27 @@ var app = new Vue({
 	},
 	methods: {
 		submit: function submit() {
+			var _this2 = this;
+
+			if (this.link == '') {
+				return;
+			}
+
 			self = this;
 			this.loading = true;
 			axios.post('/download', {
 				url: self.link
 			}).then(function (data) {
+				self.link = '';
 				self.loading = false;
+				var songDetails = data.data;
+				self.successMessage = 'Successfully downloaded ' + songDetails['song_name'] + ' by ' + songDetails['artiste'];
+				self.success = true;
 				console.log(data);
 			}).catch(function (e) {
+				_this2.loading = false;
+				_this2.error = true;
+				self.errorMessage = "Oops! An error occured while getting bop";
 				console.log(e);
 			});
 		},
@@ -1032,7 +1066,7 @@ var app = new Vue({
 			this.linkDetails[1] = 'fa-music';
 		}
 	},
-	components: { LoadingModal: __WEBPACK_IMPORTED_MODULE_0__components_LoadingModal_vue___default.a }
+	components: { LoadingModal: __WEBPACK_IMPORTED_MODULE_0__components_LoadingModal_vue___default.a, SuccessModal: __WEBPACK_IMPORTED_MODULE_1__components_SuccessModal_vue___default.a, ErrorModal: __WEBPACK_IMPORTED_MODULE_2__components_ErrorModal_vue___default.a }
 });
 
 /***/ }),
@@ -43434,6 +43468,328 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-d5524570", module.exports)
+  }
+}
+
+/***/ }),
+/* 47 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(48)
+}
+var normalizeComponent = __webpack_require__(44)
+/* script */
+var __vue_script__ = __webpack_require__(50)
+/* template */
+var __vue_template__ = __webpack_require__(51)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\SuccessModal.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2459a33e", Component.options)
+  } else {
+    hotAPI.reload("data-v-2459a33e", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 48 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(49);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(42)("e06651a8", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2459a33e\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./SuccessModal.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2459a33e\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./SuccessModal.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 49 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(41)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.modal-content{\n\theight: 16000px;\n\toverflow-x: hidden;\n\toverflow-y: hidden;\n}\n.success{\n\tposition: relative;\n\tleft: 20%;\n\twidth: 400px;\n}\np.status{\n\tfont-family: Montserrat;\n\tposition: relative;\n\ttop: 20px;\n\tleft: 20%;\n\tfont-size: 20px;\n\tcolor: #8ce07f;\n}\n.success-card{\n\tposition: relative;\n\ttop: 30px;\n\tbackground-color: white;\n\tborder-radius: 30px;\n\theight: 470px;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 50 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	created: function created() {},
+
+	props: ['status'],
+	methods: {
+		close: function close() {
+			Event.$emit('successClose');
+		}
+	}
+});
+
+/***/ }),
+/* 51 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "modal is-active" }, [
+    _c("div", { staticClass: "modal-background" }),
+    _vm._v(" "),
+    _c("div", { staticClass: "modal-content" }, [
+      _c("div", { staticClass: "success-card" }, [
+        _c("img", {
+          staticClass: "success",
+          attrs: { src: "/images/sign-check-icon.png" }
+        }),
+        _vm._v(" "),
+        _c("p", { staticClass: "status" }, [_vm._v(_vm._s(_vm.status))])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("button", {
+      staticClass: "modal-close is-large",
+      attrs: { "aria-label": "close" },
+      on: { click: _vm.close }
+    })
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-2459a33e", module.exports)
+  }
+}
+
+/***/ }),
+/* 52 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(53)
+}
+var normalizeComponent = __webpack_require__(44)
+/* script */
+var __vue_script__ = __webpack_require__(55)
+/* template */
+var __vue_template__ = __webpack_require__(56)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\ErrorModal.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-8696c488", Component.options)
+  } else {
+    hotAPI.reload("data-v-8696c488", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 53 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(54);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(42)("2e4eb9e2", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-8696c488\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ErrorModal.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-8696c488\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ErrorModal.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 54 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(41)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.modal-content{\n\theight: 16000px;\n\toverflow-x: hidden;\n\toverflow-y: hidden;\n}\n.error{\n\tposition: relative;\n\tleft: 20%;\n\twidth: 400px;\n\ttop: 30px;\n}\np.status{\n\tfont-family: Montserrat;\n\tposition: relative;\n\ttop: 20px;\n\tleft: 20%;\n\tfont-size: 20px;\n}\n.success-card{\n\tposition: relative;\n\ttop: 30px;\n\tbackground-color: white;\n\tborder-radius: 30px;\n\theight: 500px;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 55 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	created: function created() {},
+
+	props: ['status'],
+	methods: {
+		close: function close() {
+			Event.$emit('errorClose');
+		}
+	}
+});
+
+/***/ }),
+/* 56 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "modal is-active" }, [
+    _c("div", { staticClass: "modal-background" }),
+    _vm._v(" "),
+    _c("div", { staticClass: "modal-content" }, [
+      _c("div", { staticClass: "success-card" }, [
+        _c("img", {
+          staticClass: "error",
+          attrs: { src: "/images/error.png" }
+        }),
+        _vm._v(" "),
+        _c("p", { staticClass: "status" }, [_vm._v(_vm._s(_vm.status))])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("button", {
+      staticClass: "modal-close is-large",
+      attrs: { "aria-label": "close" },
+      on: { click: _vm.close }
+    })
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-8696c488", module.exports)
   }
 }
 

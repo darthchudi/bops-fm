@@ -1,6 +1,8 @@
 require('./bootstrap.js');
 window.Vue = require('vue');
 import LoadingModal from './components/LoadingModal.vue';
+import SuccessModal from './components/SuccessModal.vue';
+import ErrorModal from './components/ErrorModal.vue';
 window.Event = new Vue();
 
 var app = new Vue({
@@ -9,11 +11,26 @@ var app = new Vue({
 		status: "fetching bops...",
 		loading: false,
 		linkDetails: ['', 'fa-music'],
-		link: ''
+		link: '',
+		success: false,
+		successMessage: "Successfully Downloaded ANU By Mike",
+		error: false,
+		errorMessage: ""
 	},
 	created(){
 		Event.$on('modalClose', ()=>{
 			this.loading = false;
+		});
+
+		Event.$on('successClose', ()=>{
+			this.success = false;
+			this.successMessage = '';
+			this.error = '';
+		});
+
+		Event.$on('errorClose', ()=>{
+			this.errorMessage = '';
+			this.error = '';
 		});
 	},
 	watch: {
@@ -23,16 +40,27 @@ var app = new Vue({
 	},
 	methods: {
 		submit: function(){
+			if(this.link==''){
+				return;
+			}
+
 			self = this;
 			this.loading = true;
 			axios.post('/download', {
 				url: self.link
 			})
 			.then((data)=>{
+				self.link = '';
 				self.loading = false;
+				var songDetails = data.data;
+				self.successMessage = `Successfully downloaded ${songDetails['song_name']} by ${songDetails['artiste']}`;
+				self.success = true;
 				console.log(data);
 			})
 			.catch((e)=>{
+				this.loading = false;
+				this.error = true;
+				self.errorMessage = "Oops! An error occured while getting bop"
 				console.log(e);
 			})
 		},
@@ -54,7 +82,7 @@ var app = new Vue({
 
 			this.linkDetails[0] = '';
 			this.linkDetails[1] = 'fa-music';
-		}
+		},
 	},
-	components: {LoadingModal}
+	components: {LoadingModal, SuccessModal, ErrorModal}
 })

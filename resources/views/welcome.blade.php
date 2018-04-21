@@ -36,6 +36,8 @@
         </form>
 
         <loading-modal :status="status" v-if="loading"> </loading-modal>
+        <success-modal :status="successMessage" v-if="success"> </success-modal>
+        <error-modal :status="errorMessage" v-if="error"> </error-modal>
     </div>
     
 

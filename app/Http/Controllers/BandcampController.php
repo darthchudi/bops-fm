@@ -39,9 +39,9 @@ class BandcampController extends Controller
     	if($this->bandcamp->isSong($url)){
     		list($link) = $this->bandcamp->getLinks($url);
     		$details = $this->bandcamp->getSongDetails();
-    		$download = $this->bandcamp->downloadSong($link, $details);
+    		$download = $this->bandcamp->serverDownload($link, $details);
     		if($download){
-                return response()->json("Successfully downloaded".$details['song_name']."by".$details['artiste'], 200);
+                return response()->json(["details"=>$details, "songPath"=>$download], 200);
     		}
     		else
     			return response()->json("Error", 500);
@@ -116,9 +116,11 @@ class BandcampController extends Controller
     	dd($id3);
     }
 
-    public function timeTest(){
-        return Carbon::now()->toFormattedDateString();
+    public function sanitizer(){
+        $song = "Gardens <ft. Tau Benah + Chris Generalz>";
+        $album = " <insert project name​\​>";
     }
+
 
 
 }
