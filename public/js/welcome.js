@@ -977,8 +977,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_SuccessModal_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_SuccessModal_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_ErrorModal_vue__ = __webpack_require__(52);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_ErrorModal_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_ErrorModal_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_SongBox_vue__ = __webpack_require__(57);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_SongBox_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_SongBox_vue__);
 __webpack_require__(11);
 window.Vue = __webpack_require__(35);
+
 
 
 
@@ -992,9 +995,12 @@ var app = new Vue({
 		linkDetails: ['', 'fa-music'],
 		link: '',
 		success: false,
-		successMessage: "Successfully Downloaded ANU By Mike",
+		successMessage: "",
 		error: false,
-		errorMessage: ""
+		errorMessage: "",
+		fetchedSong: false,
+		songDetails: {},
+		songPath: ""
 	},
 	created: function created() {
 		var _this = this;
@@ -1024,21 +1030,23 @@ var app = new Vue({
 		submit: function submit() {
 			var _this2 = this;
 
+			this.fetchedSong = false;
 			if (this.link == '') {
 				return;
 			}
 
 			self = this;
 			this.loading = true;
-			axios.post('/download', {
+			axios.post('/bandcamp/fetchLink', {
 				url: self.link
 			}).then(function (data) {
 				self.link = '';
 				self.loading = false;
-				var songDetails = data.data;
-				self.successMessage = 'Successfully downloaded ' + songDetails['song_name'] + ' by ' + songDetails['artiste'];
-				self.success = true;
-				console.log(data);
+				self.fetchedSong = true;
+				self.songDetails = data.data.metaData;
+				// self.successMessage = `Successfully downloaded ${songDetails['song_name']} by ${songDetails['artiste']}`;
+				// self.success = true;
+				console.log(data.data);
 			}).catch(function (e) {
 				_this2.loading = false;
 				_this2.error = true;
@@ -1066,7 +1074,7 @@ var app = new Vue({
 			this.linkDetails[1] = 'fa-music';
 		}
 	},
-	components: { LoadingModal: __WEBPACK_IMPORTED_MODULE_0__components_LoadingModal_vue___default.a, SuccessModal: __WEBPACK_IMPORTED_MODULE_1__components_SuccessModal_vue___default.a, ErrorModal: __WEBPACK_IMPORTED_MODULE_2__components_ErrorModal_vue___default.a }
+	components: { LoadingModal: __WEBPACK_IMPORTED_MODULE_0__components_LoadingModal_vue___default.a, SuccessModal: __WEBPACK_IMPORTED_MODULE_1__components_SuccessModal_vue___default.a, ErrorModal: __WEBPACK_IMPORTED_MODULE_2__components_ErrorModal_vue___default.a, SongBox: __WEBPACK_IMPORTED_MODULE_3__components_SongBox_vue___default.a }
 });
 
 /***/ }),
@@ -43790,6 +43798,163 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-8696c488", module.exports)
+  }
+}
+
+/***/ }),
+/* 57 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(44)
+/* script */
+var __vue_script__ = __webpack_require__(58)
+/* template */
+var __vue_template__ = __webpack_require__(59)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\SongBox.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-6115cf62", Component.options)
+  } else {
+    hotAPI.reload("data-v-6115cf62", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 58 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	created: function created() {
+		console.log(this.song);
+	},
+
+	props: ["song"]
+});
+
+/***/ }),
+/* 59 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("footer", { staticClass: "footer song-details" }, [
+    _c("div", { staticClass: "container" }, [
+      _c("div", { staticClass: "content has-text-centered" }, [
+        _c("h3", [
+          _c("strong", [_vm._v(_vm._s(_vm.song.song_name) + " — Single")]),
+          _vm._v(" by "),
+          _c("strong", [_vm._v(" " + _vm._s(_vm.song.artiste) + " ")])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "columns" }, [
+          _c("div", { staticClass: "column is-8" }, [
+            _c("img", {
+              staticClass: "album-image",
+              attrs: { src: _vm.song.cover_art }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "column is-4" }, [
+            _c("p", { staticClass: "footer-text" }, [
+              _c("ul", { staticClass: "song-list" }, [
+                _c("li", { staticClass: "song" }, [
+                  _vm._v(
+                    "💿   " +
+                      _vm._s(_vm.song.song_name) +
+                      "\n                                    "
+                  ),
+                  _c("a", { attrs: { href: _vm.song.link } }, [_vm._m(0)])
+                ])
+              ])
+            ])
+          ])
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "icon has-text-info" }, [
+      _c("i", { staticClass: "fa fa-cloud-download" })
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-6115cf62", module.exports)
   }
 }
 

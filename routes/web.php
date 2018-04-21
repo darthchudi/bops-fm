@@ -15,6 +15,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::post("/bandcamp/fetchLink", 'BandcampController@fetchLink');
+
 Route::post('/download', 'BandcampController@download');
 
 Route::post('/getTracklist', 'BandcampController@getTracklist');

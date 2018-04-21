@@ -7,13 +7,14 @@
 body{
 	background: #DE6262;  /* fallback for old browsers */
 	background: -webkit-linear-gradient(to right, #FFB88C, #DE6262);  /* Chrome 10-25, Safari 5.1-6 */
-	background: linear-gradient(to right, #FFB88C, #DE6262); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+	/*background: linear-gradient(to right, #FFB88C, #DE6262);*/ /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+	background: linear-gradient(to right, #d36167, #f48e38);
 	overflow-x: hidden;
 
 }
 
 .jumbo{
-	background-image: url('/images/record2.png');
+	/*background-image: url('/images/record2.png');*/
 	background-size: cover;
 	background-repeat: no-repeat;
 	background: contain;
@@ -101,30 +102,118 @@ li{
 }
 
 li a{
-	color: black;
+	color: white;
 }
 
 li a:hover{
-	color: black;
-	border-bottom: 3px solid black;
+	color: white;
+	border-bottom: 3px solid white;
 	transition: 0.1s ease-in-out;
 }
 
 .link-is-active{
-	border-bottom: 4px solid black;
+	border-bottom: 4px solid white;
 }
 
 a.github{
-	color: black;
+	color: white;
 	border-bottom: 5px solid pink;
 }
 
 a.github:hover{
-	border-bottom: 5px solid black;
+	border-bottom: 5px solid white;
 	transition: 0.4s ease-in-out;
 }
 
+.footer{
+	position: relative;
+	background-color: black;
+}
+
+.song-details{
+	position: relative;
+	top: -280px;
+	background-color: #212121;
+}
+
+.album-image{
+	width: 500px;
+	position: relative;
+	left: -90px;
+}
+
+.content h3{
+	color: white;
+	font-family: HelveticaNeue;
+	font-size: 40px;
+	position: relative;
+	top: -19px;
+	margin-bottom: 21px;
+	line-height: 1.5;
+}
+
+.content h3 strong{
+	color: white;
+	border-bottom: 8px solid #DE6262;
+	cursor: pointer;
+}
+
+.content h3 strong:hover{
+	border-bottom: 8px solid #FFB88C;
+	transition: 0.5s ease-in-out;
+}
+
+h3.tracklist{
+	position: relative;
+	top: 50px;
+}
+
+ul.song-list{
+	position: relative;
+	top: -10px;
+	text-align: left;
+	left: -220px;
+}
+
+ul.song-list li{
+	font-family: Raleway;
+	width: 520px;
+	color: whitesmoke;
+	font-size: 22.4px;
+	position: relative;
+	margin: 6px 10px;
+	padding: 10px;
+	border-bottom: 6px solid whitesmoke;
+	cursor: pointer;
+}
+
+ul.song-list li a{
+	float: right;
+	position: relative;
+	left: 24px; 
+	color: green;
+	text-decoration: none;
+}
+
+.fa-cloud-download{
+	font-size: 30px;
+	background: -webkit-linear-gradient(#d36167, #f48e38);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+ul.song-list li a:hover{
+	border-bottom: none;
+}
+
+ul.song-list li a:focus{
+	text-decoration: none;
+	color: white;
+}
+
+
 .footer-text{
+	color: white;
 	font-size: 17px;
 }
 
@@ -137,6 +226,7 @@ a.github:hover{
 	text-align: center;
 	height: 800px;
 }
+
 
 /*h3{
 	font-family: HelveticaNeue;

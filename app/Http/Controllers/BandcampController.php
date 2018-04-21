@@ -16,6 +16,14 @@ class BandcampController extends Controller
 		$this->bandcamp = new Bandcamp();
 	}
 
+    public function fetchLink(Request $request){
+        $url = $request->url;
+        list($link) = $this->bandcamp->getLinks($url);
+        $metaData = $this->bandcamp->fetchSongMetaData();
+        $metaData['link'] = $link;
+        return response()->json(["metaData"=>$metaData], 200);
+    }   
+
     public function getLinks(Request $request){
     	$url = $request->url;
     	$links = $this->bandcamp->getLinks($url);
@@ -38,7 +46,7 @@ class BandcampController extends Controller
 
     	if($this->bandcamp->isSong($url)){
     		list($link) = $this->bandcamp->getLinks($url);
-    		$details = $this->bandcamp->getSongDetails();
+    		$details = $this->bandcamp->fetchSongMetaData();
     		$download = $this->bandcamp->serverDownload($link, $details);
     		if($download){
                 return response()->json(["details"=>$details, "songPath"=>$download], 200);
@@ -116,7 +124,7 @@ class BandcampController extends Controller
     	dd($id3);
     }
 
-    public function sanitizer(){
+    public function sandbox(){
         $song = "Gardens <ft. Tau Benah + Chris Generalz>";
         $album = " <insert project name​\​>";
     }

@@ -11,33 +11,37 @@
     <link rel="shortcut icon" href="/images/favicon.ico">
 </head>
 <body>
-    <div class="jumbotron jumbo" id="root">
-        <img src="/images/bops.png" class="logo">
-        <ul>
-            <li> <a href="">About</a> </li>
-            <li> <a href="">Mixes</a> </li>
-            <li> <a href="">Discover</a> </li>
-        </ul>
-        <form @submit.prevent="submit">
-            <div class="field">
-                <div class="control has-icons-left">
-                    <input type="text" name="url" placeholder="Enter a bandcamp/soundcloud song or album url..." class="input" v-model="link">
-                    <span class="icon is-small is-left">
-                        <i class="fa " :class="linkDetails[1]"></i>
-                    </span>            
+    <div id="root">
+        <div class="jumbotron jumbo">
+            <img src="/images/bops.png" class="logo">
+            <ul>
+                <li> <a href="">About</a> </li>
+                <li> <a href="">Mixes</a> </li>
+                <li> <a href="">Discover</a> </li>
+            </ul>
+            <form @submit.prevent="submit">
+                <div class="field">
+                    <div class="control has-icons-left">
+                        <input type="text" name="url" placeholder="Enter a bandcamp/soundcloud song or album url..." class="input" v-model="link">
+                        <span class="icon is-small is-left">
+                            <i class="fa " :class="linkDetails[1]"></i>
+                        </span>            
+                    </div>
                 </div>
-            </div>
 
-            <div class="field">
-                <div class="control">
-                    <input type="submit" name="submit" value="Download the bops" class="submit button is-success is-medium">
+                <div class="field">
+                    <div class="control">
+                        <input type="submit" name="submit" value="Download the bops" class="submit button is-success is-medium">
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
 
-        <loading-modal :status="status" v-if="loading"> </loading-modal>
-        <success-modal :status="successMessage" v-if="success"> </success-modal>
-        <error-modal :status="errorMessage" v-if="error"> </error-modal>
+            <loading-modal :status="status" v-if="loading"> </loading-modal>
+            <success-modal :status="successMessage" v-if="success"> </success-modal>
+            <error-modal :status="errorMessage" v-if="error"> </error-modal>
+        </div>
+
+        <song-box v-if="fetchedSong" :song="songDetails"> </song-box>
     </div>
     
 

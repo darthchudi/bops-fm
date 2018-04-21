@@ -40,7 +40,7 @@ class Bandcamp{
     	return $details;
     }
 
-    public function getSongDetails(){
+    public function fetchSongMetaData(){
     	$details = array();
     	$crawler = new Crawler($this->page);
 
@@ -56,6 +56,11 @@ class Bandcamp{
         }
     	
     	$details['cover_art']= $crawler->filterXpath('//div[@id="tralbumArt"]//a/@href')->text();
+
+        if(strpos($details['album'], '<') || strpos($details['album'], '>')  || strpos($details['song_name'], '<') || strpos($details['song_name'], '>')){
+            $details = $this->sanitize($details);     
+        }
+
     	return $details;
     }
 
@@ -78,7 +83,7 @@ class Bandcamp{
             }
         }
 
-        if(strpos($details['album'], '<') || strpos($details['album'], '>')  || strpos($details['song_name'], '<') || $strpos($details['song_name'], '>')){
+        if(strpos($details['album'], '<') || strpos($details['album'], '>')  || strpos($details['song_name'], '<') || strpos($details['song_name'], '>')){
             $details = $this->sanitize($details);     
         }
 
