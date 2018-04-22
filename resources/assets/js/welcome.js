@@ -4,14 +4,15 @@ import LoadingModal from './components/LoadingModal.vue';
 import SuccessModal from './components/SuccessModal.vue';
 import ErrorModal from './components/ErrorModal.vue';
 import SongBox from './components/SongBox.vue';
+import AlbumBox from './components/AlbumBox.vue';
 window.Event = new Vue();
 
 var app = new Vue({
 	el: "#root",
 	data: {
-		status: "fetching bops...",
+		status: "",
 		loading: false,
-		linkDetails: ['', 'fa-music'],
+		linkDetails: ['', 'fa-music', ''],
 		link: '',
 		success: false,
 		successMessage: "",
@@ -19,7 +20,11 @@ var app = new Vue({
 		errorMessage: "",
 		fetchedSong: false,
 		songDetails: {},
-		songPath: ""
+		songPath: "",
+		albumDetails: {},
+		albumTracklist: [],
+		isAlbum: '',
+		fetchedAlbum: ''
 	},
 	created(){
 		Event.$on('modalClose', ()=>{
@@ -44,31 +49,72 @@ var app = new Vue({
 	},
 	methods: {
 		submit: function(){
-			this.fetchedSong = false;
 			if(this.link==''){
 				return;
 			}
-
-			self = this;
+			this.status = "Fetching bops..."
+			this.fetchedSong = false;
+			this.fetchedAlbum = false;
 			this.loading = true;
-			axios.post('/bandcamp/fetchLink', {
-				url: self.link
-			})
-			.then((data)=>{
-				self.link = '';
-				self.loading = false;
-				self.fetchedSong = true;
-				self.songDetails = data.data.metaData;
-				// self.successMessage = `Successfully downloaded ${songDetails['song_name']} by ${songDetails['artiste']}`;
-				// self.success = true;
-				console.log(data.data);
-			})
-			.catch((e)=>{
-				this.loading = false;
-				this.error = true;
-				self.errorMessage = "Oops! An error occured while getting bop"
-				console.log(e);
-			})
+			self = this;
+
+			//Bandcamp
+			if(this.linkDetails[0]=='bandcamp'){
+				if(this.linkDetails[2]=='single'){
+					axios.post('/bandcamp/single/fetchLink', {
+						url: self.link
+					})
+					.then((data)=>{
+						self.status = '';
+						self.link = '';
+						self.loading = false;
+						self.fetchedSong = true;
+						self.songDetails = data.data.metaData;
+						console.log(data.data);
+					})
+					.catch((e)=>{
+						this.loading = false;
+						this.error = true;
+						self.errorMessage = "Oops! An error occured while getting bop"
+						console.log(e);
+					})
+				}
+
+				if(this.linkDetails[2]=='album'){
+					axios.post('/bandcamp/album/fetchLinks', {
+						url: self.link
+					})
+					.then((data)=>{
+						self.fetchedAlbum = true;
+						self.loading = false;
+						var tracksAndLinks = []; 
+						var tracklist = data.data.metaData.tracklist;
+						var links = data.data.metaData.links;
+						var tracklistLength = tracklist.length;
+						var linksLength = tracklist.length;
+
+						if(!tracklistLength===linksLength){
+							console.log("Tracklist-Links inaccuracy");
+							return;
+						}
+
+						for(var i=0; i<=linksLength-1; i++){
+							tracksAndLinks.push({
+								name: tracklist[i],
+								link: links[i],
+								trackNumber: i+1
+							});
+						}
+						self.albumDetails = data.data.metaData;
+						self.albumTracklist = tracksAndLinks;
+					})
+					.catch((e)=>{
+						console.log(e);
+					})
+				}
+
+				
+			}
 		},
 		evaluateLink: function(){
 			var soundcloud = 'soundcloud';
@@ -83,6 +129,16 @@ var app = new Vue({
 			if(this.link.match(bandcamp)){
 				this.linkDetails[0] = 'bandcamp';
 				this.linkDetails[1] = 'fa-bandcamp';
+				var bandcampAlbumPattern = /bandcamp.com\/album\//;
+				var bandcampSinglePattern = /bandcamp.com\/track\//;
+
+				if(this.link.match(bandcampSinglePattern)){
+					this.linkDetails[2] = 'single';
+				}
+
+				if(this.link.match(bandcampAlbumPattern)){
+					this.linkDetails[2] = 'album';
+				}
 				return;
 			}
 
@@ -90,5 +146,5 @@ var app = new Vue({
 			this.linkDetails[1] = 'fa-music';
 		},
 	},
-	components: {LoadingModal, SuccessModal, ErrorModal, SongBox}
+	components: {LoadingModal, SuccessModal, ErrorModal, SongBox, AlbumBox}
 })

@@ -15,7 +15,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::post("/bandcamp/fetchLink", 'BandcampController@fetchLink');
+Route::post("/bandcamp/single/fetchLink", 'BandcampController@fetchLink');
+
+Route::post("/bandcamp/single/download", 'BandcampController@downloadSingle');
+
+Route::get("/bandcamp/single/serveDownload", 'BandcampController@serveDownload');
+
+Route::post("/bandcamp/album/fetchLinks", "BandcampController@fetchAlbumLinks");
 
 Route::post('/download', 'BandcampController@download');
 
@@ -27,12 +33,10 @@ Route::post('/getLinks', 'BandcampController@getLinks');
 
 Route::get('/test', 'BandcampController@test');
 
-Route::post('/determineLink', 'BandcampController@determineLink');
-
 Route::get('/downloadToServer', 'BandcampController@downloadToServer');
 
 Route::get('/fetchFile', 'BandcampController@fetchFile');
 
 Route::get('/checkid3', 'BandcampController@checkid3');
 
-Route::get('/sandbox', 'BandcampController@sandbox');
+Route::get('/sandbox', 'BandcampController@fetchFile');

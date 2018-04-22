@@ -44,8 +44,10 @@
 		font-family: Montserrat;
 		position: relative;
 		top: -80px;
-		left: 40%;
-		font-size: 19px;
+		text-align: center;
+		font-size: 20px;
+		left: -10px;
+		color: white;
 	}
 </style>
 

@@ -2,17 +2,17 @@
 	 <footer class="footer song-details">
         <div class="container">
             <div class="content has-text-centered">
-                <h3><strong>{{song.song_name}} — Single</strong> by <strong> {{song.artiste}} </strong></h3>
+                <h3><strong>{{albumDetails.album}} </strong> by <strong> {{albumDetails.artiste}} </strong></h3>
                 <div class="columns">
                     <div class="column is-8">
-                        <img :src="song.cover_art" class="album-image">
+                        <img :src="albumDetails.cover_art" class="album-image">
                     </div>
 
                     <div class="column is-4">
                         <p class="footer-text">
                             <ul class="song-list">
-                                <li class="song">💿 &nbsp; {{song.song_name}}
-                                    <a :href="song.link" @click.prevent="downloadSong"> 
+                                <li class="song" v-for="song in tracklist">💿 &nbsp; {{song.name}}
+                                    <a :href="song.link" @click.prevent="downloadSong(song)"> 
                                         <span class="icon has-text-info">
                                             <i class="fa fa-cloud-download"></i>
                                         </span> 
@@ -60,21 +60,28 @@
 				this.error = '';
 			});
 		},
-		props: ["song"],
+		props: ["albumDetails", "tracklist"],
 		methods: {
-			downloadSong: function(){
+			downloadSong: function(song){
 				self = this;
 				this.loading = true;
 				this.statusMessage = "Downloading Bop... plix be patient";
+				var details = {
+					artiste: this.albumDetails.artiste,
+					album: this.albumDetails.album,
+					song_name: song.name,
+					track_number: song.trackNumber		
+				}
+
 				axios.post("/bandcamp/single/download", {
-					link: this.song.link,
-					details: this.song
+					link: song.link,
+					details: details
 				})
 				.then((data)=>{
 					self.loading = false;
 					self.statusMessage = '';
 					self.success = true;
-					self.successMessage = `Successfully Downloaded ${self.song.song_name} by ${self.song.artiste}`;
+					self.successMessage = `Successfully Downloaded ${details.song_name} by ${details.artiste}`;
 					console.log(data);
 				})
 				.catch((e)=>{

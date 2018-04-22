@@ -8,34 +8,24 @@ use Carbon\Carbon;
 class Bandcamp{
     public $page;
 
-	public function isAlbum($url){
-    	$isAlbum = preg_match('/(bandcamp.com\/album\/)/i', $url, $matches);
-    	return $isAlbum;
-    }
-
-    public function isSong($url){
-    	$isSong = preg_match('/(bandcamp.com\/track\/)/i', $url, $matches);
-    	return $isSong;
-    }
-
-	public function getLinks($url){
+	public function fetchLinks($url){
 		$this->page = file_get_contents($url);
 	  	preg_match_all('/"mp3-128":"(.*?)"/', $this->page, $array);
 		return $array[1];
 	}
 
-	public function getAlbumDetails($url){
-		$details = array();
-    	$html = file_get_contents($url);
-    	$crawler = new Crawler($html);
+	public function fetchAlbumDetails(){
+    	$crawler = new Crawler($this->page);
     	$title = $crawler->filterXpath('//title')->text();
-    	list($details['album_name']) = explode('|', $title);
+    	list($details['album']) = explode('|', $title);
     	$details['artiste'] = $crawler->filterXpath('//span[@itemprop="byArtist"]//a')->text();
     	$details['tracklist'] = $crawler->filterXpath('//span[@itemprop="name"]')->each(function(Crawler $node, $i){
     		return $node->text();
     	});
 
     	$details['cover_art']= $crawler->filterXpath('//div[@id="tralbumArt"]//a/@href')->text();
+
+        $details = $this->sanitize($details, true);
     	
     	return $details;
     }
@@ -57,9 +47,8 @@ class Bandcamp{
     	
     	$details['cover_art']= $crawler->filterXpath('//div[@id="tralbumArt"]//a/@href')->text();
 
-        if(strpos($details['album'], '<') || strpos($details['album'], '>')  || strpos($details['song_name'], '<') || strpos($details['song_name'], '>')){
-            $details = $this->sanitize($details);     
-        }
+
+        $details = $this->sanitize($details);
 
     	return $details;
     }
@@ -83,17 +72,18 @@ class Bandcamp{
             }
         }
 
-        if(strpos($details['album'], '<') || strpos($details['album'], '>')  || strpos($details['song_name'], '<') || strpos($details['song_name'], '>')){
-            $details = $this->sanitize($details);     
+        $songFolder = $dateFolder.'/'.$details['artiste'].' - '.$details['album'];
+        $name = $details['artiste'].' - '.$details['song_name'].'.mp3';
+        $downloadPath = "$songFolder/$name";
+
+        if(! is_dir($songFolder)){
+            mkdir($songFolder, 0700);
         }
 
-        $songFolder = $dateFolder.'/'.$details['artiste'].' - '.$details['album'];
-        mkdir($songFolder, 0700);
-        $name = $details['artiste'].' - '.$details['song_name'].'.mp3';
-        
-        // $this->id3('../downloads/eba.mp3');
+        if(file_exists($downloadPath)){
+            return $downloadPath;
+        }
 
-        $downloadPath = "$songFolder/$name";
         $download = file_put_contents($downloadPath, $song);
         if(!$download){
             return false;
@@ -102,27 +92,23 @@ class Bandcamp{
             return $downloadPath;
     }
 
-    public function sanitize($details){
-        $unwantedCharacters = ["<", ">", "/", "\\", "/"];
+    public function sanitize($details, $isAlbum=null){
+        $unwantedCharacters = ["<", ">", "/", "\\", "/", "?", "\"", "*", "|", ":", "<", ">"];
+
+        if($isAlbum==true){
+            $details['album'] = str_replace($unwantedCharacters, '', $details['album']);
+            $details['artiste'] = str_replace($unwantedCharacters, '', $details['artiste']);
+            foreach ($details['tracklist'] as $index => $value) {
+                $details['tracklist'][$index] = str_replace($unwantedCharacters, '', $details['tracklist'][$index]);
+            }
+            return $details;
+        }
+        
         $details['album'] = str_replace($unwantedCharacters, '', $details['album']);
+        $details['artiste'] = str_replace($unwantedCharacters, '', $details['artiste']);
         $details['song_name'] = str_replace($unwantedCharacters, '', $details['song_name']);
         return $details;
     }
-
-    // public function downloadToServer($songUrl, $name){
-    //  $ch = curl_init();
-    //  curl_setopt($ch, CURLOPT_URL, $songUrl);
-    //  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    //  $song = curl_exec($ch);
-    // 	curl_close($ch);
-    // 	$downloadPath = storage_path().'/tmp/'.$name.'.mp3';
-    // 	$download = file_put_contents($downloadPath, $song);
-    // 	if($download){
-    // 		return $downloadPath;
-    // 	}
-    // 	else
-    // 		return false;
-    // }	
 
     public function checkID3($path){
     	include_once('../vendor/getid3/getid3.php');

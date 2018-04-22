@@ -979,8 +979,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_ErrorModal_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_ErrorModal_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_SongBox_vue__ = __webpack_require__(57);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_SongBox_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_SongBox_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_AlbumBox_vue__ = __webpack_require__(60);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_AlbumBox_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__components_AlbumBox_vue__);
 __webpack_require__(11);
 window.Vue = __webpack_require__(35);
+
 
 
 
@@ -990,9 +993,9 @@ window.Event = new Vue();
 var app = new Vue({
 	el: "#root",
 	data: {
-		status: "fetching bops...",
+		status: "",
 		loading: false,
-		linkDetails: ['', 'fa-music'],
+		linkDetails: ['', 'fa-music', ''],
 		link: '',
 		success: false,
 		successMessage: "",
@@ -1000,7 +1003,11 @@ var app = new Vue({
 		errorMessage: "",
 		fetchedSong: false,
 		songDetails: {},
-		songPath: ""
+		songPath: "",
+		albumDetails: {},
+		albumTracklist: [],
+		isAlbum: '',
+		fetchedAlbum: ''
 	},
 	created: function created() {
 		var _this = this;
@@ -1030,29 +1037,66 @@ var app = new Vue({
 		submit: function submit() {
 			var _this2 = this;
 
-			this.fetchedSong = false;
 			if (this.link == '') {
 				return;
 			}
-
-			self = this;
+			this.status = "Fetching bops...";
+			this.fetchedSong = false;
+			this.fetchedAlbum = false;
 			this.loading = true;
-			axios.post('/bandcamp/fetchLink', {
-				url: self.link
-			}).then(function (data) {
-				self.link = '';
-				self.loading = false;
-				self.fetchedSong = true;
-				self.songDetails = data.data.metaData;
-				// self.successMessage = `Successfully downloaded ${songDetails['song_name']} by ${songDetails['artiste']}`;
-				// self.success = true;
-				console.log(data.data);
-			}).catch(function (e) {
-				_this2.loading = false;
-				_this2.error = true;
-				self.errorMessage = "Oops! An error occured while getting bop";
-				console.log(e);
-			});
+			self = this;
+
+			//Bandcamp
+			if (this.linkDetails[0] == 'bandcamp') {
+				if (this.linkDetails[2] == 'single') {
+					axios.post('/bandcamp/single/fetchLink', {
+						url: self.link
+					}).then(function (data) {
+						self.status = '';
+						self.link = '';
+						self.loading = false;
+						self.fetchedSong = true;
+						self.songDetails = data.data.metaData;
+						console.log(data.data);
+					}).catch(function (e) {
+						_this2.loading = false;
+						_this2.error = true;
+						self.errorMessage = "Oops! An error occured while getting bop";
+						console.log(e);
+					});
+				}
+
+				if (this.linkDetails[2] == 'album') {
+					axios.post('/bandcamp/album/fetchLinks', {
+						url: self.link
+					}).then(function (data) {
+						self.fetchedAlbum = true;
+						self.loading = false;
+						var tracksAndLinks = [];
+						var tracklist = data.data.metaData.tracklist;
+						var links = data.data.metaData.links;
+						var tracklistLength = tracklist.length;
+						var linksLength = tracklist.length;
+
+						if (!tracklistLength === linksLength) {
+							console.log("Tracklist-Links inaccuracy");
+							return;
+						}
+
+						for (var i = 0; i <= linksLength - 1; i++) {
+							tracksAndLinks.push({
+								name: tracklist[i],
+								link: links[i],
+								trackNumber: i + 1
+							});
+						}
+						self.albumDetails = data.data.metaData;
+						self.albumTracklist = tracksAndLinks;
+					}).catch(function (e) {
+						console.log(e);
+					});
+				}
+			}
 		},
 		evaluateLink: function evaluateLink() {
 			var soundcloud = 'soundcloud';
@@ -1067,6 +1111,16 @@ var app = new Vue({
 			if (this.link.match(bandcamp)) {
 				this.linkDetails[0] = 'bandcamp';
 				this.linkDetails[1] = 'fa-bandcamp';
+				var bandcampAlbumPattern = /bandcamp.com\/album\//;
+				var bandcampSinglePattern = /bandcamp.com\/track\//;
+
+				if (this.link.match(bandcampSinglePattern)) {
+					this.linkDetails[2] = 'single';
+				}
+
+				if (this.link.match(bandcampAlbumPattern)) {
+					this.linkDetails[2] = 'album';
+				}
 				return;
 			}
 
@@ -1074,7 +1128,7 @@ var app = new Vue({
 			this.linkDetails[1] = 'fa-music';
 		}
 	},
-	components: { LoadingModal: __WEBPACK_IMPORTED_MODULE_0__components_LoadingModal_vue___default.a, SuccessModal: __WEBPACK_IMPORTED_MODULE_1__components_SuccessModal_vue___default.a, ErrorModal: __WEBPACK_IMPORTED_MODULE_2__components_ErrorModal_vue___default.a, SongBox: __WEBPACK_IMPORTED_MODULE_3__components_SongBox_vue___default.a }
+	components: { LoadingModal: __WEBPACK_IMPORTED_MODULE_0__components_LoadingModal_vue___default.a, SuccessModal: __WEBPACK_IMPORTED_MODULE_1__components_SuccessModal_vue___default.a, ErrorModal: __WEBPACK_IMPORTED_MODULE_2__components_ErrorModal_vue___default.a, SongBox: __WEBPACK_IMPORTED_MODULE_3__components_SongBox_vue___default.a, AlbumBox: __WEBPACK_IMPORTED_MODULE_4__components_AlbumBox_vue___default.a }
 });
 
 /***/ }),
@@ -42943,7 +42997,7 @@ exports = module.exports = __webpack_require__(41)(false);
 
 
 // module
-exports.push([module.i, "\n.modal-content{\n\theight: 16000px;\n\toverflow-x: hidden;\n}\n.spinner-wave{\n\tposition: relative;\n\ttop: 160px;\n}\np.status{\n\tfont-family: Montserrat;\n\tposition: relative;\n\ttop: -80px;\n\tleft: 40%;\n\tfont-size: 19px;\n}\n", ""]);
+exports.push([module.i, "\n.modal-content{\n\theight: 16000px;\n\toverflow-x: hidden;\n}\n.spinner-wave{\n\tposition: relative;\n\ttop: 160px;\n}\np.status{\n\tfont-family: Montserrat;\n\tposition: relative;\n\ttop: -80px;\n\ttext-align: center;\n\tfont-size: 20px;\n\tleft: -10px;\n\tcolor: white;\n}\n", ""]);
 
 // exports
 
@@ -43565,7 +43619,7 @@ exports = module.exports = __webpack_require__(41)(false);
 
 
 // module
-exports.push([module.i, "\n.modal-content{\n\theight: 16000px;\n\toverflow-x: hidden;\n\toverflow-y: hidden;\n}\n.success{\n\tposition: relative;\n\tleft: 20%;\n\twidth: 400px;\n}\np.status{\n\tfont-family: Montserrat;\n\tposition: relative;\n\ttop: 20px;\n\tleft: 20%;\n\tfont-size: 20px;\n\tcolor: #8ce07f;\n}\n.success-card{\n\tposition: relative;\n\ttop: 30px;\n\tbackground-color: white;\n\tborder-radius: 30px;\n\theight: 470px;\n}\n", ""]);
+exports.push([module.i, "\n.modal-content{\n\theight: 16000px;\n\toverflow-x: hidden;\n\toverflow-y: hidden;\n}\n.success{\n\tposition: relative;\n\tleft: 20%;\n\twidth: 400px;\n}\np.success{\n\tfont-family: Montserrat;\n\tposition: relative;\n\ttop: 20px;\n\tleft: 20%;\n\tfont-size: 23px;\n\tcolor: black;\n}\n.success-card{\n\tposition: relative;\n\ttop: 30px;\n\tbackground-color: white;\n\tborder-radius: 30px;\n\theight: 500px;\n}\n", ""]);
 
 // exports
 
@@ -43619,7 +43673,7 @@ var render = function() {
           attrs: { src: "/images/sign-check-icon.png" }
         }),
         _vm._v(" "),
-        _c("p", { staticClass: "status" }, [_vm._v(_vm._s(_vm.status))])
+        _c("p", { staticClass: "success" }, [_vm._v(_vm._s(_vm.status))])
       ])
     ]),
     _vm._v(" "),
@@ -43854,6 +43908,12 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__LoadingModal_vue__ = __webpack_require__(38);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__LoadingModal_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__LoadingModal_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SuccessModal_vue__ = __webpack_require__(47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SuccessModal_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__SuccessModal_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ErrorModal_vue__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ErrorModal_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__ErrorModal_vue__);
 //
 //
 //
@@ -43886,13 +43946,63 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+
+
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			loading: false,
+			success: false,
+			error: false,
+			statusMessage: '',
+			successMessage: '',
+			errorMessage: ''
+		};
+	},
 	created: function created() {
-		console.log(this.song);
+		var _this = this;
+
+		Event.$on('successClose', function () {
+			_this.success = false;
+			_this.successMessage = '';
+			_this.error = '';
+		});
+
+		Event.$on('errorClose', function () {
+			_this.errorMessage = '';
+			_this.error = '';
+		});
 	},
 
-	props: ["song"]
+	props: ["song"],
+	methods: {
+		downloadSong: function downloadSong() {
+			self = this;
+			this.loading = true;
+			this.statusMessage = "Downloading Bop... plix be patient";
+			axios.post("/bandcamp/single/download", {
+				link: this.song.link,
+				details: this.song
+			}).then(function (data) {
+				self.loading = false;
+				self.statusMessage = '';
+				self.success = true;
+				self.successMessage = 'Successfully Downloaded ' + self.song.song_name + ' by ' + self.song.artiste;
+				console.log(data);
+			}).catch(function (e) {
+				self.loading = false;
+				self.error = true;
+				self.errorMessage = "Baba error dey yapa!";
+				console.log(e);
+			});
+		}
+	},
+	components: { LoadingModal: __WEBPACK_IMPORTED_MODULE_0__LoadingModal_vue___default.a, SuccessModal: __WEBPACK_IMPORTED_MODULE_1__SuccessModal_vue___default.a, ErrorModal: __WEBPACK_IMPORTED_MODULE_2__ErrorModal_vue___default.a }
 });
 
 /***/ }),
@@ -43903,41 +44013,70 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("footer", { staticClass: "footer song-details" }, [
-    _c("div", { staticClass: "container" }, [
-      _c("div", { staticClass: "content has-text-centered" }, [
-        _c("h3", [
-          _c("strong", [_vm._v(_vm._s(_vm.song.song_name) + " — Single")]),
-          _vm._v(" by "),
-          _c("strong", [_vm._v(" " + _vm._s(_vm.song.artiste) + " ")])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "columns" }, [
-          _c("div", { staticClass: "column is-8" }, [
-            _c("img", {
-              staticClass: "album-image",
-              attrs: { src: _vm.song.cover_art }
-            })
+  return _c(
+    "footer",
+    { staticClass: "footer song-details" },
+    [
+      _c("div", { staticClass: "container" }, [
+        _c("div", { staticClass: "content has-text-centered" }, [
+          _c("h3", [
+            _c("strong", [_vm._v(_vm._s(_vm.song.song_name) + " — Single")]),
+            _vm._v(" by "),
+            _c("strong", [_vm._v(" " + _vm._s(_vm.song.artiste) + " ")])
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "column is-4" }, [
-            _c("p", { staticClass: "footer-text" }, [
-              _c("ul", { staticClass: "song-list" }, [
-                _c("li", { staticClass: "song" }, [
-                  _vm._v(
-                    "💿   " +
-                      _vm._s(_vm.song.song_name) +
-                      "\n                                    "
-                  ),
-                  _c("a", { attrs: { href: _vm.song.link } }, [_vm._m(0)])
+          _c("div", { staticClass: "columns" }, [
+            _c("div", { staticClass: "column is-8" }, [
+              _c("img", {
+                staticClass: "album-image",
+                attrs: { src: _vm.song.cover_art }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "column is-4" }, [
+              _c("p", { staticClass: "footer-text" }, [
+                _c("ul", { staticClass: "song-list" }, [
+                  _c("li", { staticClass: "song" }, [
+                    _vm._v(
+                      "💿   " +
+                        _vm._s(_vm.song.song_name) +
+                        "\n                                    "
+                    ),
+                    _c(
+                      "a",
+                      {
+                        attrs: { href: _vm.song.link },
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            _vm.downloadSong($event)
+                          }
+                        }
+                      },
+                      [_vm._m(0)]
+                    )
+                  ])
                 ])
               ])
             ])
           ])
         ])
-      ])
-    ])
-  ])
+      ]),
+      _vm._v(" "),
+      _vm.loading
+        ? _c("loading-modal", { attrs: { status: _vm.statusMessage } })
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.error
+        ? _c("error-modal", { attrs: { status: _vm.errorMessage } })
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.success
+        ? _c("success-modal", { attrs: { status: _vm.successMessage } })
+        : _vm._e()
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function() {
@@ -43955,6 +44094,259 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-6115cf62", module.exports)
+  }
+}
+
+/***/ }),
+/* 60 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(44)
+/* script */
+var __vue_script__ = __webpack_require__(61)
+/* template */
+var __vue_template__ = __webpack_require__(62)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\AlbumBox.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-cd80d55a", Component.options)
+  } else {
+    hotAPI.reload("data-v-cd80d55a", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 61 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__LoadingModal_vue__ = __webpack_require__(38);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__LoadingModal_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__LoadingModal_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SuccessModal_vue__ = __webpack_require__(47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SuccessModal_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__SuccessModal_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ErrorModal_vue__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ErrorModal_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__ErrorModal_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			loading: false,
+			success: false,
+			error: false,
+			statusMessage: '',
+			successMessage: '',
+			errorMessage: ''
+		};
+	},
+	created: function created() {
+		var _this = this;
+
+		Event.$on('successClose', function () {
+			_this.success = false;
+			_this.successMessage = '';
+			_this.error = '';
+		});
+
+		Event.$on('errorClose', function () {
+			_this.errorMessage = '';
+			_this.error = '';
+		});
+	},
+
+	props: ["albumDetails", "tracklist"],
+	methods: {
+		downloadSong: function downloadSong(song) {
+			self = this;
+			this.loading = true;
+			this.statusMessage = "Downloading Bop... plix be patient";
+			var details = {
+				artiste: this.albumDetails.artiste,
+				album: this.albumDetails.album,
+				song_name: song.name,
+				track_number: song.trackNumber
+			};
+
+			axios.post("/bandcamp/single/download", {
+				link: song.link,
+				details: details
+			}).then(function (data) {
+				self.loading = false;
+				self.statusMessage = '';
+				self.success = true;
+				self.successMessage = 'Successfully Downloaded ' + details.song_name + ' by ' + details.artiste;
+				console.log(data);
+			}).catch(function (e) {
+				self.loading = false;
+				self.error = true;
+				self.errorMessage = "Baba error dey yapa!";
+				console.log(e);
+			});
+		}
+	},
+	components: { LoadingModal: __WEBPACK_IMPORTED_MODULE_0__LoadingModal_vue___default.a, SuccessModal: __WEBPACK_IMPORTED_MODULE_1__SuccessModal_vue___default.a, ErrorModal: __WEBPACK_IMPORTED_MODULE_2__ErrorModal_vue___default.a }
+});
+
+/***/ }),
+/* 62 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "footer",
+    { staticClass: "footer song-details" },
+    [
+      _c("div", { staticClass: "container" }, [
+        _c("div", { staticClass: "content has-text-centered" }, [
+          _c("h3", [
+            _c("strong", [_vm._v(_vm._s(_vm.albumDetails.album) + " ")]),
+            _vm._v(" by "),
+            _c("strong", [_vm._v(" " + _vm._s(_vm.albumDetails.artiste) + " ")])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "columns" }, [
+            _c("div", { staticClass: "column is-8" }, [
+              _c("img", {
+                staticClass: "album-image",
+                attrs: { src: _vm.albumDetails.cover_art }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "column is-4" }, [
+              _c("p", { staticClass: "footer-text" }, [
+                _c(
+                  "ul",
+                  { staticClass: "song-list" },
+                  _vm._l(_vm.tracklist, function(song) {
+                    return _c("li", { staticClass: "song" }, [
+                      _vm._v(
+                        "💿   " +
+                          _vm._s(song.name) +
+                          "\n                                    "
+                      ),
+                      _c(
+                        "a",
+                        {
+                          attrs: { href: song.link },
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              _vm.downloadSong(song)
+                            }
+                          }
+                        },
+                        [_vm._m(0, true)]
+                      )
+                    ])
+                  })
+                )
+              ])
+            ])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _vm.loading
+        ? _c("loading-modal", { attrs: { status: _vm.statusMessage } })
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.error
+        ? _c("error-modal", { attrs: { status: _vm.errorMessage } })
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.success
+        ? _c("success-modal", { attrs: { status: _vm.successMessage } })
+        : _vm._e()
+    ],
+    1
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "icon has-text-info" }, [
+      _c("i", { staticClass: "fa fa-cloud-download" })
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-cd80d55a", module.exports)
   }
 }
 

@@ -42,6 +42,7 @@
         </div>
 
         <song-box v-if="fetchedSong" :song="songDetails"> </song-box>
+        <album-box v-if="fetchedAlbum" :album-details="albumDetails" :tracklist="albumTracklist"> </album-box>
     </div>
     
 

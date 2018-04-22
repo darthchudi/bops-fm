@@ -4,7 +4,7 @@
 		<div class="modal-content">
 			<div class="success-card">
 				<img src="/images/sign-check-icon.png" class="success">
-				<p class="status">{{status}}</p>	
+				<p class="success">{{status}}</p>	
 			</div>
     	</div>
 		<button class="modal-close is-large" aria-label="close" @click="close"></button>
@@ -38,13 +38,13 @@
 		width: 400px;
 	}
 
-	p.status{
+	p.success{
 		font-family: Montserrat;
 		position: relative;
 		top: 20px;
 		left: 20%;
-		font-size: 20px;
-		color: #8ce07f;
+		font-size: 23px;
+		color: black;
 	}
 
 	.success-card{
@@ -52,7 +52,7 @@
 		top: 30px;
 		background-color: white;
 		border-radius: 30px;
-		height: 470px;
+		height: 500px;
 	}
 </style>
 
