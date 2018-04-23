@@ -23,8 +23,8 @@ class Soundcloud{
             $details['artiste'] = $data->user->username;
             $details['cover_art'] = $data->artwork_url;
             $details['album'] = $data->title.' — Single';
+            $details['kind'] = 'track';
             $downloadLink = $data->stream_url."?client_id=$this->clientID";
-            // $downloadLink = file_get_contents($downloadLink);
             $details['link'] = $downloadLink;
 
             //Convert Cover Art to a more suitable Size
@@ -32,6 +32,24 @@ class Soundcloud{
 
             $details = $this->sanitize($details);
             return $details;
+        } elseif($data->kind==='playlist'){
+            $count = 1;
+            $details['artiste'] = $data->user->username;
+            $details['cover_art'] = str_replace('large', 't500x500', $data->artwork_url);
+            $details['album'] = $data->title;
+            $details['kind'] = 'playlist';
+            $details['tracklist'] = [];
+            foreach($data->tracks as $song){
+                $details['tracklist'][] = [
+                    "name"=>$song->title,
+                    "link"=>$song->stream_url."?client_id=$this->clientID",
+                    "trackNumber"=>$count
+                ];
+                $count++;
+            }
+
+            $details = $this->sanitize($details, true, true);
+            return $details;   
         }
     }
 
@@ -74,16 +92,27 @@ class Soundcloud{
         }
     }
 
-    public function sanitize($details, $isAlbum=null){
+    public function sanitize($details, $isAlbum=null, $isBandcamp=null){
         $unwantedCharacters = ["<", ">", "/", "\\", "/", "?", "\"", "*", "|", ":", "<", ">"];
 
         if($isAlbum==true){
             $details['album'] = str_replace($unwantedCharacters, '', $details['album']);
             $details['artiste'] = str_replace($unwantedCharacters, '', $details['artiste']);
-            foreach ($details['tracklist'] as $index => $value) {
-                $details['tracklist'][$index] = str_replace($unwantedCharacters, '', $details['tracklist'][$index]);
+
+            if($isBandcamp==null){
+                foreach ($details['tracklist'] as $index => $value) {
+                    $details['tracklist'][$index] = str_replace($unwantedCharacters, '', $details['tracklist'][$index]);
+                }
+                return $details;    
             }
-            return $details;
+
+            if($isBandcamp==true){
+                foreach ($details['tracklist'] as $index => $value) {
+                    $details['tracklist'][$index]['name'] = str_replace($unwantedCharacters, '', $details['tracklist'][$index]['name']);
+                }
+                return $details;
+            }
+
         }
         
         $details['album'] = str_replace($unwantedCharacters, '', $details['album']);

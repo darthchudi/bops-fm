@@ -66,11 +66,27 @@ var app = new Vue({
 				.then((data)=>{
 					self.link = '';
 					self.loading = false;
-					self.fetchedSong = true;
-					self.songDetails = data.data;
+					if(data.data.kind=='song'){
+						self.status = '';
+						self.link = '';
+						self.loading = false;
+						self.fetchedSong = true;
+						self.songDetails = data.data;
+						return;
+					}
+
+					if(data.data.kind=='playlist'){
+						self.fetchedAlbum = true;
+						self.loading = false;
+						self.albumDetails = data.data;
+						self.albumTracklist = data.data.tracklist;
+					}
 					console.log(data);
 				})
 				.catch((e)=>{
+					this.loading = false;
+					this.error = true;
+					self.errorMessage = "Oops! An error occured while getting bop"
 					console.log(e);
 				})
 			}
@@ -92,7 +108,7 @@ var app = new Vue({
 						this.loading = false;
 						this.error = true;
 						self.errorMessage = "Oops! An error occured while getting bop"
-						 .log(e);
+						console.log(e);
 					})
 				}
 

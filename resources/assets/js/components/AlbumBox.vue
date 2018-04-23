@@ -73,6 +73,27 @@
 					track_number: song.trackNumber		
 				}
 
+				if(this.albumDetails.service ==='soundcloud'){
+					axios.post("soundcloud/download", {
+						link: song.link,
+						details: details
+					})
+					.then((data)=>{
+						self.loading = false;
+						self.statusMessage = '';
+						self.success = true;
+						self.successMessage = `Successfully Downloaded ${details.song_name} by ${details.artiste}`;
+						console.log(data);
+					})
+					.catch((e)=>{
+						self.loading = false;
+						self.error = true;
+						self.errorMessage = "Baba error dey yapa!";
+						console.log(e);
+					})
+					return;
+				}
+
 				axios.post("/bandcamp/single/download", {
 					link: song.link,
 					details: details

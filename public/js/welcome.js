@@ -1618,10 +1618,26 @@ var app = new Vue({
 				}).then(function (data) {
 					self.link = '';
 					self.loading = false;
-					self.fetchedSong = true;
-					self.songDetails = data.data;
+					if (data.data.kind == 'song') {
+						self.status = '';
+						self.link = '';
+						self.loading = false;
+						self.fetchedSong = true;
+						self.songDetails = data.data;
+						return;
+					}
+
+					if (data.data.kind == 'playlist') {
+						self.fetchedAlbum = true;
+						self.loading = false;
+						self.albumDetails = data.data;
+						self.albumTracklist = data.data.tracklist;
+					}
 					console.log(data);
 				}).catch(function (e) {
+					_this2.loading = false;
+					_this2.error = true;
+					self.errorMessage = "Oops! An error occured while getting bop";
 					console.log(e);
 				});
 			}
@@ -1640,7 +1656,8 @@ var app = new Vue({
 					}).catch(function (e) {
 						_this2.loading = false;
 						_this2.error = true;
-						self.errorMessage = "Oops! An error occured while getting bop".log(e);
+						self.errorMessage = "Oops! An error occured while getting bop";
+						console.log(e);
 					});
 				}
 
@@ -44266,6 +44283,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				song_name: song.name,
 				track_number: song.trackNumber
 			};
+
+			if (this.albumDetails.service === 'soundcloud') {
+				axios.post("soundcloud/download", {
+					link: song.link,
+					details: details
+				}).then(function (data) {
+					self.loading = false;
+					self.statusMessage = '';
+					self.success = true;
+					self.successMessage = 'Successfully Downloaded ' + details.song_name + ' by ' + details.artiste;
+					console.log(data);
+				}).catch(function (e) {
+					self.loading = false;
+					self.error = true;
+					self.errorMessage = "Baba error dey yapa!";
+					console.log(e);
+				});
+				return;
+			}
 
 			axios.post("/bandcamp/single/download", {
 				link: song.link,
