@@ -23,20 +23,9 @@ Route::get("/bandcamp/single/serveDownload", 'BandcampController@serveDownload')
 
 Route::post("/bandcamp/album/fetchLinks", "BandcampController@fetchAlbumLinks");
 
-Route::post('/download', 'BandcampController@download');
-
-Route::post('/getTracklist', 'BandcampController@getTracklist');
-
-Route::post('/getSongDetails', 'BandcampController@getSongDetails');
-
-Route::post('/getLinks', 'BandcampController@getLinks');
-
-Route::get('/test', 'BandcampController@test');
-
-Route::get('/downloadToServer', 'BandcampController@downloadToServer');
-
 Route::get('/fetchFile', 'BandcampController@fetchFile');
 
-Route::get('/checkid3', 'BandcampController@checkid3');
+Route::post("/soundcloud/fetchLink", "SoundcloudController@fetchLinks");
 
-Route::get('/sandbox', 'BandcampController@fetchFile');
+
+Route::get("/demo", "SoundcloudController@demo");

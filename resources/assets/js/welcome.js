@@ -58,6 +58,23 @@ var app = new Vue({
 			this.loading = true;
 			self = this;
 
+			//Soundcloud
+			if(this.linkDetails[0]=='soundcloud'){
+				axios.post('/soundcloud/fetchLink', {
+					url: self.link
+				})
+				.then((data)=>{
+					self.link = '';
+					self.loading = false;
+					self.fetchedSong = true;
+					self.songDetails = data.data;
+					console.log(data);
+				})
+				.catch((e)=>{
+					console.log(e);
+				})
+			}
+
 			//Bandcamp
 			if(this.linkDetails[0]=='bandcamp'){
 				if(this.linkDetails[2]=='single'){
@@ -70,13 +87,12 @@ var app = new Vue({
 						self.loading = false;
 						self.fetchedSong = true;
 						self.songDetails = data.data.metaData;
-						console.log(data.data);
 					})
 					.catch((e)=>{
 						this.loading = false;
 						this.error = true;
 						self.errorMessage = "Oops! An error occured while getting bop"
-						console.log(e);
+						 .log(e);
 					})
 				}
 
