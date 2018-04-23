@@ -30,15 +30,6 @@ class SoundcloudController extends Controller
     	return response()->json($metaData, 200);
     }
 
-    public function demo(){
-        $clientID = '22e8f71d7ca75e156d6b2f0e0a5172b3';
-        $url = "http://api.soundcloud.com/resolve?url=https://soundcloud.com/soulblacksheep/on-melancholy-days?in=soulblacksheep/sets/on-melancholy-days&client_id=$clientID";
-        $response = file_get_contents($url);
-        $obj = json_decode($response, true);
-        // $obj['artwork_url'] = str_replace('large', 't500x500', $obj['artwork_url']);
-        $obj['permalink'] = ucwords(str_replace('-', ' ', $obj['permalink']));
-        return $obj;
-    }
 
     public function downloadSingle(Request $request){
         $link = $request->link;
@@ -61,6 +52,16 @@ class SoundcloudController extends Controller
         else{
             return response()->json("Error", 500);
         }
-    }   
+    }  
+     
+    public function demo(){
+        $clientID = '22e8f71d7ca75e156d6b2f0e0a5172b3';
+        $url = "http://api.soundcloud.com/resolve?url=https://soundcloud.com/soulblacksheep/on-melancholy-days?in=soulblacksheep/sets/on-melancholy-days&client_id=$clientID";
+        $response = file_get_contents($url);
+        $obj = json_decode($response, true);
+        // $obj['artwork_url'] = str_replace('large', 't500x500', $obj['artwork_url']);
+        $obj['permalink'] = ucwords(str_replace('-', ' ', $obj['permalink']));
+        return $obj;
+    }
     	
 }
