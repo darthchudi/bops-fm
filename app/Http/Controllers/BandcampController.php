@@ -21,6 +21,7 @@ class BandcampController extends Controller
         list($link) = $this->bandcamp->fetchLinks($url);
         $metaData = $this->bandcamp->fetchSongMetaData();
         $metaData['link'] = $link;
+        $metaData['service'] = 'bandcamp';
         return response()->json(["metaData"=>$metaData], 200);
     }
 
@@ -52,6 +53,7 @@ class BandcampController extends Controller
     	$links = $this->bandcamp->fetchLinks($url);
         $metaData = $this->bandcamp->fetchAlbumDetails();
         $metaData['links'] = $links;
+        $metaData['service'] = 'bandcamp';
     	return response()->json([
             "metaData"=>$metaData
         ], 200);

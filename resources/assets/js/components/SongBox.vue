@@ -66,6 +66,28 @@
 				self = this;
 				this.loading = true;
 				this.statusMessage = "Downloading Bop... plix be patient";
+
+				if(this.song.service ==='soundcloud'){
+					axios.post("soundcloud/download", {
+						link: this.song.link,
+						details: this.song
+					})
+					.then((data)=>{
+						self.loading = false;
+						self.statusMessage = '';
+						self.success = true;
+						self.successMessage = `Successfully Downloaded ${self.song.song_name} by ${self.song.artiste}`;
+						console.log(data);
+					})
+					.catch((e)=>{
+						self.loading = false;
+						self.error = true;
+						self.errorMessage = "Baba error dey yapa!";
+						console.log(e);
+					})
+					return;
+				}
+
 				axios.post("/bandcamp/single/download", {
 					link: this.song.link,
 					details: this.song

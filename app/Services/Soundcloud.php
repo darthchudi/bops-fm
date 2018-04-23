@@ -1,9 +1,12 @@
 <?php
 
 namespace App\Services;
-use JonnyW\PhantomJs\Client as Client;
-use Symfony\Component\DomCrawler\Crawler as Crawler;
+
 use Carbon\Carbon;
+
+use GuzzleHttp\Exception\GuzzleException;
+
+use GuzzleHttp\Client as Guzzle;
 
 class Soundcloud{
     public $page;
@@ -33,11 +36,10 @@ class Soundcloud{
     }
 
 	public function serverDownload($songUrl, $details){
-    	$ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $songUrl);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        $song = curl_exec($ch);
-        curl_close ($ch);
+        $client = new Guzzle();
+        $response = $client->get($songUrl);
+        $responseBody = $response->getBody();
+
         $dateFolder = storage_path().'/tmp/General/';
         $presentDate = Carbon::now()->toFormattedDateString();
 
@@ -63,12 +65,13 @@ class Soundcloud{
             return $downloadPath;
         }
 
-        $download = file_put_contents($downloadPath, $song);
+        $download = file_put_contents($downloadPath, $responseBody);
         if(!$download){
             return false;
         }
-        else
+        else{
             return $downloadPath;
+        }
     }
 
     public function sanitize($details, $isAlbum=null){

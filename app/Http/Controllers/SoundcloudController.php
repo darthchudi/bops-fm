@@ -12,6 +12,10 @@ use Symfony\Component\DomCrawler\Crawler as Crawler;
 
 use Goutte;
 
+use GuzzleHttp\Exception\GuzzleException;
+
+use GuzzleHttp\Client as Guzzle;
+
 class SoundcloudController extends Controller
 {
     protected $soundcloud;
@@ -21,17 +25,60 @@ class SoundcloudController extends Controller
 
     public function fetchLinks(Request $request){
     	$url = $request->url;
-    	$details = $this->soundcloud->fetchLinks($url);
-    	return response()->json($details, 200);
+    	$metaData = $this->soundcloud->fetchLinks($url);
+    	$metaData['service'] = 'soundcloud';
+    	return response()->json($metaData, 200);
     }
 
     public function demo(){
-        $clientID = '22e8f71d7ca75e156d6b2f0e0a5172b3';
-        $url = "http://api.soundcloud.com/resolve?url=https://soundcloud.com/ozzybsounds/santi-icy-feat-izzy-maison2500-odunsi&client_id=$clientID";
-        $response = file_get_contents($url);
-        $obj = json_decode($response, true);
-        $obj['artwork_url'] = str_replace('large', 't500x500', $obj['artwork_url']);
-        return $obj;
+        // $clientID = '22e8f71d7ca75e156d6b2f0e0a5172b3';
+        // $url = "http://api.soundcloud.com/resolve?url=https://soundcloud.com/ozzybsounds/santi-icy-feat-izzy-maison2500-odunsi&client_id=$clientID";
+        // $response = file_get_contents($url);
+        // $obj = json_decode($response, true);
+        // // $obj['artwork_url'] = str_replace('large', 't500x500', $obj['artwork_url']);
+        // return $obj;
+
+        $url = "https://api.soundcloud.com/tracks/428931159/stream?client_id=22e8f71d7ca75e156d6b2f0e0a5172b3";
+        $client = new Guzzle();
+        $result = $client->get("https://api.soundcloud.com/tracks/428931159/stream?client_id=22e8f71d7ca75e156d6b2f0e0a5172b3");
+        $body = $result->getBody();
+
+        // $ch = curl_init();
+        // curl_setopt($ch, CURLOPT_URL, $url);
+        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        // $song = curl_exec($ch);
+        // curl_close ($ch);
+
+        $download = file_put_contents(storage_path()."/tmp/General/bro.mp3", $body);
+        if(!$download){
+            return false;
+        }
+        else{
+            return "Downloaded!";
+        }
     }
+
+    public function downloadSingle(Request $request){
+        $link = $request->link;
+        $details = $request->details;
+        $downloadedFile = $this->soundcloud->serverDownload($link, $details);
+        if($downloadedFile){
+            if($this->soundcloud->checkID3($downloadedFile)=='set'){
+                return response()->json(["details"=>$details, "songPath"=>$downloadedFile, "message"=>"Nothing to set!"], 200);
+            }
+
+            $details['track_number'] = isset($details['track_number']) ? $details['track_number'] :  1;
+            $setID3 =$this->soundcloud->setID3($downloadedFile, $details);
+
+            if($setID3){
+                return response()->json(["details"=>$details, "songPath"=>$downloadedFile, "message"=>"Downloaded and set ID3 tags!"], 200);
+            } else{
+                return response()->json(["details"=>$details, "songPath"=>$downloadedFile, "message"=>"Downloaded but could not set ID3 tags!"], 200);
+            }
+        }
+        else{
+            return response()->json("Error", 500);
+        }
+    }   
     	
 }
