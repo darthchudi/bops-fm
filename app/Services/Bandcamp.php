@@ -84,7 +84,16 @@ class Bandcamp{
             return $downloadPath;
         }
 
+        $coverArtFileName = $details['artiste'].' - '.$details['album'].'.jpg';
+        $coverArtPath = "$songFolder/$coverArtFileName";
+        if(! file_exists($coverArtPath)){
+            $coverArt = file_get_contents($details['cover_art']);
+
+            $downloadCoverArt = file_put_contents($coverArtPath, $coverArt);
+        }
+
         $download = file_put_contents($downloadPath, $song);
+        
         if(!$download){
             return false;
         }

@@ -70,7 +70,8 @@
 					artiste: this.albumDetails.artiste,
 					album: this.albumDetails.album,
 					song_name: song.name,
-					track_number: song.trackNumber		
+					track_number: song.trackNumber,
+					cover_art: this.albumDetails.cover_art		
 				}
 
 				if(this.albumDetails.service ==='soundcloud'){

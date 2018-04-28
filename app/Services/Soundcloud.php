@@ -23,7 +23,7 @@ class Soundcloud{
             $details['artiste'] = $data->user->username;
             $details['cover_art'] = $data->artwork_url;
             $details['album'] = $data->title.' — Single';
-            $details['kind'] = 'track';
+            $details['kind'] = 'song';
             $downloadLink = $data->stream_url."?client_id=$this->clientID";
             $details['link'] = $downloadLink;
 
@@ -81,6 +81,14 @@ class Soundcloud{
 
         if(file_exists($downloadPath)){
             return $downloadPath;
+        }
+
+        $coverArtFileName = $details['artiste'].' - '.$details['album'].'.jpg';
+        $coverArtPath = "$songFolder/$coverArtFileName";
+        if(! file_exists($coverArtPath)){
+            $coverArt = file_get_contents($details['cover_art']);
+
+            $downloadCoverArt = file_put_contents($coverArtPath, $coverArt);
         }
 
         $download = file_put_contents($downloadPath, $responseBody);
