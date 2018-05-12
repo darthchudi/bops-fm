@@ -19,15 +19,13 @@ Route::post("/bandcamp/single/fetchLink", 'BandcampController@fetchLink');
 
 Route::post("/bandcamp/album/fetchLinks", "BandcampController@fetchAlbumLinks");
 
-Route::post("/bandcamp/single/download", 'BandcampController@downloadSingle');
+Route::post("/bandcamp/download", 'BandcampController@downloadSingle');
 
-Route::get("/bandcamp/single/serveDownload", 'BandcampController@serveDownload');
-
-Route::get('/fetchFile', 'BandcampController@fetchFile');
+Route::post('/bandcamp/serve-user-download', 'BandcampController@serveUserDownload');
 
 /* ----------------------- Soundcloud -------------------------*/
 Route::post("/soundcloud/fetchLink", "SoundcloudController@fetchLinks");
 
 Route::post("/soundcloud/download", "SoundcloudController@downloadSingle");
 
-Route::get("/demo", "SoundcloudController@demo");
+Route::post('/soundcloud/serve-user-download', "SoundcloudController@serveUserDownload");

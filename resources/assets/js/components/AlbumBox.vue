@@ -95,7 +95,7 @@
 					return;
 				}
 
-				axios.post("/bandcamp/single/download", {
+				axios.post("/bandcamp/download", {
 					link: song.link,
 					details: details
 				})

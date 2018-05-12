@@ -35,7 +35,7 @@ class BandcampController extends Controller
             }
 
             $details['track_number'] = isset($details['track_number']) ? $details['track_number'] :  1;
-            $setID3 =$this->bandcamp->setID3($downloadedFile, $details);
+            $setID3 = $this->bandcamp->setID3($downloadedFile, $details);
 
             if($setID3){
                 return response()->json(["details"=>$details, "songPath"=>$downloadedFile, "message"=>"Downloaded and set ID3 tags!"], 200);
@@ -59,17 +59,9 @@ class BandcampController extends Controller
         ], 200);
     }
 
-    public function fetchFile(){
-    	$filename = "MIKE - ANU";
-    	$path = "/home/vagrant/Code/bandcamp/storage/tmp/Apr 21, 2018/MIKE - TONIGHT, WITH YOU/MIKE - ANU.mp3";
-    	$type = File::mimeType($path);
-    	$headers = ['Content-Type'=> 'audio/mpeg', 'Content-Disposition'=> 'attachment; filename="'.$path.'"'];
-    	return response()->download($path, $filename, $headers);
-    }
-
-    public function sandbox(){
-        $song = "Gardens <ft. Tau Benah + Chris Generalz>";
-        $album = " <insert project name​\​>";
+    public function serveUserDownload(Request $request){
+    	$songPath = $request->songPath;
+        return response()->download($songPath)->deleteFileAfterSend(true);
     }
 
 

@@ -10,10 +10,14 @@ use GuzzleHttp\Client as Guzzle;
 
 class Soundcloud{
     public $page;
-    protected $clientID = '22e8f71d7ca75e156d6b2f0e0a5172b3';
+    protected $clientID;
+
+    public function __construct(){
+        $this->clientID = env('SOUNDCLOUD_KEY');
+    }
 
 	public function fetchLinks($soundcloudUrl){
-        $apiUrl = "http://api.soundcloud.com/resolve?url=$soundcloudUrl&client_id=$this->clientID";
+        $apiUrl = "https://api.soundcloud.com/resolve.json?url=$soundcloudUrl&client_id=$this->clientID";
         $response = file_get_contents($apiUrl);
         $data = json_decode($response);
 

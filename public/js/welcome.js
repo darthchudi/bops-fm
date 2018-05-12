@@ -1638,7 +1638,7 @@ var app = new Vue({
 					_this2.loading = false;
 					_this2.error = true;
 					self.errorMessage = "Oops! An error occured while getting bop";
-					console.log(e);
+					console.log(e.response);
 				});
 			}
 
@@ -1657,7 +1657,7 @@ var app = new Vue({
 						_this2.loading = false;
 						_this2.error = true;
 						self.errorMessage = "Oops! An error occured while getting bop";
-						console.log(e);
+						console.log(e.response);
 					});
 				}
 
@@ -1688,7 +1688,7 @@ var app = new Vue({
 						self.albumDetails = data.data.metaData;
 						self.albumTracklist = tracksAndLinks;
 					}).catch(function (e) {
-						console.log(e);
+						console.log(e.response);
 					});
 				}
 			}
@@ -43979,6 +43979,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -43991,7 +44003,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			error: false,
 			statusMessage: '',
 			successMessage: '',
-			errorMessage: ''
+			errorMessage: '',
+			songPath: ''
 		};
 	},
 	created: function created() {
@@ -44014,7 +44027,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		downloadSong: function downloadSong() {
 			self = this;
 			this.loading = true;
-			this.statusMessage = "Downloading Bop... plix be patient";
+			this.statusMessage = "Downloading to server... please be patient";
 
 			if (this.song.service === 'soundcloud') {
 				axios.post("soundcloud/download", {
@@ -44026,6 +44039,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					self.success = true;
 					self.successMessage = 'Successfully Downloaded ' + self.song.song_name + ' by ' + self.song.artiste;
 					console.log(data);
+					self.songPath = data.data.songPath;
 				}).catch(function (e) {
 					self.loading = false;
 					self.error = true;
@@ -44035,7 +44049,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				return;
 			}
 
-			axios.post("/bandcamp/single/download", {
+			axios.post("/bandcamp/download", {
 				link: this.song.link,
 				details: this.song
 			}).then(function (data) {
@@ -44044,6 +44058,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				self.success = true;
 				self.successMessage = 'Successfully Downloaded ' + self.song.song_name + ' by ' + self.song.artiste;
 				console.log(data);
+				self.songPath = data.data.songPath;
 			}).catch(function (e) {
 				self.loading = false;
 				self.error = true;
@@ -44104,7 +44119,55 @@ var render = function() {
                         }
                       },
                       [_vm._m(0)]
-                    )
+                    ),
+                    _vm._v(" "),
+                    _vm.songPath && _vm.song.service == "soundcloud"
+                      ? _c(
+                          "form",
+                          {
+                            attrs: {
+                              method: "POST",
+                              action: "/soundcloud/serve-user-download"
+                            }
+                          },
+                          [
+                            _c("input", {
+                              attrs: { type: "hidden", name: "songPath" },
+                              domProps: { value: _vm.songPath }
+                            }),
+                            _vm._v(" "),
+                            _c("input", {
+                              attrs: {
+                                type: "submit",
+                                name: "submit",
+                                value: "oya download"
+                              }
+                            })
+                          ]
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.songPath && _vm.song.service == "bandcamp"
+                      ? _c(
+                          "form",
+                          {
+                            attrs: {
+                              method: "POST",
+                              action: "/bandcamp/serve-user-download"
+                            }
+                          },
+                          [
+                            _c("input", {
+                              attrs: { type: "hidden", name: "songPath" },
+                              domProps: { value: _vm.songPath }
+                            }),
+                            _vm._v(" "),
+                            _c("input", {
+                              attrs: { type: "submit", name: "submit" }
+                            })
+                          ]
+                        )
+                      : _vm._e()
                   ])
                 ])
               ])
@@ -44304,7 +44367,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				return;
 			}
 
-			axios.post("/bandcamp/single/download", {
+			axios.post("/bandcamp/download", {
 				link: song.link,
 				details: details
 			}).then(function (data) {

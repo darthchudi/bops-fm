@@ -24,9 +24,9 @@ class SoundcloudController extends Controller
     }
 
     public function fetchLinks(Request $request){
-    	$url = $request->url;
-    	$metaData = $this->soundcloud->fetchLinks($url);
-    	$metaData['service'] = 'soundcloud';
+        $url = $request->url;
+        $metaData = $this->soundcloud->fetchLinks($url);
+        $metaData['service'] = 'soundcloud';
     	return response()->json($metaData, 200);
     }
 
@@ -54,14 +54,9 @@ class SoundcloudController extends Controller
         }
     }  
      
-    public function demo(){
-        $clientID = '22e8f71d7ca75e156d6b2f0e0a5172b3';
-        $url = "http://api.soundcloud.com/resolve?url=https://soundcloud.com/soulblacksheep/on-melancholy-days?in=soulblacksheep/sets/on-melancholy-days&client_id=$clientID";
-        $response = file_get_contents($url);
-        $obj = json_decode($response, true);
-        // $obj['artwork_url'] = str_replace('large', 't500x500', $obj['artwork_url']);
-        $obj['permalink'] = ucwords(str_replace('-', ' ', $obj['permalink']));
-        return $obj;
+    public function serveUserDownload(Request $request){
+        $songPath = $request->songPath;
+        return response()->download($songPath)->deleteFileAfterSend(true);
     }
     	
 }

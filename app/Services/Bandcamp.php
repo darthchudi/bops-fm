@@ -54,18 +54,12 @@ class Bandcamp{
     }
 
 	public function serverDownload($songUrl, $details){
-    	$ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $songUrl);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        $song = curl_exec($ch);
-        curl_close ($ch);
         $dateFolder = storage_path().'/tmp/General/';
         $presentDate = Carbon::now()->toFormattedDateString();
-
         if(is_dir(storage_path().'/tmp/'.$presentDate)){
             $dateFolder = storage_path()."/tmp/$presentDate";
-
-        } else{
+        } 
+        else{
             $createdDirectory = mkdir(storage_path()."/tmp/$presentDate", 0700);
             if($createdDirectory){
                 $dateFolder = storage_path()."/tmp/$presentDate";
@@ -83,6 +77,12 @@ class Bandcamp{
         if(file_exists($downloadPath)){
             return $downloadPath;
         }
+        
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $songUrl);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $song = curl_exec($ch);
+        curl_close ($ch);
 
         $coverArtFileName = $details['artiste'].' - '.$details['album'].'.jpg';
         $coverArtPath = "$songFolder/$coverArtFileName";

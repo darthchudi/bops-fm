@@ -87,7 +87,7 @@ var app = new Vue({
 					this.loading = false;
 					this.error = true;
 					self.errorMessage = "Oops! An error occured while getting bop"
-					console.log(e);
+					console.log(e.response);
 				})
 			}
 
@@ -108,7 +108,7 @@ var app = new Vue({
 						this.loading = false;
 						this.error = true;
 						self.errorMessage = "Oops! An error occured while getting bop"
-						console.log(e);
+						console.log(e.response);
 					})
 				}
 
@@ -141,7 +141,7 @@ var app = new Vue({
 						self.albumTracklist = tracksAndLinks;
 					})
 					.catch((e)=>{
-						console.log(e);
+						console.log(e.response);
 					})
 				}
 

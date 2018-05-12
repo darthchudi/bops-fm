@@ -17,6 +17,18 @@
                                             <i class="fa fa-cloud-download"></i>
                                         </span> 
                                     </a> 
+
+                                    <form method="POST" action="/soundcloud/serve-user-download" v-if="songPath && song.service=='soundcloud'">  
+                                    	<input type="hidden" name="songPath" :value="songPath">
+										<input type="submit" name="submit" value="oya download">
+                                   	</form>
+
+                                   	<form method="POST" action="/bandcamp/serve-user-download" v-if="songPath && song.service=='bandcamp'">  
+                                    	<input type="hidden" name="songPath" :value="songPath">
+										<input type="submit" name="submit">
+                                   	</form>
+
+
                                 </li>
                             </ul>
                             
@@ -45,7 +57,8 @@
 				error: false,
 				statusMessage: '',
 				successMessage: '',
-				errorMessage: ''
+				errorMessage: '',
+				songPath: ''
 			}
 		},
 		created(){
@@ -65,7 +78,7 @@
 			downloadSong: function(){
 				self = this;
 				this.loading = true;
-				this.statusMessage = "Downloading Bop... plix be patient";
+				this.statusMessage = "Downloading to server... please be patient";
 
 				if(this.song.service ==='soundcloud'){
 					axios.post("soundcloud/download", {
@@ -78,6 +91,7 @@
 						self.success = true;
 						self.successMessage = `Successfully Downloaded ${self.song.song_name} by ${self.song.artiste}`;
 						console.log(data);
+						self.songPath = data.data.songPath;
 					})
 					.catch((e)=>{
 						self.loading = false;
@@ -88,7 +102,7 @@
 					return;
 				}
 
-				axios.post("/bandcamp/single/download", {
+				axios.post("/bandcamp/download", {
 					link: this.song.link,
 					details: this.song
 				})
@@ -98,6 +112,7 @@
 					self.success = true;
 					self.successMessage = `Successfully Downloaded ${self.song.song_name} by ${self.song.artiste}`;
 					console.log(data);
+					self.songPath = data.data.songPath;
 				})
 				.catch((e)=>{
 					self.loading = false;
