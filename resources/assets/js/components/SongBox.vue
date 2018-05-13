@@ -96,7 +96,7 @@
 						self.statusMessage = '';
 						self.success = true;
 						self.successMessage = `Done downloading to server. Click on the cloud dl button to download`;
-						console.log(data);
+						// console.log(data);
 						self.songPath = data.data.songPath;
 					})
 					.catch((e)=>{
@@ -117,7 +117,7 @@
 					self.statusMessage = '';
 					self.success = true;
 					self.successMessage = `Successfully Downloaded ${self.song.song_name} by ${self.song.artiste}`;
-					console.log(data);
+					// console.log(data);
 					self.songPath = data.data.songPath;
 				})
 				.catch((e)=>{

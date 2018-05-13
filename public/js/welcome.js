@@ -1633,7 +1633,7 @@ var app = new Vue({
 						self.albumDetails = data.data;
 						self.albumTracklist = data.data.tracklist;
 					}
-					console.log(data);
+					// console.log(data);
 				}).catch(function (e) {
 					_this2.loading = false;
 					_this2.error = true;
@@ -44044,7 +44044,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					self.statusMessage = '';
 					self.success = true;
 					self.successMessage = 'Done downloading to server. Click on the cloud dl button to download';
-					console.log(data);
+					// console.log(data);
 					self.songPath = data.data.songPath;
 				}).catch(function (e) {
 					self.loading = false;
@@ -44063,7 +44063,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				self.statusMessage = '';
 				self.success = true;
 				self.successMessage = 'Successfully Downloaded ' + self.song.song_name + ' by ' + self.song.artiste;
-				console.log(data);
+				// console.log(data);
 				self.songPath = data.data.songPath;
 			}).catch(function (e) {
 				self.loading = false;
@@ -44401,7 +44401,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					self.successMessage = 'Successfully Downloaded ' + details.song_name + ' by ' + details.artiste;
 					self.songPath = data.data.songPath;
 					self.songName = data.data.details.song_name;
-					console.log(data);
+					// console.log(data);
 				}).catch(function (e) {
 					self.loading = false;
 					self.error = true;
@@ -44421,7 +44421,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				self.successMessage = 'Successfully Downloaded ' + details.song_name + ' by ' + details.artiste;
 				self.songPath = data.data.songPath;
 				self.songName = data.data.details.song_name;
-				console.log(data);
+				// console.log(data);
 			}).catch(function (e) {
 				self.loading = false;
 				self.error = true;

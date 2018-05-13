@@ -81,7 +81,7 @@ var app = new Vue({
 						self.albumDetails = data.data;
 						self.albumTracklist = data.data.tracklist;
 					}
-					console.log(data);
+					// console.log(data);
 				})
 				.catch((e)=>{
 					this.loading = false;
