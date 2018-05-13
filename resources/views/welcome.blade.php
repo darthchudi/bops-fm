@@ -3,6 +3,7 @@
 <meta charset="utf-8">
 <meta name="csrf-token" content="{{csrf_token()}}">
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <title>Bops FM</title>
     <link rel="stylesheet" type="text/css" href="/css/bulma-0.6.2/css/bulma.css">
     <link rel="stylesheet" type="text/css" href="/css/font awesome/css/font-awesome.css">
@@ -14,11 +15,11 @@
     <div id="root">
         <div class="jumbotron jumbo">
             <img src="/images/bops.png" class="logo">
-            <ul>
+            {{-- <ul>
                 <li> <a href="">About</a> </li>
                 <li> <a href="">Mixes</a> </li>
                 <li> <a href="">Discover</a> </li>
-            </ul>
+            </ul> --}}
             <form @submit.prevent="submit">
                 <div class="field">
                     <div class="control has-icons-left">

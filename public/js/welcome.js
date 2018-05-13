@@ -44465,7 +44465,7 @@ var render = function() {
               _c("p", { staticClass: "footer-text" }, [
                 _c(
                   "ul",
-                  { staticClass: "song-list" },
+                  { staticClass: "song-list album" },
                   _vm._l(_vm.tracklist, function(song) {
                     return _c("li", { staticClass: "song" }, [
                       _vm._v(

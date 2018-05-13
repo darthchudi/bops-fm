@@ -10,7 +10,7 @@
 
                     <div class="column is-6">
                         <p class="footer-text">
-                            <ul class="song-list">
+                            <ul class="song-list album">
                                 <li class="song" v-for="song in tracklist">
                                 	💿 &nbsp; {{song.name}}
 

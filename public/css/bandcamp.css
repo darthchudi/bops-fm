@@ -1,5 +1,27 @@
+@font-face {
+  font-family: 'HelveticaNeue-Bold';
+  src: 	url('/css/fonts/HelveticaNeue-Bold.eot?#iefix') format('embedded-opentype'),  
+		url('/css/fonts/HelveticaNeue-Bold.otf')  format('opentype'),
+     	url('/css/fonts/HelveticaNeue-Bold.woff') format('woff'), 
+     	url('/css/fonts/HelveticaNeue-Bold.ttf')  format('truetype'), 
+     	url('/css/fonts/HelveticaNeue-Bold.svg#HelveticaNeue-Bold') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'HelveticaNeue-Thin';
+  src: 	url('/css/fonts/HelveticaNeue-Thin.eot?#iefix') format('embedded-opentype'),  
+		url('/css/fonts/HelveticaNeue-Thin.otf')  format('opentype'),
+     	url('/css/fonts/HelveticaNeue-Thin.woff') format('woff'), 
+     	url('/css/fonts/HelveticaNeue-Thin.ttf')  format('truetype'), 
+     	url('/css/fonts/HelveticaNeue-Thin.svg#HelveticaNeue-Thin') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
 *{
-	font-family: Montserrat;
+	font-family: 'HelveticaNeue-Bold';
 	padding: 0px;
 	margin: 0px;
 }
@@ -30,12 +52,12 @@ form{
 }
 
 .input{
-	font-family: Montserrat;
+	font-family: 'HelveticaNeue-Bold';
 	padding: 25px;
 	border: 0px solid white;
 	border-radius: 10px;
 	width: 530px;
-	font-size: 18px;
+	font-size: 19px;
 	color: black;
 	background-color: white;
 	box-shadow: none;
@@ -67,8 +89,8 @@ input[type=text]:focus{
 }
 
 .submit{
-	font-family: Montserrat;
-	font-size: 14px;
+	font-family: 'HelveticaNeue-Bold';
+	font-size: 12px;
 	border-radius: 30px;
 	text-align: center;
 	width: 700px;
@@ -139,12 +161,12 @@ a.github:hover{
 .album-image{
 	width: 500px;
 	position: relative;
-	left: -90px;
+	left: -100px;
 }
 
 .content h3{
 	color: white;
-	font-family: HelveticaNeue;
+	font-family: 'HelveticaNeue-Bold';
 	font-size: 40px;
 	position: relative;
 	top: -19px;
@@ -172,16 +194,23 @@ ul.song-list{
 	position: relative;
 	top: -10px;
 	text-align: left;
-	left: -170px;
+	left: -205px;
+}
+
+ul.song-list.album{
+	position: relative;
+	top: -10px;
+	text-align: left;
+	left: -175px;
 }
 
 ul.song-list li{
-	font-family: Raleway;
+	font-family: 'HelveticaNeue-Bold';
 	width: 700px;
 	color: whitesmoke;
 	font-size: 22.4px;
 	position: relative;
-	margin: 6px 10px;
+	margin: 6px 4px;
 	padding: 10px;
 	border-bottom: 6px solid whitesmoke;
 	cursor: pointer;
@@ -190,7 +219,7 @@ ul.song-list li{
 ul.song-list li a{
 	float: right;
 	position: relative;
-	left: 30px; 
+	left: 20px; 
 	text-decoration: none;
 }
 
@@ -230,7 +259,7 @@ form.dl-form{
 	display: inline;
 	float: right;
 	position: relative;
-	left: 30px; 
+	left: 20px; 
 	text-decoration: none;
 }
 
