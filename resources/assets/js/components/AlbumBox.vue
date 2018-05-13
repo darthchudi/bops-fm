@@ -119,7 +119,7 @@
 						self.loading = false;
 						self.error = true;
 						self.errorMessage = "Baba error dey yapa!";
-						console.log(e);
+						console.log(e.response);
 					})
 					return;
 				}
@@ -141,7 +141,7 @@
 					self.loading = false;
 					self.error = true;
 					self.errorMessage = "Baba error dey yapa!";
-					console.log(e);
+					console.log(e.response);
 				})
 			},
 		},

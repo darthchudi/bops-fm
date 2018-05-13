@@ -44050,7 +44050,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					self.loading = false;
 					self.error = true;
 					self.errorMessage = "Baba error dey yapa!";
-					console.log(e);
+					console.log(e.response);
 				});
 				return;
 			}
@@ -44069,7 +44069,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				self.loading = false;
 				self.error = true;
 				self.errorMessage = "Baba error dey yapa!";
-				console.log(e);
+				console.log(e.response);
 			});
 		}
 	},
@@ -44406,7 +44406,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					self.loading = false;
 					self.error = true;
 					self.errorMessage = "Baba error dey yapa!";
-					console.log(e);
+					console.log(e.response);
 				});
 				return;
 			}
@@ -44426,7 +44426,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				self.loading = false;
 				self.error = true;
 				self.errorMessage = "Baba error dey yapa!";
-				console.log(e);
+				console.log(e.response);
 			});
 		}
 	},
