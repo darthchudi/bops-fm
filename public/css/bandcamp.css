@@ -172,12 +172,12 @@ ul.song-list{
 	position: relative;
 	top: -10px;
 	text-align: left;
-	left: -220px;
+	left: -170px;
 }
 
 ul.song-list li{
 	font-family: Raleway;
-	width: 520px;
+	width: 700px;
 	color: whitesmoke;
 	font-size: 22.4px;
 	position: relative;
@@ -190,8 +190,7 @@ ul.song-list li{
 ul.song-list li a{
 	float: right;
 	position: relative;
-	left: 24px; 
-	color: green;
+	left: 30px; 
 	text-decoration: none;
 }
 
@@ -202,6 +201,11 @@ ul.song-list li a{
 	-webkit-text-fill-color: transparent;
 }
 
+.button.is-danger{
+	font-size: 13px;
+	background-color: #de6262;
+}
+
 ul.song-list li a:hover{
 	border-bottom: none;
 }
@@ -209,6 +213,25 @@ ul.song-list li a:hover{
 ul.song-list li a:focus{
 	text-decoration: none;
 	color: white;
+}
+
+button{
+	background: none;
+	padding: 0px;
+	border: none;
+}
+
+button:hover{
+	cursor: pointer;
+}
+
+form.dl-form{
+	top: 0;
+	display: inline;
+	float: right;
+	position: relative;
+	left: 30px; 
+	text-decoration: none;
 }
 
 

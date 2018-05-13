@@ -4,31 +4,37 @@
             <div class="content has-text-centered">
                 <h3><strong>{{song.song_name}} — Single</strong> by <strong> {{song.artiste}} </strong></h3>
                 <div class="columns">
-                    <div class="column is-8">
+                    <div class="column is-7">
                         <img :src="song.cover_art" class="album-image">
                     </div>
 
-                    <div class="column is-4">
+                    <div class="column is-5">
                         <p class="footer-text">
                             <ul class="song-list">
-                                <li class="song">💿 &nbsp; {{song.song_name}}
-                                    <a :href="song.link" @click.prevent="downloadSong"> 
-                                        <span class="icon has-text-info">
-                                            <i class="fa fa-cloud-download"></i>
-                                        </span> 
-                                    </a> 
+                                <li class="song">
+                                	💿 &nbsp; {{song.song_name}}
 
-                                    <form method="POST" action="/soundcloud/serve-user-download" v-if="songPath && song.service=='soundcloud'">  
+                                	<a :href="song.link" @click.prevent="downloadSong" class="button is-danger" v-if="!songPath"> 
+                                        Initialize Download
+                                    </a>
+        
+                                    <form method="POST" action="/soundcloud/serve-user-download" v-if="songPath && song.service=='soundcloud'" class="dl-form">  
                                     	<input type="hidden" name="songPath" :value="songPath">
-										<input type="submit" name="submit" value="oya download">
+                                    	<button type="submit">
+                                    		<span class="icon has-text-info">
+                                            	<i class="fa fa-cloud-download"></i>
+                                        	</span> 
+                                    	</button>
                                    	</form>
 
-                                   	<form method="POST" action="/bandcamp/serve-user-download" v-if="songPath && song.service=='bandcamp'">  
+                                   	<form method="POST" action="/bandcamp/serve-user-download" v-if="songPath && song.service=='bandcamp'" class="dl-form">  
                                     	<input type="hidden" name="songPath" :value="songPath">
-										<input type="submit" name="submit">
+										<button type="submit">
+                                    		<span class="icon has-text-info">
+                                            	<i class="fa fa-cloud-download"></i>
+                                        	</span> 
+                                    	</button>
                                    	</form>
-
-
                                 </li>
                             </ul>
                             
@@ -39,7 +45,7 @@
         </div>
         <loading-modal v-if="loading" :status="statusMessage"> </loading-modal>
         <error-modal v-if="error" :status="errorMessage"> </error-modal>
-        <success-modal v-if="success" :status="successMessage"> </success-modal>
+        <!-- <success-modal v-if="success" :status="successMessage"> </success-modal> -->
     </footer>
 
 </template>
@@ -89,7 +95,7 @@
 						self.loading = false;
 						self.statusMessage = '';
 						self.success = true;
-						self.successMessage = `Successfully Downloaded ${self.song.song_name} by ${self.song.artiste}`;
+						self.successMessage = `Done downloading to server. Click on the cloud dl button to download`;
 						console.log(data);
 						self.songPath = data.data.songPath;
 					})

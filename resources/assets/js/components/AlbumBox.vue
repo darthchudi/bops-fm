@@ -4,19 +4,44 @@
             <div class="content has-text-centered">
                 <h3><strong>{{albumDetails.album}} </strong> by <strong> {{albumDetails.artiste}} </strong></h3>
                 <div class="columns">
-                    <div class="column is-8">
+                    <div class="column is-6">
                         <img :src="albumDetails.cover_art" class="album-image">
                     </div>
 
-                    <div class="column is-4">
+                    <div class="column is-6">
                         <p class="footer-text">
                             <ul class="song-list">
-                                <li class="song" v-for="song in tracklist">💿 &nbsp; {{song.name}}
-                                    <a :href="song.link" @click.prevent="downloadSong(song)"> 
+                                <li class="song" v-for="song in tracklist">
+                                	💿 &nbsp; {{song.name}}
+
+									<a :href="song.link" @click.prevent="downloadSong(song)" class="button is-danger" v-if="songName !== song.name"> 
+                                         Initialize Download
+                                    </a>
+
+
+                                    <form method="POST" action="/soundcloud/serve-user-download" v-if="songName==song.name && albumDetails.service=='soundcloud'" class="dl-form">  
+                                    	<input type="hidden" name="songPath" :value="songPath">
+                                    	<button type="submit">
+                                    		<span class="icon has-text-info">
+                                            	<i class="fa fa-cloud-download"></i>
+                                        	</span> 
+                                    	</button>
+                                   	</form>
+
+                                   	<form method="POST" action="/bandcamp/serve-user-download" v-if="songName==song.name && albumDetails.service=='bandcamp'" class="dl-form">  
+                                    	<input type="hidden" name="songPath" :value="songPath">
+										<button type="submit">
+                                    		<span class="icon has-text-info">
+                                            	<i class="fa fa-cloud-download"></i>
+                                        	</span> 
+                                    	</button>
+                                   	</form>
+
+                                    <!-- <a :href="song.link" @click.prevent="downloadSong(song)"> 
                                         <span class="icon has-text-info">
                                             <i class="fa fa-cloud-download"></i>
                                         </span> 
-                                    </a> 
+                                    </a> --> 
                                 </li>
                             </ul>
                             
@@ -27,7 +52,7 @@
         </div>
         <loading-modal v-if="loading" :status="statusMessage"> </loading-modal>
         <error-modal v-if="error" :status="errorMessage"> </error-modal>
-        <success-modal v-if="success" :status="successMessage"> </success-modal>
+       <!--  <success-modal v-if="success" :status="successMessage"> </success-modal> -->
     </footer>
 
 </template>
@@ -45,7 +70,9 @@
 				error: false,
 				statusMessage: '',
 				successMessage: '',
-				errorMessage: ''
+				errorMessage: '',
+				songPath: '',
+				songName: ''
 			}
 		},
 		created(){
@@ -84,6 +111,8 @@
 						self.statusMessage = '';
 						self.success = true;
 						self.successMessage = `Successfully Downloaded ${details.song_name} by ${details.artiste}`;
+						self.songPath = data.data.songPath;
+						self.songName = data.data.details.song_name
 						console.log(data);
 					})
 					.catch((e)=>{
@@ -104,6 +133,8 @@
 					self.statusMessage = '';
 					self.success = true;
 					self.successMessage = `Successfully Downloaded ${details.song_name} by ${details.artiste}`;
+					self.songPath = data.data.songPath;
+					self.songName = data.data.details.song_name
 					console.log(data);
 				})
 				.catch((e)=>{

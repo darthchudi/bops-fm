@@ -61,7 +61,7 @@ class BandcampController extends Controller
 
     public function serveUserDownload(Request $request){
     	$songPath = $request->songPath;
-        return response()->download($songPath)->deleteFileAfterSend(true);
+        return response()->download($songPath);
     }
 
 
