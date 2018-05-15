@@ -4,12 +4,12 @@
 <meta name="csrf-token" content="{{csrf_token()}}">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <title>Bops FM</title>
+    <title>Bops</title>
     <link rel="stylesheet" type="text/css" href="/css/bulma-0.6.2/css/bulma.css">
     <link rel="stylesheet" type="text/css" href="/css/font awesome/css/font-awesome.css">
     <link rel="stylesheet" type="text/css" href="/css/bandcamp.css">
     <link rel="stylesheet" type="text/css" href="/css/wave-modal.css">
-    <link rel="shortcut icon" href="/images/favicon.ico">
+    <link rel="shortcut icon" href="/images/favicon.ico?v=2">
 </head>
 <body>
     <div id="root">
