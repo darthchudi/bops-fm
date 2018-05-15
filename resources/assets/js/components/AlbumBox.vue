@@ -135,7 +135,7 @@
 					self.successMessage = `Successfully Downloaded ${details.song_name} by ${details.artiste}`;
 					self.songPath = data.data.songPath;
 					self.songName = data.data.details.song_name
-					// console.log(data);
+					console.log(data);
 				})
 				.catch((e)=>{
 					self.loading = false;

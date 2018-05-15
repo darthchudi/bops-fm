@@ -43997,6 +43997,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -44063,7 +44064,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				self.statusMessage = '';
 				self.success = true;
 				self.successMessage = 'Successfully Downloaded ' + self.song.song_name + ' by ' + self.song.artiste;
-				// console.log(data);
+				console.log(data);
 				self.songPath = data.data.songPath;
 			}).catch(function (e) {
 				self.loading = false;
@@ -44169,6 +44170,17 @@ var render = function() {
                             _c("input", {
                               attrs: { type: "hidden", name: "songPath" },
                               domProps: { value: _vm.songPath }
+                            }),
+                            _vm._v(" "),
+                            _c("input", {
+                              attrs: { type: "hidden", name: "songTitle" },
+                              domProps: {
+                                value:
+                                  _vm.song.artiste +
+                                  " - " +
+                                  _vm.song.song_name +
+                                  ".mp3"
+                              }
                             }),
                             _vm._v(" "),
                             _vm._m(1)
@@ -44421,7 +44433,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				self.successMessage = 'Successfully Downloaded ' + details.song_name + ' by ' + details.artiste;
 				self.songPath = data.data.songPath;
 				self.songName = data.data.details.song_name;
-				// console.log(data);
+				console.log(data);
 			}).catch(function (e) {
 				self.loading = false;
 				self.error = true;
