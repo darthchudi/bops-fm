@@ -19,7 +19,7 @@ Route::post("/bandcamp/single/fetchLink", 'BandcampController@fetchLink');
 
 Route::post("/bandcamp/album/fetchLinks", "BandcampController@fetchAlbumLinks");
 
-Route::post("/bandcamp/download", 'BandcampController@s3Download');
+Route::post("/bandcamp/download", 'BandcampController@downloadSingle');
 
 Route::post('/bandcamp/serve-user-download', 'BandcampController@serveUserDownload');
 
@@ -30,6 +30,6 @@ Route::post("/soundcloud/download", "SoundcloudController@downloadSingle");
 
 Route::post('/soundcloud/serve-user-download', "SoundcloudController@serveUserDownload");
 
-Route::get('/s3-test', 'BandcampController@s3Test');
+// Route::get('/s3-test', 'BandcampController@s3Test');
 
-Route::get('/s3-meta-test', 'BandcampController@s3MetaTest');
+// Route::get('/s3-meta-test', 'BandcampController@s3MetaTest');

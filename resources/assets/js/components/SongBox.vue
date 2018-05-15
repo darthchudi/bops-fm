@@ -29,7 +29,6 @@
 
                                    	<form method="POST" action="/bandcamp/serve-user-download" v-if="songPath && song.service=='bandcamp'" class="dl-form">  
                                     	<input type="hidden" name="songPath" :value="songPath">
-                                    	<input type="hidden" name="songTitle" :value="song.artiste + ' - ' + song.song_name + '.mp3'">
 										<button type="submit">
                                     		<span class="icon has-text-info">
                                             	<i class="fa fa-cloud-download"></i>
@@ -118,7 +117,7 @@
 					self.statusMessage = '';
 					self.success = true;
 					self.successMessage = `Successfully Downloaded ${self.song.song_name} by ${self.song.artiste}`;
-					console.log(data);
+					// console.log(data);
 					self.songPath = data.data.songPath;
 				})
 				.catch((e)=>{

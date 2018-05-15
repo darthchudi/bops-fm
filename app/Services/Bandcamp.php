@@ -132,9 +132,7 @@ class Bandcamp{
     }
 
     public function checkID3($path){
-    	include_once('../vendor/getid3/getid3.php');
-    	$getID3 = new \getID3;
-    	$info = $getID3->analyze($path);
+    	$info = $this->getID3->analyze($path);
     	if(array_key_exists('tags', $info)){
     		return 'set';
     	}
@@ -142,33 +140,30 @@ class Bandcamp{
     }
 
     public function setID3($path, $details){
-    	include_once('../vendor/getid3/getid3.php');
-    	$getID3 = new \getID3;
-    	$TextEncoding = 'UTF-8';
-    	$getID3->setOption(array('encoding'=>$TextEncoding));
-		require_once('../vendor/getid3/write.php');
 		// Initialize getID3 tag-writing module
-		$tagwriter = new \getid3_writetags;
-		$tagwriter->filename = $path;
-		$tagwriter->tagformats = array('id3v2.3');
+    	$TextEncoding = 'UTF-8';
+    	$this->getID3->setOption(array('encoding'=>$TextEncoding));
+		$this->tagwriter->filename = $path;
+		$this->tagwriter->tagformats = array('id3v2.3');
 
 		// set various options (optional)
-		$tagwriter->overwrite_tags    = true;  // if true will erase existing tag data and write only passed data; if false will merge passed data with existing tag data (experimental)
-		$tagwriter->remove_other_tags = false;
-		$tagwriter->tag_encoding = $TextEncoding;
-		$tagwriter->remove_other_tags = true;
+		$this->tagwriter->overwrite_tags    = true;  // if true will erase existing tag data and write only passed data; if false will merge passed data with existing tag data (experimental)
+		$this->tagwriter->remove_other_tags = false;
+		$this->tagwriter->tag_encoding = $TextEncoding;
+		$this->tagwriter->remove_other_tags = true;
 
 		// populate data array
 		$TagData = array(
 			'title'  => array($details['song_name']),
 			'artist' => array($details['artiste']),
 			'album'  => array($details['album']),
+			'band'=>array($details['artiste']),
 			'track_number' => array($details['track_number'])
 		);
-		$tagwriter->tag_data = $TagData;
+		$this->tagwriter->tag_data = $TagData;
 
 		//Write Tags
-		if ($tagwriter->WriteTags()) {
+		if ($this->tagwriter->WriteTags()) {
 			return true;
 		} 
 		else {
