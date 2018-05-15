@@ -134,7 +134,7 @@ class Soundcloud{
     }
 
     public function checkID3($path){
-    	include_once('../vendor/getid3/getid3.php');
+    	include_once('../getid3/getid3.php');
     	$getID3 = new \getID3;
     	$info = $getID3->analyze($path);
     	if(array_key_exists('tags', $info)){
@@ -144,11 +144,11 @@ class Soundcloud{
     }
 
     public function setID3($path, $details){
-    	include_once('../vendor/getid3/getid3.php');
+    	include_once('../getid3/getid3.php');
     	$getID3 = new \getID3;
     	$TextEncoding = 'UTF-8';
     	$getID3->setOption(array('encoding'=>$TextEncoding));
-		require_once('../vendor/getid3/write.php');
+		require_once('../getid3/write.php');
 		// Initialize getID3 tag-writing module
 		$tagwriter = new \getid3_writetags;
 		$tagwriter->filename = $path;

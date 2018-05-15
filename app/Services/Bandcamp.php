@@ -12,8 +12,8 @@ class Bandcamp{
     public $getID3, $tagwriter;
 
     public function __construct(){
-    	include_once('../vendor/getid3/getid3.php');
-    	require_once('../vendor/getid3/write.php');
+    	include_once('../getid3/getid3.php');
+    	require_once('../getid3/write.php');
     	$this->getID3 = new \getID3;
 		$this->tagwriter = new \getid3_writetags;
     }
