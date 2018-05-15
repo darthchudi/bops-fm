@@ -1,14 +1,11 @@
-# bops-fm
-Download songs from Bandcamp and Soundcloud.
+# Bops FM
+**Bops FM** is a web application for downloading songs from both Bandcamp and Soundcloud with accurate metadata. All you need is a valid bandcamp or soundcloud song/album url and voilà! Did I mention it was free? [https://bops-fm.herokuapp.com](https://bops-fm.herokuapp.com)
 
-# Description
-Bops-fm is a web application for downloading songs from both Bandcamp and Soundcloud with accurate metadata. It's built with Laravel and Vue. All you need is a valid bandcamp or soundcloud song/album url and voilà! 
+# Stack
+Bops FM was built with Laravel, Vue and Bulma.
 
-# How It Works
-Bops-fm downloads songs to the storage/tmp folder of your Laravel project and it arranges songs by Date of Download->Album Name.
-
-# Notes
-Bops-fm is still under development and it's currently available by cloning this repo, running it [assuming you have Laravel installed] and accessing it at whatever domain you map the project folder to.
+# Todo
+Edit song cover art to right version originally posted by artiste.
 
 # Contribution
 Feel free to fork this repo and contribute!
