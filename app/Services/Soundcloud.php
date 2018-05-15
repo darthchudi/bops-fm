@@ -9,7 +9,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client as Guzzle;
 
 class Soundcloud{
-    public $page, $getID3, tagwriter;
+    public $page, $getID3, $tagwriter;
     protected $clientID;
 
     public function __construct(){
