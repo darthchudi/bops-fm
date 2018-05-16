@@ -6,11 +6,13 @@
     <title>Bops</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="css/font awesome/css/font-awesome.css">
-    <link rel="stylesheet" type="text/css" href="css/bootstrap/dist/css/bootstrap.min.css">
-    <script type="text/javascript" src="css/bootstrap/assets/js/vendor/jquery-slim.min.js"></script>
-    <script type="text/javascript" src="css/bootstrap/dist/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="css/bops-fm.css">
+    <link rel="stylesheet" type="text/css" href="/css/font awesome/css/font-awesome.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap/dist/css/bootstrap.min.css">
+    <script type="text/javascript" src="/css/bootstrap/assets/js/vendor/jquery-slim.min.js"></script>
+    <script type="text/javascript" src="/css/bootstrap/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/bops-fm.css">
+    <link rel="stylesheet" type="text/css" href="/css/wave-modal.css">
+     <link rel="shortcut icon" href="/images/favicon.ico?v=2">
 </head>
 <body class="bg-gradient">
     <div id="root">
@@ -43,7 +45,7 @@
             <div class="container">
                 <div class="row mb-5">
                     <div class="col">
-                        <form @submit.prevent="submit">
+                        <form @submit.prevent="submit" action="POST">
                             <div class="form-row">
                                 <div class="col-sm col-md-8 container">
                                     <div class="input-group ml-sm-0 ml-md-5">

@@ -1,53 +1,48 @@
 <template>
-	 <footer class="footer song-details">
-        <div class="container">
-            <div class="content has-text-centered">
-                <h3><strong>{{song.song_name}} — Single</strong> by <strong> {{song.artiste}} </strong></h3>
-                <div class="columns">
-                    <div class="column is-7">
-                        <img :src="song.cover_art" class="album-image">
-                    </div>
+	<main class="bg-custom" id="songbox">
+		<div class="container py-2">
+			<h1 class="text-center helvetica-n mb-4">
+				<strong>{{song.song_name}} — Single</strong> by <strong> {{song.artiste}} </strong>
+			</h1>
 
-                    <div class="column is-5">
-                        <p class="footer-text">
-                            <ul class="song-list">
-                                <li class="song">
-                                	💿 &nbsp; {{song.song_name}}
+			<div class="row">
+				<div class="col-sm-6">
+					<img :src="song.cover_art" class="img-fluid" alt="album art">
+				</div>
 
-                                	<a :href="song.link" @click.prevent="downloadSong" class="button is-danger" v-if="!songPath"> 
-                                        Initialize Download
-                                    </a>
-        
-                                    <form method="POST" action="/soundcloud/serve-user-download" v-if="songPath && song.service=='soundcloud'" class="dl-form">  
-                                    	<input type="hidden" name="songPath" :value="songPath">
-                                    	<button type="submit">
-                                    		<span class="icon has-text-info">
-                                            	<i class="fa fa-cloud-download"></i>
-                                        	</span> 
-                                    	</button>
-                                   	</form>
+				<div class="col-sm-6 mt-3 mt-md-0">
+					<ul class="list-unstyled">
+						<li class="song helvetica-n">
+							💿 &nbsp; {{song.song_name}}
+							<a :href="song.link" @click.prevent="downloadSong" class="mt-3 w-100 btn btn-outline-pink rounded-0 text-white" v-if="!songPath"> 
+                                Initialize Download
+                            </a>
 
-                                   	<form method="POST" action="/bandcamp/serve-user-download" v-if="songPath && song.service=='bandcamp'" class="dl-form">  
-                                    	<input type="hidden" name="songPath" :value="songPath">
-										<button type="submit">
-                                    		<span class="icon has-text-info">
-                                            	<i class="fa fa-cloud-download"></i>
-                                        	</span> 
-                                    	</button>
-                                   	</form>
-                                </li>
-                            </ul>
-                            
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
+                            <form method="POST" action="/soundcloud/serve-user-download" v-if="songPath && song.service=='soundcloud'" class="mt-3 text-center">
+                            	<input type="hidden" name="songPath" :value="songPath">
+                            	<button type="submit">
+                            		<span class="icon has-text-info">
+                                    	<i class="fa fa-cloud-download"></i>
+                                	</span> 
+                            	</button>
+                           	</form>
+
+                           	<form method="POST" action="/bandcamp/serve-user-download" v-if="songPath && song.service=='bandcamp'" class="mt-3 text-center">  
+                            	<input type="hidden" name="songPath" :value="songPath">
+								<button type="submit">
+                            		<span class="icon has-text-info">
+                                    	<i class="fa fa-cloud-download"></i>
+                                	</span> 
+                            	</button>
+                           	</form>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
         <loading-modal v-if="loading" :status="statusMessage"> </loading-modal>
         <error-modal v-if="error" :status="errorMessage"> </error-modal>
-        <!-- <success-modal v-if="success" :status="successMessage"> </success-modal> -->
-    </footer>
-
+	</main>
 </template>
 
 
