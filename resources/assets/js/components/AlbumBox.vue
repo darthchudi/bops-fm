@@ -1,60 +1,53 @@
 <template>
-	 <footer class="footer song-details">
-        <div class="container">
-            <div class="content has-text-centered">
-                <h3><strong>{{albumDetails.album}} </strong> by <strong> {{albumDetails.artiste}} </strong></h3>
-                <div class="columns">
-                    <div class="column is-6">
-                        <img :src="albumDetails.cover_art" class="album-image">
-                    </div>
 
-                    <div class="column is-6">
-                        <p class="footer-text">
-                            <ul class="song-list album">
-                                <li class="song" v-for="song in tracklist">
-                                	💿 &nbsp; {{song.name}}
+	<main class="bg-custom" id="albumbox">
+		<div class="container pt-2 pb-5">
+			<h1 class="text-center helvetica-n mb-4">
+				<strong>{{albumDetails.album}} </strong> by <strong> {{albumDetails.artiste}} </strong>
+			</h1>
 
-									<a :href="song.link" @click.prevent="downloadSong(song)" class="button is-danger" v-if="songName !== song.name"> 
-                                         Initialize Download
-                                    </a>
+			<div class="row">
+				<div class="col-sm-6">
+					<img :src="albumDetails.cover_art" class="img-fluid cover-art" alt="album art">
+					<a @click.prevent="makeZip" class="mt-3 w-100 btn btn-success rounded-0 dl-prompt">
+                        Download all songs as a zip file
+                    </a>
+				</div>
 
+				<div class="col-sm-6 mt-3 mt-md-0">
+					<ul class="list-unstyled album">
+						<li class="song helvetica-n pb-3 mb-3 mb-md-4" v-for="song in tracklist">
+							💿 &nbsp; {{song.name}}
+							<a class="mt-3 w-100 btn btn-outline-pink rounded-0 text-white" :href="song.link" @click.prevent="downloadSong(song)" v-if="songName !== song.name"> 
+                                Initialize Download
+                            </a>
 
-                                    <form method="POST" action="/soundcloud/serve-user-download" v-if="songName==song.name && albumDetails.service=='soundcloud'" class="dl-form">  
-                                    	<input type="hidden" name="songPath" :value="songPath">
-                                    	<button type="submit">
-                                    		<span class="icon has-text-info">
-                                            	<i class="fa fa-cloud-download"></i>
-                                        	</span> 
-                                    	</button>
-                                   	</form>
+                            <form method="POST" action="/soundcloud/serve-user-download" class="mt-3 text-center" v-if="songName==song.name && albumDetails.service=='soundcloud'">
+                            	<input type="hidden" name="songPath" :value="songPath">
+                            	<button type="submit">
+                            		<span class="icon has-text-info">
+                                    	<i class="fa fa-cloud-download"></i>
+                                	</span> 
+                            	</button>
+                           	</form>
 
-                                   	<form method="POST" action="/bandcamp/serve-user-download" v-if="songName==song.name && albumDetails.service=='bandcamp'" class="dl-form">  
-                                    	<input type="hidden" name="songPath" :value="songPath">
-										<button type="submit">
-                                    		<span class="icon has-text-info">
-                                            	<i class="fa fa-cloud-download"></i>
-                                        	</span> 
-                                    	</button>
-                                   	</form>
+                           	<form method="POST" action="/bandcamp/serve-user-download" class="mt-3 text-center" v-if="songName==song.name && albumDetails.service=='bandcamp'">  
+                            	<input type="hidden" name="songPath" :value="songPath">
+								<button type="submit">
+                            		<span class="icon has-text-info">
+                                    	<i class="fa fa-cloud-download"></i>
+                                	</span> 
+                            	</button>
+                           	</form>
+						</li>
+					</ul>
 
-                                    <!-- <a :href="song.link" @click.prevent="downloadSong(song)"> 
-                                        <span class="icon has-text-info">
-                                            <i class="fa fa-cloud-download"></i>
-                                        </span> 
-                                    </a> --> 
-                                </li>
-                            </ul>
-                            
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
+				</div>
+			</div>
+		</div>
         <loading-modal v-if="loading" :status="statusMessage"> </loading-modal>
         <error-modal v-if="error" :status="errorMessage"> </error-modal>
-       <!--  <success-modal v-if="success" :status="successMessage"> </success-modal> -->
-    </footer>
-
+	</main>
 </template>
 
 
