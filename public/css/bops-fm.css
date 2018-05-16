@@ -1,0 +1,207 @@
+@font-face {
+  font-family: 'HelveticaNeue-Bold';
+  src: 	url('fonts/HelveticaNeue-Bold.eot?#iefix') format('embedded-opentype'),  
+		url('fonts/HelveticaNeue-Bold.otf')  format('opentype'),
+     	url('fonts/HelveticaNeue-Bold.woff') format('woff'), 
+     	url('fonts/HelveticaNeue-Bold.ttf')  format('truetype'), 
+     	url('fonts/HelveticaNeue-Bold.svg#HelveticaNeue-Bold') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'HelveticaNeue-Thin';
+  src: 	url('fonts/HelveticaNeue-Thin.eot?#iefix') format('embedded-opentype'),  
+		url('fonts/HelveticaNeue-Thin.otf')  format('opentype'),
+     	url('fonts/HelveticaNeue-Thin.woff') format('woff'), 
+     	url('fonts/HelveticaNeue-Thin.ttf')  format('truetype'), 
+     	url('fonts/HelveticaNeue-Thin.svg#HelveticaNeue-Thin') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+*{
+	font-family: Helvetica;
+	padding: 0px;
+	margin: 0px;
+}
+
+.helvetica-n{
+	font-family: 'HelveticaNeue-Bold';
+}
+
+i.logo{
+	color: pink;
+	font-size: 1.5rem;
+}
+
+span.logo-tag{
+	color: pink;
+}
+
+.bg-gradient{
+	background: #DE6262;  /* fallback for old browsers */
+	background: -webkit-linear-gradient(to right, #FFB88C, #DE6262);  /* Chrome 10-25, Safari 5.1-6 */
+	/*background: linear-gradient(to right, #FFB88C, #DE6262);*/ /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+	background: linear-gradient(to right, #d36167, #f48e38);
+}
+
+ul li a.active{
+	border-bottom: 3px solid black;
+}
+
+input[type=text]:focus{
+	box-shadow: none !important;
+}
+
+.text-muted{
+	color: white !important;
+}
+
+.debug{
+	border: 3px solid gold;
+}
+
+.fa{
+	font-size: 20px;
+}
+
+.fa-soundcloud{
+	color: orange;
+}
+
+.fa-bandcamp{
+	color: #639aa9;
+}
+
+.btn-outline-light:hover{
+	background-color: #000;
+	border-color: #000;
+	color: white;
+	transition: 0.3s ease-in-out;
+}
+
+.p-custom{
+	padding: .6rem !important;
+}
+
+.bg-custom{
+	margin-top: 5rem;
+	background-color: #212121;
+	color: white;
+}
+
+h1{
+	font-size: 2rem;
+	line-height: 3.5rem;
+}
+
+strong{
+	color: white;
+	border-bottom: 8px solid #DE6262;
+	cursor: pointer;
+}
+
+strong:hover{
+	border-bottom: 8px solid #FFB88C;
+	transition: 0.5s ease-in-out;
+}
+
+.list-unstyled li{
+	line-height: 2rem;
+	font-size: 1.3rem;
+}
+
+.btn-outline-pink{
+	border: 1px solid #d36167;
+}
+
+.btn-outline-pink:hover{
+	background: #d36167;
+	transition: 0.4s ease-in-out;
+}
+
+.fa-cloud-download{
+	font-size: 30px;
+	background: -webkit-linear-gradient(#d36167, #f48e38);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+button[type=submit]{
+	background: none;
+	border: none;
+}
+
+.chudi{
+	border-bottom: 5px solid pink;
+}
+
+.chudi:hover{
+	border-bottom: 5px solid #f48e38;
+	transition: 0.4s ease-in-out;
+}
+
+a i{
+	text-decoration: none;
+}
+
+span a:h{
+	text-decoration: none;
+}
+
+.fa-twitter, .fa-github{
+	margin-top: 0.5rem;
+	margin-bottom: 0.5rem;
+	font-size: 1.3rem;
+}
+
+b.fin{
+	margin-bottom: 2rem;
+}
+
+ul.album li{
+	/*border-bottom: 3px solid white;*/
+	cursor: pointer;
+}
+
+@media (min-width: 768px) {
+	a.dl-prompt{
+		width: 93% !important;
+	}
+
+	img.cover-art{
+		width: 93% !important;
+	}
+}
+
+
+/* About Page */
+
+.bg-about{
+	background: #DE6262;  /* fallback for old browsers */
+	background: -webkit-linear-gradient(to right, #FFB88C, #DE6262);  /* Chrome 10-25, Safari 5.1-6 */
+	/*background: linear-gradient(to right, #FFB88C, #DE6262);*/ /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+	background: linear-gradient(to right, #d36167, #f48e38);
+	overflow-x: scroll;
+}
+
+p.about a{
+	color: white;
+}
+
+p.about a:hover{
+	text-decoration: none;
+}
+
+.about-title{
+	border-bottom: 5px solid white;
+}
+
+.about{
+	line-height: 2.3rem;
+}
+
+.ps{
+	border-bottom: 3px solid white;
+}
