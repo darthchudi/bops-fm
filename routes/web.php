@@ -19,8 +19,8 @@ Route::get('/about', function(){
 	return view('about');
 });
 
-Route::get('/about', function(){
-	return view('about');
+Route::get('/collab', function(){
+	return view('collab');
 });
 
 /* ---------------------------- API Routes *-----------------------/
