@@ -105,26 +105,58 @@ class Zip{
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $song['link']);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        $song = curl_exec($ch);
+        $rawSongFile = curl_exec($ch);
         curl_close ($ch);
 
         //Fix issue with downloading soundcloud files
         if($albumDetails['service']==='soundcloud'){
-	        $decodedSongData = json_decode($song);
-	        $song = file_get_contents($decodedSongData->location);	
+	        $decodedSongData = json_decode($rawSongFile);
+	        $rawSongFile = file_get_contents($decodedSongData->location);	
         }
 
-        $download = file_put_contents($downloadPath, $song);
+        $download = file_put_contents($downloadPath, $rawSongFile);
         
         if(!$download){
             return false;
         }
         else{
+        	$this->checkID3($downloadPath, $albumDetails, $song);
             return $downloadPath;
         }
 	}
 
-	public function checkAndSetID3($filePath){
+	public function checkID3($downloadPath, $albumDetails, $song){
+		$info = $this->getID3->analyze($downloadPath);
+    	if(array_key_exists('tags', $info)){
+    		return;
+    	}
+    	$this->setID3($downloadPath, $albumDetails, $song);
+    	return;
+	}
 
+	public function setID3($downloadPath, $albumDetails, $song){
+		$TextEncoding = 'UTF-8';
+    	$this->getID3->setOption(array('encoding'=>$TextEncoding));
+		$this->tagwriter->filename = $downloadPath;
+		$this->tagwriter->tagformats = array('id3v2.3');
+
+		// set various options (optional)
+		$this->tagwriter->overwrite_tags  = true;
+		$this->tagwriter->tag_encoding = $TextEncoding;
+		$this->tagwriter->remove_other_tags = true;
+
+		// populate data array
+		$TagData = array(
+			'title'  => array($song['name']),
+			'artist' => array($albumDetails['artiste']),
+			'album'  => array($albumDetails['album']),
+			'band'=>array($albumDetails['artiste']),
+			'track_number' => array($song['trackNumber'])
+		);
+
+		$this->tagwriter->tag_data = $TagData;
+
+		//Write Tags
+		$this->tagwriter->WriteTags();
 	}
 }

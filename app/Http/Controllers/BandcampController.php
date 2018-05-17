@@ -63,8 +63,7 @@ class BandcampController extends Controller
 
     public function serveUserDownload(Request $request){
     	$songPath = $request->songPath;
-        $songTitle = $request->songTitle;
-        return response()->download($songPath, $songTitle);
+        return response()->download($songPath);
     }
 
     public function s3Download(Request $request){
