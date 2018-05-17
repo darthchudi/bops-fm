@@ -43541,7 +43541,7 @@ exports = module.exports = __webpack_require__(5)(false);
 
 
 // module
-exports.push([module.i, "\n.modal-content{\n\theight: 16000px;\n\toverflow-x: hidden;\n}\n.spinner-wave{\n\tposition: relative;\n\ttop: 160px;\n}\np.status{\n\tfont-family: Montserrat;\n\tposition: relative;\n\ttop: -80px;\n\ttext-align: center;\n\tfont-size: 20px;\n\tleft: -10px;\n\tcolor: white;\n}\n", ""]);
+exports.push([module.i, "\n.modal-content{\n\theight: 16000px;\n\toverflow-x: hidden;\n}\np.status{\n\tfont-family: Montserrat;\n\tposition: relative;\n\ttop: -80px;\n\ttext-align: center;\n\tfont-size: 20px;\n\tleft: -10px;\n\tcolor: white;\n}\n", ""]);
 
 // exports
 
@@ -43643,7 +43643,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "spinner .spinner-wave" }, [
+    return _c("div", { staticClass: "spinner spinner-wave" }, [
       _c("div", { staticClass: "rect1" }),
       _vm._v(" "),
       _c("div", { staticClass: "rect2" }),
@@ -43992,11 +43992,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
 
 
 
@@ -44085,98 +44080,95 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "footer",
-    { staticClass: "footer song-details" },
+    "main",
+    { staticClass: "bg-custom", attrs: { id: "songbox" } },
     [
-      _c("div", { staticClass: "container" }, [
-        _c("div", { staticClass: "content has-text-centered" }, [
-          _c("h3", [
-            _c("strong", [_vm._v(_vm._s(_vm.song.song_name) + " — Single")]),
-            _vm._v(" by "),
-            _c("strong", [_vm._v(" " + _vm._s(_vm.song.artiste) + " ")])
+      _c("div", { staticClass: "container py-2" }, [
+        _c("h1", { staticClass: "text-center helvetica-n mb-4" }, [
+          _c("strong", [_vm._v(_vm._s(_vm.song.song_name) + " — Single")]),
+          _vm._v(" by "),
+          _c("strong", [_vm._v(" " + _vm._s(_vm.song.artiste) + " ")])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-sm-6" }, [
+            _c("img", {
+              staticClass: "img-fluid",
+              attrs: { src: _vm.song.cover_art, alt: "album art" }
+            })
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "columns" }, [
-            _c("div", { staticClass: "column is-7" }, [
-              _c("img", {
-                staticClass: "album-image",
-                attrs: { src: _vm.song.cover_art }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "column is-5" }, [
-              _c("p", { staticClass: "footer-text" }, [
-                _c("ul", { staticClass: "song-list" }, [
-                  _c("li", { staticClass: "song" }, [
-                    _vm._v(
-                      "\n                                \t💿   " +
-                        _vm._s(_vm.song.song_name) +
-                        "\n\n                                \t"
-                    ),
-                    !_vm.songPath
-                      ? _c(
-                          "a",
-                          {
-                            staticClass: "button is-danger",
-                            attrs: { href: _vm.song.link },
-                            on: {
-                              click: function($event) {
-                                $event.preventDefault()
-                                _vm.downloadSong($event)
-                              }
-                            }
-                          },
-                          [
-                            _vm._v(
-                              " \n                                        Initialize Download\n                                    "
-                            )
-                          ]
+          _c("div", { staticClass: "col-sm-6 mt-3 mt-md-0" }, [
+            _c("ul", { staticClass: "list-unstyled" }, [
+              _c("li", { staticClass: "song helvetica-n" }, [
+                _vm._v(
+                  "\n\t\t\t\t\t\t\t💿   " +
+                    _vm._s(_vm.song.song_name) +
+                    "\n\t\t\t\t\t\t\t"
+                ),
+                !_vm.songPath
+                  ? _c(
+                      "a",
+                      {
+                        staticClass:
+                          "mt-3 w-100 btn btn-outline-pink rounded-0 text-white",
+                        attrs: { href: _vm.song.link },
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            _vm.downloadSong($event)
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          " \n                                Initialize Download\n                            "
                         )
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _vm.songPath && _vm.song.service == "soundcloud"
-                      ? _c(
-                          "form",
-                          {
-                            staticClass: "dl-form",
-                            attrs: {
-                              method: "POST",
-                              action: "/soundcloud/serve-user-download"
-                            }
-                          },
-                          [
-                            _c("input", {
-                              attrs: { type: "hidden", name: "songPath" },
-                              domProps: { value: _vm.songPath }
-                            }),
-                            _vm._v(" "),
-                            _vm._m(0)
-                          ]
-                        )
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _vm.songPath && _vm.song.service == "bandcamp"
-                      ? _c(
-                          "form",
-                          {
-                            staticClass: "dl-form",
-                            attrs: {
-                              method: "POST",
-                              action: "/bandcamp/serve-user-download"
-                            }
-                          },
-                          [
-                            _c("input", {
-                              attrs: { type: "hidden", name: "songPath" },
-                              domProps: { value: _vm.songPath }
-                            }),
-                            _vm._v(" "),
-                            _vm._m(1)
-                          ]
-                        )
-                      : _vm._e()
-                  ])
-                ])
+                      ]
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.songPath && _vm.song.service == "soundcloud"
+                  ? _c(
+                      "form",
+                      {
+                        staticClass: "mt-3 text-center",
+                        attrs: {
+                          method: "POST",
+                          action: "/soundcloud/serve-user-download"
+                        }
+                      },
+                      [
+                        _c("input", {
+                          attrs: { type: "hidden", name: "songPath" },
+                          domProps: { value: _vm.songPath }
+                        }),
+                        _vm._v(" "),
+                        _vm._m(0)
+                      ]
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.songPath && _vm.song.service == "bandcamp"
+                  ? _c(
+                      "form",
+                      {
+                        staticClass: "mt-3 text-center",
+                        attrs: {
+                          method: "POST",
+                          action: "/bandcamp/serve-user-download"
+                        }
+                      },
+                      [
+                        _c("input", {
+                          attrs: { type: "hidden", name: "songPath" },
+                          domProps: { value: _vm.songPath }
+                        }),
+                        _vm._v(" "),
+                        _vm._m(1)
+                      ]
+                    )
+                  : _vm._e()
               ])
             ])
           ])
@@ -44342,8 +44334,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 
 
@@ -44358,7 +44348,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			successMessage: '',
 			errorMessage: '',
 			songPath: '',
-			songName: ''
+			songName: '',
+			doesZipFileExist: false,
+			zipFilePath: ''
 		};
 	},
 	created: function created() {
@@ -44428,6 +44420,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				self.errorMessage = "Baba error dey yapa!";
 				console.log(e.response);
 			});
+		},
+		makeZip: function makeZip() {
+			self = this;
+			this.downloadedZip = false;
+			this.loading = true;
+			axios.post('/make-zip', {
+				albumDetails: this.albumDetails,
+				tracklist: this.tracklist
+			}).then(function (data) {
+				self.doesZipFileExist = true;
+				self.zipFilePath = data.data;
+			}).catch(function (e) {
+				console.log(e.response);
+			});
+		},
+		resetData: function resetData() {
+			this.doesZipFileExist = false;
+			this.zipFilePath = '';
 		}
 	},
 	components: { LoadingModal: __WEBPACK_IMPORTED_MODULE_0__LoadingModal_vue___default.a, SuccessModal: __WEBPACK_IMPORTED_MODULE_1__SuccessModal_vue___default.a, ErrorModal: __WEBPACK_IMPORTED_MODULE_2__ErrorModal_vue___default.a }
@@ -44442,106 +44452,148 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "footer",
-    { staticClass: "footer song-details" },
+    "main",
+    { staticClass: "bg-custom", attrs: { id: "albumbox" } },
     [
-      _c("div", { staticClass: "container" }, [
-        _c("div", { staticClass: "content has-text-centered" }, [
-          _c("h3", [
-            _c("strong", [_vm._v(_vm._s(_vm.albumDetails.album) + " ")]),
-            _vm._v(" by "),
-            _c("strong", [_vm._v(" " + _vm._s(_vm.albumDetails.artiste) + " ")])
+      _c("div", { staticClass: "container pt-2 pb-5" }, [
+        _c("h1", { staticClass: "text-center helvetica-n mb-4" }, [
+          _c("strong", [_vm._v(_vm._s(_vm.albumDetails.album) + " ")]),
+          _vm._v(" by "),
+          _c("strong", [_vm._v(" " + _vm._s(_vm.albumDetails.artiste) + " ")])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-sm-6" }, [
+            _c("img", {
+              staticClass: "img-fluid cover-art",
+              attrs: { src: _vm.albumDetails.cover_art, alt: "album art" }
+            }),
+            _vm._v(" "),
+            !_vm.doesZipFileExist
+              ? _c(
+                  "a",
+                  {
+                    staticClass:
+                      "mt-3 w-100 btn btn-success rounded-0 dl-prompt",
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        _vm.makeZip($event)
+                      }
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n                        Download all songs as a zip file\n                    "
+                    )
+                  ]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _c("form", { attrs: { method: "POST", action: "/download-zip" } }, [
+              _c("input", {
+                attrs: { type: "hidden", name: "zipFilePath" },
+                domProps: { value: _vm.zipFilePath }
+              }),
+              _vm._v(" "),
+              _vm.doesZipFileExist
+                ? _c("input", {
+                    staticClass:
+                      "mt-3 w-100 btn btn-success rounded-0 dl-prompt animated pulse infinite",
+                    attrs: {
+                      type: "submit",
+                      name: "download zip",
+                      value: "zip file ready for download"
+                    },
+                    on: { click: _vm.resetData }
+                  })
+                : _vm._e()
+            ])
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "columns" }, [
-            _c("div", { staticClass: "column is-6" }, [
-              _c("img", {
-                staticClass: "album-image",
-                attrs: { src: _vm.albumDetails.cover_art }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "column is-6" }, [
-              _c("p", { staticClass: "footer-text" }, [
-                _c(
-                  "ul",
-                  { staticClass: "song-list album" },
-                  _vm._l(_vm.tracklist, function(song) {
-                    return _c("li", { staticClass: "song" }, [
-                      _vm._v(
-                        "\n                                \t💿   " +
-                          _vm._s(song.name) +
-                          "\n\n\t\t\t\t\t\t\t\t\t"
-                      ),
-                      _vm.songName !== song.name
-                        ? _c(
-                            "a",
-                            {
-                              staticClass: "button is-danger",
-                              attrs: { href: song.link },
-                              on: {
-                                click: function($event) {
-                                  $event.preventDefault()
-                                  _vm.downloadSong(song)
-                                }
+          _c("div", { staticClass: "col-sm-6 mt-3 mt-md-0" }, [
+            _c(
+              "ul",
+              { staticClass: "list-unstyled album" },
+              _vm._l(_vm.tracklist, function(song) {
+                return _c(
+                  "li",
+                  { staticClass: "song helvetica-n pb-3 mb-3 mb-md-4" },
+                  [
+                    _vm._v(
+                      "\n\t\t\t\t\t\t\t💿   " +
+                        _vm._s(song.name) +
+                        "\n\t\t\t\t\t\t\t"
+                    ),
+                    _vm.songName !== song.name
+                      ? _c(
+                          "a",
+                          {
+                            staticClass:
+                              "mt-3 w-100 btn btn-outline-pink rounded-0 text-white",
+                            attrs: { href: song.link },
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                _vm.downloadSong(song)
                               }
-                            },
-                            [
-                              _vm._v(
-                                " \n                                         Initialize Download\n                                    "
-                              )
-                            ]
-                          )
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _vm.songName == song.name &&
-                      _vm.albumDetails.service == "soundcloud"
-                        ? _c(
-                            "form",
-                            {
-                              staticClass: "dl-form",
-                              attrs: {
-                                method: "POST",
-                                action: "/soundcloud/serve-user-download"
-                              }
-                            },
-                            [
-                              _c("input", {
-                                attrs: { type: "hidden", name: "songPath" },
-                                domProps: { value: _vm.songPath }
-                              }),
-                              _vm._v(" "),
-                              _vm._m(0, true)
-                            ]
-                          )
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _vm.songName == song.name &&
-                      _vm.albumDetails.service == "bandcamp"
-                        ? _c(
-                            "form",
-                            {
-                              staticClass: "dl-form",
-                              attrs: {
-                                method: "POST",
-                                action: "/bandcamp/serve-user-download"
-                              }
-                            },
-                            [
-                              _c("input", {
-                                attrs: { type: "hidden", name: "songPath" },
-                                domProps: { value: _vm.songPath }
-                              }),
-                              _vm._v(" "),
-                              _vm._m(1, true)
-                            ]
-                          )
-                        : _vm._e()
-                    ])
-                  })
+                            }
+                          },
+                          [
+                            _vm._v(
+                              " \n                                Initialize Download\n                            "
+                            )
+                          ]
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.songName == song.name &&
+                    _vm.albumDetails.service == "soundcloud"
+                      ? _c(
+                          "form",
+                          {
+                            staticClass: "mt-3 text-center",
+                            attrs: {
+                              method: "POST",
+                              action: "/soundcloud/serve-user-download"
+                            }
+                          },
+                          [
+                            _c("input", {
+                              attrs: { type: "hidden", name: "songPath" },
+                              domProps: { value: _vm.songPath }
+                            }),
+                            _vm._v(" "),
+                            _vm._m(0, true)
+                          ]
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.songName == song.name &&
+                    _vm.albumDetails.service == "bandcamp"
+                      ? _c(
+                          "form",
+                          {
+                            staticClass: "mt-3 text-center",
+                            attrs: {
+                              method: "POST",
+                              action: "/bandcamp/serve-user-download"
+                            }
+                          },
+                          [
+                            _c("input", {
+                              attrs: { type: "hidden", name: "songPath" },
+                              domProps: { value: _vm.songPath }
+                            }),
+                            _vm._v(" "),
+                            _vm._m(1, true)
+                          ]
+                        )
+                      : _vm._e()
+                  ]
                 )
-              ])
-            ])
+              })
+            )
           ])
         ])
       ]),

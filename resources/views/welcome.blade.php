@@ -11,8 +11,9 @@
     <script type="text/javascript" src="/css/bootstrap/assets/js/vendor/jquery-slim.min.js"></script>
     <script type="text/javascript" src="/css/bootstrap/dist/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/css/bops-fm.css">
+    <link rel="stylesheet" type="text/css" href="/css/animate.css">
     <link rel="stylesheet" type="text/css" href="/css/wave-modal.css">
-     <link rel="shortcut icon" href="/images/favicon.ico?v=2">
+    <link rel="shortcut icon" href="/images/favicon.ico?v=2">
 </head>
 <body class="bg-gradient">
     <div id="root">
@@ -45,7 +46,7 @@
             <div class="container">
                 <div class="row mb-5">
                     <div class="col">
-                        <form @submit.prevent="submit" action="POST">
+                        <form @submit.prevent="submit">
                             <div class="form-row">
                                 <div class="col-sm col-md-8 container">
                                     <div class="input-group ml-sm-0 ml-md-5">
@@ -70,6 +71,7 @@
                 </div>
             </div>
         </main>
+        
         <loading-modal :status="status" v-if="loading"> </loading-modal>
         <success-modal :status="successMessage" v-if="success"> </success-modal>
         <error-modal :status="errorMessage" v-if="error"> </error-modal>

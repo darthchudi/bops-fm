@@ -9,9 +9,14 @@
 			<div class="row">
 				<div class="col-sm-6">
 					<img :src="albumDetails.cover_art" class="img-fluid cover-art" alt="album art">
-					<a @click.prevent="makeZip" class="mt-3 w-100 btn btn-success rounded-0 dl-prompt">
+					<a @click.prevent="makeZip" class="mt-3 w-100 btn btn-success rounded-0 dl-prompt" v-if="!doesZipFileExist">
                         Download all songs as a zip file
                     </a>
+
+                    <form method="POST" action="/download-zip">
+                    	<input type="hidden" name="zipFilePath" :value="zipFilePath">
+                    	<input type="submit" name="download zip" value="zip file ready for download" class="mt-3 w-100 btn btn-success rounded-0 dl-prompt animated pulse infinite" v-if="doesZipFileExist" @click="resetData">
+                    </form>
 				</div>
 
 				<div class="col-sm-6 mt-3 mt-md-0">
@@ -65,7 +70,9 @@
 				successMessage: '',
 				errorMessage: '',
 				songPath: '',
-				songName: ''
+				songName: '',
+				doesZipFileExist: false,
+				zipFilePath: ''
 			}
 		},
 		created(){
@@ -137,6 +144,26 @@
 					console.log(e.response);
 				})
 			},
+			makeZip(){
+				self = this;
+				this.downloadedZip = false;
+				this.loading = true;
+				axios.post('/make-zip', {
+					albumDetails: this.albumDetails,
+					tracklist: this.tracklist
+				})
+				.then((data)=>{
+					self.doesZipFileExist = true;
+					self.zipFilePath = data.data;
+				})
+				.catch((e)=>{
+					console.log(e.response);
+				})
+			},
+			resetData(){
+				this.doesZipFileExist = false;
+				this.zipFilePath = '';
+			}
 		},
 		components: {LoadingModal, SuccessModal, ErrorModal}
 	}

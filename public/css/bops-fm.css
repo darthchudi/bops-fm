@@ -170,6 +170,10 @@ ul.album li{
 		width: 93% !important;
 	}
 
+	input[type=submit].dl-prompt{
+		width: 93% !important;
+	}
+
 	img.cover-art{
 		width: 93% !important;
 	}

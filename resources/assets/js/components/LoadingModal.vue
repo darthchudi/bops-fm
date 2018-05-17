@@ -2,7 +2,7 @@
 	<div class="modal is-active">
 		<div class="modal-background"> </div>
 		<div class="modal-content">
-			<div class="spinner .spinner-wave">
+			<div class="spinner spinner-wave">
 			  <div class="rect1"></div>
 			  <div class="rect2"></div>
 			  <div class="rect3"></div>
@@ -33,11 +33,6 @@
 	.modal-content{
 		height: 16000px;
 		overflow-x: hidden;
-	}
-
-	.spinner-wave{
-		position: relative;
-		top: 160px;
 	}
 
 	p.status{

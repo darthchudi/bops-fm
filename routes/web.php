@@ -23,8 +23,9 @@ Route::get('/collab', function(){
 	return view('collab');
 });
 
-/* ---------------------------- API Routes *-----------------------/
+/* ---------------------------------------------------- API ROUTES -------------------------------------------*/
 
+/* ----------------------- Bandcamp -------------------------*/
 Route::post("/bandcamp/single/fetchLink", 'BandcampController@fetchLink');
 
 Route::post("/bandcamp/album/fetchLinks", "BandcampController@fetchAlbumLinks");
@@ -39,6 +40,14 @@ Route::post("/soundcloud/fetchLink", "SoundcloudController@fetchLinks");
 Route::post("/soundcloud/download", "SoundcloudController@downloadSingle");
 
 Route::post('/soundcloud/serve-user-download', "SoundcloudController@serveUserDownload");
+
+/* ----------------------- Zip -------------------------*/
+Route::post('/make-zip', 'ZipController@makeZip');
+
+Route::post('/download-zip', 'ZipController@downloadZip');
+
+
+
 
 // Route::get('/s3-test', 'BandcampController@s3Test');
 
