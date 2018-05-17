@@ -41,15 +41,12 @@
 			</div>
 		</div>
         <loading-modal v-if="loading" :status="statusMessage"> </loading-modal>
-        <error-modal v-if="error" :status="errorMessage"> </error-modal>
 	</main>
 </template>
 
 
 <script type="text/javascript">
 	import LoadingModal from './LoadingModal.vue';
-	import SuccessModal from './SuccessModal.vue';
-	import ErrorModal from './ErrorModal.vue';
 	export default{
 		data: function(){
 			return{
@@ -61,18 +58,6 @@
 				errorMessage: '',
 				songPath: ''
 			}
-		},
-		created(){
-			Event.$on('successClose', ()=>{
-				this.success = false;
-				this.successMessage = '';
-				this.error = '';
-			});
-
-			Event.$on('errorClose', ()=>{
-				this.errorMessage = '';
-				this.error = '';
-			});
 		},
 		props: ["song"],
 		methods: {
@@ -96,8 +81,7 @@
 					})
 					.catch((e)=>{
 						self.loading = false;
-						self.error = true;
-						self.errorMessage = "Baba error dey yapa!";
+						Event.$emit('error');
 						console.log(e.response);
 					})
 					return;
@@ -117,12 +101,11 @@
 				})
 				.catch((e)=>{
 					self.loading = false;
-					self.error = true;
-					self.errorMessage = "Baba error dey yapa!";
+					Event.$emit('error');
 					console.log(e.response);
 				})
 			},
 		},
-		components: {LoadingModal, SuccessModal, ErrorModal}
+		components: {LoadingModal}
 	}
 </script>

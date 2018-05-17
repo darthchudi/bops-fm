@@ -614,10 +614,6 @@ module.exports = defaults;
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(44)
-}
 var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(47)
@@ -626,7 +622,7 @@ var __vue_template__ = __webpack_require__(48)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
-var __vue_styles__ = injectStyle
+var __vue_styles__ = null
 /* scopeId */
 var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
@@ -1019,10 +1015,6 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(53)
-}
 var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(55)
@@ -1031,7 +1023,7 @@ var __vue_template__ = __webpack_require__(56)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
-var __vue_styles__ = injectStyle
+var __vue_styles__ = null
 /* scopeId */
 var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
@@ -1590,6 +1582,10 @@ var app = new Vue({
 		Event.$on('errorClose', function () {
 			_this.errorMessage = '';
 			_this.error = '';
+		});
+
+		Event.$on('error', function () {
+			_this.error = true;
 		});
 	},
 
@@ -43507,46 +43503,8 @@ exports.clearImmediate = clearImmediate;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(10)))
 
 /***/ }),
-/* 44 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(45);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(6)("bf01bcf2", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-d5524570\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./LoadingModal.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-d5524570\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./LoadingModal.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 45 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(5)(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n.modal-content{\n\theight: 16000px;\n\toverflow-x: hidden;\n}\np.status{\n\tfont-family: Montserrat;\n\tposition: relative;\n\ttop: -80px;\n\ttext-align: center;\n\tfont-size: 20px;\n\tleft: -10px;\n\tcolor: white;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
+/* 44 */,
+/* 45 */,
 /* 46 */
 /***/ (function(module, exports) {
 
@@ -43585,22 +43543,6 @@ module.exports = function listToStyles (parentId, list) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -43802,46 +43744,8 @@ if (false) {
 }
 
 /***/ }),
-/* 53 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(54);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(6)("2e4eb9e2", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-8696c488\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ErrorModal.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-8696c488\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ErrorModal.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 54 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(5)(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n.modal-content{\n\theight: 16000px;\n\toverflow-x: hidden;\n\toverflow-y: hidden;\n}\n.error{\n\tposition: relative;\n\tleft: 20%;\n\twidth: 400px;\n\ttop: 30px;\n}\np.status{\n\tfont-family: Montserrat;\n\tposition: relative;\n\ttop: 20px;\n\tleft: 20%;\n\tfont-size: 20px;\n}\n.success-card{\n\tposition: relative;\n\ttop: 30px;\n\tbackground-color: white;\n\tborder-radius: 30px;\n\theight: 500px;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
+/* 53 */,
+/* 54 */,
 /* 55 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -43860,11 +43764,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-	created: function created() {},
-
-	props: ['status'],
 	methods: {
 		close: function close() {
 			Event.$emit('errorClose');
@@ -43880,28 +43789,81 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "modal is-active" }, [
-    _c("div", { staticClass: "modal-background" }),
+  return _c("div", [
+    _c(
+      "div",
+      {
+        staticClass: "modal fade show showModal",
+        attrs: { tabindex: "-1", role: "dialog" }
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "modal-dialog modal-dialog-centered",
+            attrs: { role: "document" }
+          },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("div", { staticClass: "modal-header" }, [
+                _c(
+                  "h5",
+                  {
+                    staticClass: "modal-title text-center",
+                    attrs: { id: "exampleModalCenterTitle" }
+                  },
+                  [_vm._v("An Error Occured")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "close",
+                    attrs: {
+                      type: "button",
+                      "data-dismiss": "modal",
+                      "aria-label": "Close"
+                    },
+                    on: { click: _vm.close }
+                  },
+                  [
+                    _c("span", { attrs: { "aria-hidden": "true" } }, [
+                      _vm._v("×")
+                    ])
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _vm._m(0)
+            ])
+          ]
+        )
+      ]
+    ),
     _vm._v(" "),
-    _c("div", { staticClass: "modal-content" }, [
-      _c("div", { staticClass: "success-card" }, [
-        _c("img", {
-          staticClass: "error",
-          attrs: { src: "/images/error.png" }
-        }),
-        _vm._v(" "),
-        _c("p", { staticClass: "status" }, [_vm._v(_vm._s(_vm.status))])
-      ])
-    ]),
-    _vm._v(" "),
-    _c("button", {
-      staticClass: "modal-close is-large",
-      attrs: { "aria-label": "close" },
-      on: { click: _vm.close }
-    })
+    _c("div", { staticClass: "modal-backdrop fade show" })
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-body text-center" }, [
+      _vm._v(
+        "\n\t\t\t\t\t😞 Looks like an error occured while downloading bop. Please refresh and try again. If the problem persists contact "
+      ),
+      _c(
+        "a",
+        {
+          staticClass: "text-dark support",
+          attrs: { href: "https://twitter.com/bopsfmsupport" }
+        },
+        [_c("span", { staticClass: "chudi" }, [_vm._v(" @bopsfmsupport ")])]
+      )
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -43966,10 +43928,6 @@ module.exports = Component.exports
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__LoadingModal_vue__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__LoadingModal_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__LoadingModal_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SuccessModal_vue__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SuccessModal_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__SuccessModal_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ErrorModal_vue__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ErrorModal_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__ErrorModal_vue__);
 //
 //
 //
@@ -44017,9 +43975,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-
-
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -44034,21 +43989,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			songPath: ''
 		};
 	},
-	created: function created() {
-		var _this = this;
-
-		Event.$on('successClose', function () {
-			_this.success = false;
-			_this.successMessage = '';
-			_this.error = '';
-		});
-
-		Event.$on('errorClose', function () {
-			_this.errorMessage = '';
-			_this.error = '';
-		});
-	},
-
 	props: ["song"],
 	methods: {
 		downloadSong: function downloadSong() {
@@ -44069,8 +44009,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					self.songPath = data.data.songPath;
 				}).catch(function (e) {
 					self.loading = false;
-					self.error = true;
-					self.errorMessage = "Baba error dey yapa!";
+					Event.$emit('error');
 					console.log(e.response);
 				});
 				return;
@@ -44088,13 +44027,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				self.songPath = data.data.songPath;
 			}).catch(function (e) {
 				self.loading = false;
-				self.error = true;
-				self.errorMessage = "Baba error dey yapa!";
+				Event.$emit('error');
 				console.log(e.response);
 			});
 		}
 	},
-	components: { LoadingModal: __WEBPACK_IMPORTED_MODULE_0__LoadingModal_vue___default.a, SuccessModal: __WEBPACK_IMPORTED_MODULE_1__SuccessModal_vue___default.a, ErrorModal: __WEBPACK_IMPORTED_MODULE_2__ErrorModal_vue___default.a }
+	components: { LoadingModal: __WEBPACK_IMPORTED_MODULE_0__LoadingModal_vue___default.a }
 });
 
 /***/ }),
@@ -44203,10 +44141,6 @@ var render = function() {
       _vm._v(" "),
       _vm.loading
         ? _c("loading-modal", { attrs: { status: _vm.statusMessage } })
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.error
-        ? _c("error-modal", { attrs: { status: _vm.errorMessage } })
         : _vm._e()
     ],
     1
@@ -44298,10 +44232,6 @@ module.exports = Component.exports
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__LoadingModal_vue__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__LoadingModal_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__LoadingModal_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SuccessModal_vue__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SuccessModal_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__SuccessModal_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ErrorModal_vue__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ErrorModal_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__ErrorModal_vue__);
 //
 //
 //
@@ -44358,10 +44288,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-
-
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -44422,8 +44348,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					// console.log(data);
 				}).catch(function (e) {
 					self.loading = false;
-					self.error = true;
-					self.errorMessage = "Baba error dey yapa!";
+					Event.$emit('error');
 					console.log(e.response);
 				});
 				return;
@@ -44442,8 +44367,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				// console.log(data);
 			}).catch(function (e) {
 				self.loading = false;
-				self.error = true;
-				self.errorMessage = "Baba error dey yapa!";
+				Event.$emit('error');
 				console.log(e.response);
 			});
 		},
@@ -44455,9 +44379,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				albumDetails: this.albumDetails,
 				tracklist: this.tracklist
 			}).then(function (data) {
+				self.loading = false;
 				self.doesZipFileExist = true;
 				self.zipFilePath = data.data;
 			}).catch(function (e) {
+				self.loading = false;
+				Event.$emit('error');
 				console.log(e.response);
 			});
 		},
@@ -44466,7 +44393,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			this.zipFilePath = '';
 		}
 	},
-	components: { LoadingModal: __WEBPACK_IMPORTED_MODULE_0__LoadingModal_vue___default.a, SuccessModal: __WEBPACK_IMPORTED_MODULE_1__SuccessModal_vue___default.a, ErrorModal: __WEBPACK_IMPORTED_MODULE_2__ErrorModal_vue___default.a }
+	components: { LoadingModal: __WEBPACK_IMPORTED_MODULE_0__LoadingModal_vue___default.a }
 });
 
 /***/ }),
@@ -44626,10 +44553,6 @@ var render = function() {
       _vm._v(" "),
       _vm.loading
         ? _c("loading-modal", { attrs: { status: _vm.statusMessage } })
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.error
-        ? _c("error-modal", { attrs: { status: _vm.errorMessage } })
         : _vm._e()
     ],
     1

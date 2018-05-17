@@ -169,6 +169,10 @@ span a:h{
 	font-size: 1.3rem;
 }
 
+.fa-twitter{
+	color: #55acee;
+}
+
 b.fin{
 	margin-bottom: 2rem;
 }
@@ -229,4 +233,8 @@ p.about a:hover{
 
 .ps{
 	border-bottom: 3px solid white;
+}
+
+a.support:hover{
+	text-decoration: none;
 }

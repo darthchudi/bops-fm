@@ -5,7 +5,7 @@
 
 	<span class="ml-2">
 		<a href="https://twitter.com/chudioranu" class="mr-3">
-			<i class="fa fa-twitter text-primary"></i>
+			<i class="fa fa-twitter"></i>
 		</a>
 
 		<a href="https://github.com/darthchudi">

@@ -41,6 +41,10 @@ var app = new Vue({
 			this.errorMessage = '';
 			this.error = '';
 		});
+
+		Event.$on('error', ()=>{
+			this.error = true;
+		});
 	},
 	watch: {
 		link: function(){

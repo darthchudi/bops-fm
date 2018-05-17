@@ -1,5 +1,4 @@
 <template>
-
 	<main class="bg-custom" id="albumbox">
 		<div class="container pt-2 pb-5">
 			<h1 class="text-center helvetica-n mb-4">
@@ -51,15 +50,12 @@
 			</div>
 		</div>
         <loading-modal v-if="loading" :status="statusMessage"> </loading-modal>
-        <error-modal v-if="error" :status="errorMessage"> </error-modal>
 	</main>
 </template>
 
 
 <script type="text/javascript">
 	import LoadingModal from './LoadingModal.vue';
-	import SuccessModal from './SuccessModal.vue';
-	import ErrorModal from './ErrorModal.vue';
 	export default{
 		data: function(){
 			return{
@@ -117,8 +113,7 @@
 					})
 					.catch((e)=>{
 						self.loading = false;
-						self.error = true;
-						self.errorMessage = "Baba error dey yapa!";
+						Event.$emit('error');
 						console.log(e.response);
 					})
 					return;
@@ -139,8 +134,7 @@
 				})
 				.catch((e)=>{
 					self.loading = false;
-					self.error = true;
-					self.errorMessage = "Baba error dey yapa!";
+					Event.$emit('error');
 					console.log(e.response);
 				})
 			},
@@ -153,10 +147,13 @@
 					tracklist: this.tracklist
 				})
 				.then((data)=>{
+					self.loading = false;
 					self.doesZipFileExist = true;
 					self.zipFilePath = data.data;
 				})
 				.catch((e)=>{
+					self.loading = false;
+					Event.$emit('error');
 					console.log(e.response);
 				})
 			},
@@ -165,6 +162,6 @@
 				this.zipFilePath = '';
 			}
 		},
-		components: {LoadingModal, SuccessModal, ErrorModal}
+		components: {LoadingModal}
 	}
 </script>

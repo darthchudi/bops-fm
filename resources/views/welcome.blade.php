@@ -19,10 +19,8 @@
     <div id="root" v-cloak>
         <loading-modal :status="status" v-if="loading"> </loading-modal>
         <success-modal :status="successMessage" v-if="success"> </success-modal>
-        <error-modal :status="errorMessage" v-if="error"> </error-modal>
-
-
-
+        <error-modal v-if="error"> </error-modal>
+        
         <nav class="navbar navbar-expand-md navbar-light bg-light">
             <a href="#" class="navbar-brand text-dark">
                 <i class="fa fa-music logo"></i> <span class="logo-tag ml-2"></span>
@@ -90,7 +88,7 @@
 
             <span class="ml-2">
                 <a href="https://twitter.com/chudioranu" class="mr-3">
-                    <i class="fa fa-twitter text-primary"></i>
+                    <i class="fa fa-twitter"></i>
                 </a>
 
                 <a href="https://github.com/darthchudi">
@@ -99,9 +97,6 @@
             </span> <br/>
         </main>
     </div>
-    
-
-    
 </body>
 </html>
 
