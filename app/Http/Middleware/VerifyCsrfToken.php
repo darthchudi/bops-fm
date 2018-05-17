@@ -12,8 +12,8 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        '/test-download',
         '/bandcamp/serve-user-download',
-        '/soundcloud/serve-user-download'
+        '/soundcloud/serve-user-download',
+        '/download-zip'
     ];
 }
