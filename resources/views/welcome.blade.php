@@ -16,7 +16,13 @@
     <link rel="shortcut icon" href="/images/favicon.ico?v=2">
 </head>
 <body class="bg-gradient">
-    <div id="root">
+    <div id="root" v-cloak>
+        <loading-modal :status="status" v-if="loading"> </loading-modal>
+        <success-modal :status="successMessage" v-if="success"> </success-modal>
+        <error-modal :status="errorMessage" v-if="error"> </error-modal>
+
+
+
         <nav class="navbar navbar-expand-md navbar-light bg-light">
             <a href="#" class="navbar-brand text-dark">
                 <i class="fa fa-music logo"></i> <span class="logo-tag ml-2"></span>
@@ -28,15 +34,15 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav ml-auto">
                     <li class="navbar-item mr-3">
-                        <a href="#" class="nav-link text-dark active">Home</a>
+                        <a href="/" class="nav-link text-dark active">Home</a>
                     </li>
 
                     <li class="navbar-item mr-3">
-                        <a href="#" class="nav-link text-dark">About</a>
+                        <a href="/about" class="nav-link text-dark">About</a>
                     </li>
 
                     <li class="text-dark navbar-item">
-                        <a href="#" class="nav-link text-dark">Collab</a>
+                        <a href="/collab" class="nav-link text-dark">Collab</a>
                     </li>
                 </ul>
             </div>  
@@ -72,9 +78,6 @@
             </div>
         </main>
         
-        <loading-modal :status="status" v-if="loading"> </loading-modal>
-        <success-modal :status="successMessage" v-if="success"> </success-modal>
-        <error-modal :status="errorMessage" v-if="error"> </error-modal>
 
         <song-box v-if="fetchedSong" :song="songDetails"> </song-box>
         <album-box v-if="fetchedAlbum" :album-details="albumDetails" :tracklist="albumTracklist"> </album-box>

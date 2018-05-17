@@ -20,6 +20,10 @@
   font-style: normal;
 }
 
+[v-cloak] {
+    display: none;
+}
+
 *{ 
 	font-family: Helvetica;
 	padding: 0px;
@@ -128,9 +132,18 @@ strong:hover{
 	-webkit-text-fill-color: transparent;
 }
 
+
 button[type=submit]{
 	background: none;
 	border: none;
+}
+
+button[type=submit]:hover{
+	cursor: pointer;
+}
+
+.showModal{
+	display: block;
 }
 
 .chudi{
@@ -177,6 +190,14 @@ ul.album li{
 	img.cover-art{
 		width: 93% !important;
 	}
+
+}
+
+@media (max-width: 768px) {
+	ul li a.active{
+		border: none;
+	}
+	
 }
 
 

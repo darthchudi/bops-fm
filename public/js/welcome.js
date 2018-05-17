@@ -43602,6 +43602,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	created: function created() {},
@@ -43622,37 +43638,47 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "modal is-active" }, [
-    _c("div", { staticClass: "modal-background" }),
-    _vm._v(" "),
-    _c("div", { staticClass: "modal-content" }, [
-      _vm._m(0),
-      _vm._v(" "),
-      _c("p", { staticClass: "status" }, [_vm._v(_vm._s(_vm.status))])
-    ]),
-    _vm._v(" "),
-    _c("button", {
-      staticClass: "modal-close is-large",
-      attrs: { "aria-label": "close" },
-      on: { click: _vm.close }
-    })
-  ])
+  return _vm._m(0)
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "spinner spinner-wave" }, [
-      _c("div", { staticClass: "rect1" }),
+    return _c("div", [
+      _c(
+        "div",
+        {
+          staticClass: "modal fade show showModal",
+          attrs: { id: "exampleModalCenter", tabindex: "-1", role: "dialog" }
+        },
+        [
+          _c(
+            "div",
+            {
+              staticClass: "modal-dialog modal-dialog-centered",
+              attrs: { role: "document" }
+            },
+            [
+              _c("div", { staticClass: "spinner spinner-wave" }, [
+                _c("div", { staticClass: "rect1" }),
+                _vm._v(" "),
+                _c("div", { staticClass: "rect2" }),
+                _vm._v(" "),
+                _c("div", { staticClass: "rect3" }),
+                _vm._v(" "),
+                _c("div", { staticClass: "rect4" }),
+                _vm._v(" "),
+                _c("div", { staticClass: "rect5" })
+              ]),
+              _vm._v(" "),
+              _c("br")
+            ]
+          )
+        ]
+      ),
       _vm._v(" "),
-      _c("div", { staticClass: "rect2" }),
-      _vm._v(" "),
-      _c("div", { staticClass: "rect3" }),
-      _vm._v(" "),
-      _c("div", { staticClass: "rect4" }),
-      _vm._v(" "),
-      _c("div", { staticClass: "rect5" })
+      _c("div", { staticClass: "modal-backdrop fade show" })
     ])
   }
 ]
