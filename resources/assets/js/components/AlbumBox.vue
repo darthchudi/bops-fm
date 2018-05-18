@@ -22,7 +22,7 @@
 					<ul class="list-unstyled album">
 						<li class="song helvetica-n pb-3 mb-3 mb-md-4" v-for="song in tracklist">
 							💿 &nbsp; {{song.name}}
-							<a class="mt-3 w-100 btn btn-outline-pink rounded-0 text-white" :href="song.link" @click.prevent="downloadSong(song)" v-if="songName !== song.name"> 
+							<a class="mt-3 w-100 btn btn-outline-pink rounded-0 text-white" @click.prevent="downloadSong(song)" v-if="songName !== song.name"> 
                                 Initialize Download
                             </a>
 

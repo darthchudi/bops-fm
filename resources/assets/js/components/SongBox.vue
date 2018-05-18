@@ -14,7 +14,7 @@
 					<ul class="list-unstyled">
 						<li class="song helvetica-n">
 							💿 &nbsp; {{song.song_name}}
-							<a :href="song.link" @click.prevent="downloadSong" class="mt-3 w-100 btn btn-outline-pink rounded-0 text-white" v-if="!songPath"> 
+							<a @click.prevent="downloadSong" class="mt-3 w-100 btn btn-outline-pink rounded-0 text-white" v-if="!songPath"> 
                                 Initialize Download
                             </a>
 
