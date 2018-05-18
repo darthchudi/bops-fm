@@ -35,12 +35,20 @@ class Soundcloud{
             $downloadLink = $data->stream_url."?client_id=$this->clientID";
             $details['link'] = $downloadLink;
 
+            //Fail safe for issue with certain songs not having cover art
+            $details['cover_art'] = $data->artwork_url==null ? $data->user->avatar_url : $details['cover_art'];
+
             //Convert Cover Art to a more suitable Size
             $details['cover_art'] = str_replace('large', 't500x500', $details['cover_art']);
 
             $details = $this->sanitize($details);
             return $details;
-        } elseif($data->kind==='playlist'){
+        } 
+        elseif($data->kind==='playlist'){
+            //Failsafe for issue with playlists not having cover art, fallback to cover art of first song
+            $data->artwork_url = $data->artwork_url==null ? $data->tracks[0]->artwork_url : $data->artwork_url;
+
+            //Continue with processing metadata
             $count = 1;
             $details['artiste'] = $data->user->username;
             $details['cover_art'] = str_replace('large', 't500x500', $data->artwork_url);
