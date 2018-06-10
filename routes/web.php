@@ -23,9 +23,9 @@ Route::get('/collab', function(){
 	return view('collab');
 });
 
-Route::get('/likes', function(){
-	return view('soundcloud-likes');
-});
+// Route::get('/likes', function(){
+// 	return view('soundcloud-likes');
+// });
 
 /* ---------------------------------------------------- API ROUTES -------------------------------------------*/
 
