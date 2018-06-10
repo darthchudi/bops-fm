@@ -11,4 +11,4 @@ let mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/assets/js/welcome.js', 'public/js');
+mix.js('resources/assets/js/soundcloud-likes.js', 'public/js');
