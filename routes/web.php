@@ -23,6 +23,10 @@ Route::get('/collab', function(){
 	return view('collab');
 });
 
+Route::get('/likes', function(){
+	return view('soundcloud-likes');
+});
+
 /* ---------------------------------------------------- API ROUTES -------------------------------------------*/
 
 /* ----------------------- Bandcamp -------------------------*/
@@ -40,6 +44,8 @@ Route::post("/soundcloud/fetchLink", "SoundcloudController@fetchLinks");
 Route::post("/soundcloud/download", "SoundcloudController@downloadSingle");
 
 Route::post('/soundcloud/serve-user-download', "SoundcloudController@serveUserDownload");
+
+Route::post('soundcloud/likes', 'SoundcloudController@fetchLikes');
 
 /* ----------------------- Zip -------------------------*/
 Route::post('/make-zip', 'ZipController@makeZip');

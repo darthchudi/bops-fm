@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Services\Soundcloud as Soundcloud;
 
+use App\Services\SoundcloudLikes as SoundcloudLikes;
+
 use JonnyW\PhantomJs\Client as Client;
 
 use Symfony\Component\DomCrawler\Crawler as Crawler;
@@ -20,7 +22,7 @@ class SoundcloudController extends Controller
 {
     protected $soundcloud;
     public function __construct(){
-    	$this->soundcloud = new Soundcloud();
+        $this->soundcloud = new Soundcloud();
     }
 
     public function fetchLinks(Request $request){
@@ -57,5 +59,16 @@ class SoundcloudController extends Controller
     public function serveUserDownload(Request $request){
         $songPath = $request->songPath;
         return response()->download($songPath);
-    }	
+    }
+    
+    public function fetchLikes(Request $request){
+        $profileUrl = $request->profileUrl;
+        $soundcloudLikes = new SoundcloudLikes();
+        list($user, $likes, $batches) = $soundcloudLikes->fetchLikes($profileUrl);
+        return response()->json([
+            "user"=>$user,
+            "likes"=>$likes,
+            "batches"=>$batches
+        ], 200);
+    }
 }
