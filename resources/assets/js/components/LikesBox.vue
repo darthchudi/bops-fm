@@ -3,6 +3,9 @@
 		<div class="container pt-2 pb-5">
 			<h1 class="text-center helvetica-n mb-4">
 				<strong>{{user.full_name}}'s Likes </strong> - <strong> {{likes.length}} Likes </strong>
+                <span v-if="batches != ''"> 
+                    - <strong> Batch {{batchCount}} </strong>
+                </span>
 			</h1>
 
 			<div class="row">
@@ -12,7 +15,7 @@
                         Download all songs as a zip file
                     </a>
 
-                    <a @click.prevent="getNextBatch" class="mt-3 w-100 btn btn-outline-light rounded-0 dl-prompt" v-if="!doesZipFileExist">
+                    <a @click.prevent="getNextBatch" class="mt-3 w-100 btn btn-outline-light rounded-0 dl-prompt" v-if="!doesZipFileExist && batches != '' ">
                         Get Next Batch ->
                     </a>
 
@@ -72,7 +75,8 @@
 				songPath: '',
 				songName: '',
 				doesZipFileExist: false,
-				zipFilePath: ''
+				zipFilePath: '',
+                batchCount: 1
 			}
 		},
 		created(){
@@ -87,7 +91,7 @@
 				this.error = '';
 			});
 		},
-		props: ["user", "likes"],
+		props: ["user", "likes", "batches"],
 		methods: {
 			downloadSong: function(song){
 				self = this;
@@ -164,7 +168,18 @@
 			resetData(){
 				this.doesZipFileExist = false;
 				this.zipFilePath = '';
-			}
+			},
+            getNextBatch(){
+                axios.get('soundcloud/likes/get-batch', {
+                    batches: batches 
+                })
+                .then((data)=>{
+                    console.log(data)
+                })
+                .catch((e)=>{
+                    console.log(e)
+                })
+            }
 		},
 		components: {LoadingModal}
 	}

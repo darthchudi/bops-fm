@@ -43887,6 +43887,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -43901,7 +43904,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			songPath: '',
 			songName: '',
 			doesZipFileExist: false,
-			zipFilePath: ''
+			zipFilePath: '',
+			batchCount: 1
 		};
 	},
 	created: function created() {
@@ -43919,7 +43923,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		});
 	},
 
-	props: ["user", "likes"],
+	props: ["user", "likes", "batches"],
 	methods: {
 		downloadSong: function downloadSong(song) {
 			self = this;
@@ -43990,6 +43994,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		resetData: function resetData() {
 			this.doesZipFileExist = false;
 			this.zipFilePath = '';
+		},
+		getNextBatch: function getNextBatch() {
+			axios.get('soundcloud/likes/get-batch', {
+				batches: batches
+			}).then(function (data) {
+				console.log(data);
+			}).catch(function (e) {
+				console.log(e);
+			});
 		}
 	},
 	components: { LoadingModal: __WEBPACK_IMPORTED_MODULE_0__LoadingModal_vue___default.a }
@@ -44011,7 +44024,14 @@ var render = function() {
         _c("h1", { staticClass: "text-center helvetica-n mb-4" }, [
           _c("strong", [_vm._v(_vm._s(_vm.user.full_name) + "'s Likes ")]),
           _vm._v(" - "),
-          _c("strong", [_vm._v(" " + _vm._s(_vm.likes.length) + " Likes ")])
+          _c("strong", [_vm._v(" " + _vm._s(_vm.likes.length) + " Likes ")]),
+          _vm._v(" "),
+          _vm.batches != ""
+            ? _c("span", [
+                _vm._v(" \n                    - "),
+                _c("strong", [_vm._v(" Batch " + _vm._s(_vm.batchCount) + " ")])
+              ])
+            : _vm._e()
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "row" }, [
@@ -44042,7 +44062,7 @@ var render = function() {
                 )
               : _vm._e(),
             _vm._v(" "),
-            !_vm.doesZipFileExist
+            !_vm.doesZipFileExist && _vm.batches != ""
               ? _c(
                   "a",
                   {

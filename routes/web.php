@@ -45,7 +45,7 @@ Route::post("/soundcloud/download", "SoundcloudController@downloadSingle");
 
 Route::post('/soundcloud/serve-user-download', "SoundcloudController@serveUserDownload");
 
-Route::post('soundcloud/likes', 'SoundcloudController@fetchLikes');
+// Route::post('soundcloud/likes', 'SoundcloudController@fetchLikes');
 
 /* ----------------------- Zip -------------------------*/
 Route::post('/make-zip', 'ZipController@makeZip');

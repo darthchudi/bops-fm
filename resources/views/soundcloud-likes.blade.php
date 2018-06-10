@@ -81,7 +81,7 @@
         </main>
         
 
-        <likes-box v-if="fetchedLikes" :user="user" :likes="likes"> </likes-box>
+        <likes-box v-if="fetchedLikes" :user="user" :likes="likes" :batches="batches"> </likes-box>
 
 
         <main class="bg-light pt-4 text-center " :class="[!fetchedLikes ? 'fixed-bottom' : '']">
